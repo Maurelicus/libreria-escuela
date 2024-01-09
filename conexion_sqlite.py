@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("base_de_dato1.db")
+        self.bd = sqlite3.connect("base_de_dato2.db")
         
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
@@ -43,6 +43,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
     """ 
+    quizas una mejora
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         query = '''
         UPDATE bienes_culturales
