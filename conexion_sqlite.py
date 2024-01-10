@@ -3,14 +3,14 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("base_de_dato2.db")
+        self.bd = sqlite3.connect("BDprueba.db")
         
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
         query = '''
-        UPDATE bienes_culturales
-        SET REMITENTE = '{}', AÑO_RECEPCION = '{}', NIVEL_EDUCATIVO = '{}', TITULO = '{}', AUTOR = '{}', EDITORIAL = '{}', AÑO_EDICION = '{}', ESTADO = '{}', CANTIDAD = '{}'
-        WHERE ID = '{}'
+        UPDATE libros
+        SET Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', Autor = '{}', Editorial = '{}', AñoEdicion = '{}', CondicionLibro = '{}', Cantidad = '{}'
+        WHERE LibroId = '{}'
         '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, id)
         cursor.execute(query)
         self.bd.commit()
@@ -18,7 +18,7 @@ class Comunicacion():
     
     def mostrar_datos(self):
         cursor = self.bd.cursor()
-        query = "SELECT * FROM bienes_culturales"
+        query = "SELECT * FROM libros"
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
@@ -26,7 +26,7 @@ class Comunicacion():
     def insertar_fila(self, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO bienes_culturales (REMITENTE, ANO_RECEPCION, NIVEL_EDUCATIVO, TITULO, AUTOR, EDITORIAL, ANO_EDICION, ESTADO, CANTIDAD)
+        INSERT INTO libros (Remitente, AñoRecepcion, NivelEducativo, Titulo, Autor, Editorial, AñoEdicion, CondicionLibro, Cantidad)
         VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}')
         '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad)
         cursor.execute(query)
@@ -36,8 +36,8 @@ class Comunicacion():
     def eliminar_fila(self, id):
         cursor = self.bd.cursor()
         query = '''
-        DELETE FROM bienes_culturales
-        WHERE ID = '{}'        
+        DELETE FROM libros
+        WHERE LibroId = '{}'        
         '''.format(id)
         cursor.execute(query)
         self.bd.commit()

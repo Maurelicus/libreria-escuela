@@ -15,25 +15,28 @@ class Ventana(ttk.Frame):
         self.año_edicion = StringVar()
         self.condicion_libro = StringVar()
         self.cantidad = StringVar()
-        
-        self.master.columnconfigure(1, weight=1)
-        self.master.rowconfigure(0, weight=1)
         self.bd = Comunicacion()        
         self.widgets()
         
+        self.master.columnconfigure(0, weight=1, minsize=440)
+        self.master.columnconfigure(1, weight=1)
+        self.master.rowconfigure(0, weight=1)
+        
     def widgets(self):
-        self.frame_operaciones = ttk.LabelFrame(self.master,text='Funciones', height=300, width=800)
-        self.frame_operaciones.grid(column=0, row=0, sticky='nsew')
-        self.frame_tabla = ttk.LabelFrame(self.master, text='Tabla', height=300, width=8)
-        self.frame_tabla.grid(column=1, row=0, sticky='nsew')
-        #! CONFIGURACIONES
-        self.frame_operaciones.columnconfigure([0,1], weight=2)
-        self.frame_operaciones.rowconfigure([0,1], weight=2)
-        self.frame_tabla.columnconfigure(0, weight=1)
-        self.frame_tabla.rowconfigure(0, weight=1)
-        #! CONTENEDORES
+        #! Funciones label
+        # height=altura/width=ancho
+        self.frame_operaciones = ttk.LabelFrame(self.master,text='Funciones')
+        self.frame_operaciones.grid(column=0, row=0, sticky='ns', padx=10)
+        self.frame_operaciones.columnconfigure(0, weight=1)
+        self.frame_operaciones.rowconfigure(0, weight=1)
         frame_uno = ttk.LabelFrame(self.frame_operaciones, text='Frame 1')
-        frame_uno.grid(column=1, row=0, padx=20, pady=[10,20])
+        frame_uno.grid(column=1, row=0, padx=5, pady=15)
+        #! Tabla Label
+        self.frame_tabla = ttk.LabelFrame(self.master, text='Tabla')
+        self.frame_tabla.grid(column=1, row=0, sticky='nsew')
+        self.frame_tabla.columnconfigure(0, weight=1)
+        self.frame_tabla.rowconfigure(1, weight=1)
+        #* Widgets de funciones
         #! TEXTO
         reminente_label = ttk.Label(frame_uno, text='Remitente')
         reminente_label.grid(column=0, row=1, padx=5, pady=[10,5])
@@ -75,27 +78,32 @@ class Ventana(ttk.Frame):
         cantidad_entry = ttk.Entry(frame_uno, textvariable=self.cantidad)
         cantidad_entry.grid(column=1, row=9, padx=5 ,pady=[5,10])
         #! BOTONES
-        show_boton = ttk.Button(frame_uno, text='Refrescar', width=20,
-                                command=self.actualizar_tabla)
-        show_boton.grid(column=0, row=10, padx=5, pady=[10,5])
         clear_boton = ttk.Button(frame_uno, text='Limpiar campos', width=20,
                                 command=self.limpiar_campos)
-        clear_boton.grid(column=1, row=10, padx=5, pady=[10,5])
+        clear_boton.grid(column=1, row=10, padx=5, pady=[5,10])
         update_boton = ttk.Button(frame_uno, text='Actualizar fila', width=20,
                                 command=self.actualizar_fila)
-        update_boton.grid(column=0, row=12, padx=5, pady=[5,10])
+        update_boton.grid(column=0, row=10, padx=5, pady=[5,10])
+        add_boton = ttk.Button(frame_uno, text='Añadir fila', width=20,
+                            command=self.agregar_fila)
+        add_boton.grid(column=0, row=11, padx=5, pady=[5,10])
+        
         #! ESTILO
         estilo_tabla = ttk.Style(self.master)
         self.master.tk.call("source", "forest-dark.tcl")
         estilo_tabla.theme_use("forest-dark")
+        #* Widgets de tabla
+        show_boton = ttk.Button(self.frame_tabla, text='Refrescar',
+                                command=self.actualizar_tabla)
+        show_boton.grid(column=0, row=0, padx=5, pady=[10,5], sticky='e')
         #! TABLA
         self.tabla = ttk.Treeview(self.frame_tabla)
-        self.tabla.grid(column=0, row=0, sticky='nsew',padx=5, pady=[10,5])
+        self.tabla.grid(column=0, row=1, sticky='nsew',padx=5, pady=[1,5])
         #! SCROLLBARS
         ladox = ttk.Scrollbar(self.frame_tabla, orient='horizontal', command=self.tabla.xview)
-        ladox.grid(column=0, row=1, sticky='ew', padx=5)
+        ladox.grid(column=0, row=2, sticky='ew', padx=5)
         ladoy = ttk.Scrollbar(self.frame_tabla, orient='vertical', command=self.tabla.yview)
-        ladoy.grid(column=1, row=0, sticky='ns', pady=[10,5])
+        ladoy.grid(column=1, row=1, sticky='ns', pady=[10,5])
         self.tabla.configure(xscrollcommand=ladox.set, yscrollcommand=ladoy.set)
         #! COLUMNAS
         self.tabla['columns'] = ('Remitente', 'Añorecepcion', 'Niveleducativo', 'Titulo', 'Autor', 'Editorial', 'Añoedicion', 'Condicion', 'Cantidad')
@@ -122,6 +130,7 @@ class Ventana(ttk.Frame):
         self.tabla.heading('#9', text='Cantidad', anchor='center')
 
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_fila)
+        self.tabla.bind("<Double-1>", self.eliminar_datos)
         
     def obtener_fila(self, event):
         item_selec = self.tabla.focus()
@@ -181,12 +190,41 @@ class Ventana(ttk.Frame):
                 if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and pregunta_box == 'yes':
                     self.bd.actualizar_fila(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
                     self.actualizar_tabla()
-        
+    
+    def agregar_fila(self):
+        remitente = self.remitente.get()
+        añorecepcion = self.año_recepcion.get()
+        niveleducativo = self.nivel_educativo.get()
+        titulo = self.titulo.get()
+        autor = self.autor.get()
+        editorial = self.editorial.get()
+        añoedicion = self.año_edicion.get()
+        condicionlibro = self.condicion_libro.get()
+        cantidad = self.cantidad.get()
+        c_filas = len(self.tabla.get_children())
+        datos = (remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
+        if remitente and niveleducativo and titulo and condicionlibro and cantidad != '':
+            self.bd.insertar_fila(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
+            # falta mejorar
+            self.tabla.insert('', "end", values=datos)
+            self.limpiar_campos()
+        else:
+            messagebox.showwarning('error', 'falta rellenar')
+    
+    def eliminar_datos(self, event):
+        self.limpiar_campos()
+        l_item = self.tabla.selection()[0]
+        diccionario_fila = self.tabla.item(l_item)
+        question_box = messagebox.askquestion('Informaciòn', '¿Desea eliminar?')
+        if question_box == 'yes':
+            self.tabla.delete(l_item)
+            self.bd.eliminar_fila(diccionario_fila['text'])
+    
 if __name__ == "__main__":
     ventana = Tk()
     ventana.title('')
     ventana.minsize(width=1000, height=600)
-    ventana.geometry('1200x620')
+    ventana.geometry('1200x650')
     app = Ventana(ventana)
     app.mainloop()
     
