@@ -23,6 +23,12 @@ class Ventana(tk.Tk):
         self.bd = Comunicacion()
         self.boton4 = ttk.Button(self, text="Display")
         self.boton4.grid(column=0, row=0,padx=5, pady=30, sticky='n')
+        self.boton4 = ttk.Button(self, text="Display")
+        self.boton4.grid(column=1, row=1,padx=5, pady=30, sticky='n')
+        self.boton4 = ttk.Button(self, text="Display")
+        self.boton4.grid(column=2, row=1,padx=5, pady=30, sticky='n')
+        self.boton4 = ttk.Button(self, text="Display")
+        self.boton4.grid(column=0, row=1,padx=5, pady=30, sticky='n')
         self.widgets()
         
     def widgets(self):
