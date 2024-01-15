@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, PhotoImage
+from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 
 from conexion_sqlite import Comunicacion
