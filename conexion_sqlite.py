@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("BDprincipalv1.db")
+        self.bd = sqlite3.connect("BDprueba.db")
         
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
@@ -43,13 +43,17 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
     
-    def buscador(self, palabra):
+    def buscador(self, columna, palabra):
         cursor = self.bd.cursor()
+        print(columna)
         query = '''
-        SELECT *
-        FROM libros
-        WHERE Autor LIKE '%{}%'
-        '''.format(palabra)
+        SELECT 
+            *
+        FROM 
+            libros
+        WHERE 
+            {} LIKE '%{}%'
+        '''.format(columna,palabra)
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas

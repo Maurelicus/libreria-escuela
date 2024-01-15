@@ -5,9 +5,9 @@ from PIL import Image, ImageTk
 from conexion_sqlite import Comunicacion
 import g1_widgets as gw1
 
-class Ventana(ttk.Frame):
-    def __init__(self, master):
-        super().__init__(master)
+class Ventana(tk.Tk):
+    def __init__(self):
+        super().__init__()
         
         self.remitente = tk.StringVar()
         self.año_recepcion = tk.StringVar()
@@ -19,18 +19,21 @@ class Ventana(ttk.Frame):
         self.condicion_libro = tk.StringVar()
         self.cantidad = tk.StringVar()
         self.palabra = tk.StringVar()
-        self.bd = Comunicacion()        
+        self.nombre_columna = tk.StringVar()
+        self.bd = Comunicacion()
+        self.boton4 = ttk.Button(self, text="Display")
+        self.boton4.grid(column=0, row=0,padx=5, pady=30, sticky='n')
         self.widgets()
         
     def widgets(self):
         #! Funciones label
         # height=altura/width=ancho
-        self.frame_operaciones = ttk.LabelFrame(self.master,text='Funciones')
-        self.frame_operaciones.grid(column=0, row=0, sticky='ns', padx=10)
+        self.frame_operaciones = ttk.LabelFrame(self,text='Funciones')
+        self.frame_operaciones.grid(column=1, row=0, sticky='ns', padx=10)
         self.frame_operaciones.columnconfigure(0, weight=1)
         self.frame_operaciones.rowconfigure(0, weight=1)
         frame_uno = ttk.LabelFrame(self.frame_operaciones, text='Frame 1')
-        frame_uno.grid(column=1, row=0, padx=5, pady=15, sticky='ew')
+        frame_uno.grid(column=0, row=0, padx=5, pady=5, sticky='ns')
         #* Widgets de funciones
         lista_atributos1 = [self.remitente, self.año_recepcion, 
                         self.nivel_educativo, self.titulo, 
@@ -41,26 +44,37 @@ class Ventana(ttk.Frame):
         gw1.seccion_uno(frame_uno, lista_metodos1, lista_atributos1)
         
         #! Tabla Label
-        self.frame_tabla = ttk.LabelFrame(self.master, text='Tabla')
-        self.frame_tabla.grid(column=1, row=0, sticky='nsew')
-        self.frame_tabla.rowconfigure(2, weight=10)
+        self.frame_tabla = ttk.LabelFrame(self, text='Tabla')
+        self.frame_tabla.grid(column=2, row=0, sticky='nsew')
         self.frame_tabla.columnconfigure(0, weight=1)
+        self.frame_tabla.rowconfigure(0, weight=0)
+        self.frame_tabla.rowconfigure(1, weight=10)
+        
         frame_dos = ttk.LabelFrame(self.frame_tabla, text='Frame 2')
-        frame_dos.grid(column=0, row=1, padx=5, pady=5, sticky='ew')
-        #* Widgets de tabla
-        lista_atributos2 = [self.palabra]
+        frame_dos.grid(column=0, row=0, padx=5, pady=5, sticky='ew')
+        lista_atributos2 = [self.palabra, self.nombre_columna]
         lista_metodos2 = [self.actualizar_tabla, self.buscador]
         self.photo1 = ImageTk.PhotoImage(Image.open("reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("excel.png"))
         gw1.seccion_dos(frame_dos, lista_metodos2, lista_atributos2, self.photo1, self.photo2)
+        #* Widgets de tabla
         #! TABLA
-        self.tabla = ttk.Treeview(self.frame_tabla)
-        self.tabla.grid(column=0, row=2, sticky='nsew',padx=5, pady=[1,5])
+        frame_tablaca = ttk.LabelFrame(self.frame_tabla, text='Frame 3')
+        frame_tablaca.grid(column=0, row=1, padx=5, pady=5 ,sticky='nsew')
+        frame_tablaca.columnconfigure(1 , weight=10)
+        frame_tablaca.rowconfigure(0 , weight=10)
+        # frame_tablaca.rowconfigure(1 , weight=1)
+        # frame_tablaca.columnconfigure(0 , weight=10)
+        
+        
+        self.tabla = ttk.Treeview(frame_tablaca)
+        self.tabla.grid(column=1, row=0, sticky='nsew',padx=5, pady=5)
+        # self.tabla.columnconfigure(1, weight=10)
         #! SCROLLBARS
-        ladox = ttk.Scrollbar(self.frame_tabla, orient='horizontal', command=self.tabla.xview)
-        ladox.grid(column=0, row=3, sticky='ew', padx=5)
-        ladoy = ttk.Scrollbar(self.frame_tabla, orient='vertical', command=self.tabla.yview)
-        ladoy.grid(column=1, row=2, sticky='ns', pady=[10,5])
+        ladox = ttk.Scrollbar(frame_tablaca, orient='horizontal', command=self.tabla.xview)
+        ladox.grid(column=1, row=1, sticky='ew', padx=5)
+        ladoy = ttk.Scrollbar(frame_tablaca, orient='vertical', command=self.tabla.yview)
+        ladoy.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla.configure(xscrollcommand=ladox.set, yscrollcommand=ladoy.set)
         #! COLUMNAS
         self.tabla['columns'] = ('Remitente', 'Añorecepcion', 'Niveleducativo', 'Titulo', 'Autor', 'Editorial', 'Añoedicion', 'Condicion', 'Cantidad')
@@ -180,7 +194,10 @@ class Ventana(ttk.Frame):
     def buscador(self):
         self.limpiar_campos()
         palabra = self.palabra.get()
-        l_datos = self.bd.buscador(palabra)
+        columna = self.nombre_columna.get()
+        # print(columna)
+        # print(palabra)
+        l_datos = self.bd.buscador(columna, palabra)
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
