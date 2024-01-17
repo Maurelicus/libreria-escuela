@@ -3,8 +3,8 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("BDprincipalv1.db")
-        
+        self.bd = sqlite3.connect("BDprueba2.db")
+    #! LIBROS
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
         query = '''
@@ -57,7 +57,44 @@ class Comunicacion():
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
+    #! LAMINAS
+    def mostrar_datos2(self):
+        cursor = self.bd.cursor()
+        query = "SELECT * FROM laminas"
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
     
+    def eliminar_fila2(self, id):
+        cursor = self.bd.cursor()
+        query = '''
+        DELETE FROM laminas
+        WHERE LaminasId = '{}'        
+        '''.format(id)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+    
+    def actualizar_fila2(self, id, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE laminas
+        SET Codigo = '{}', Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', CondicionLamina = '{}', Cantidad = '{}'
+        WHERE LaminasId = '{}'
+        '''.format(codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad, id)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def insertar_fila2(self, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO laminas (Codigo, Remitente, AñoRecepcion, NivelEducativo, Titulo, CondicionLamina, Cantidad)
+        VALUES('{}','{}','{}','{}','{}','{}','{}')
+        '''.format(codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
     """ 
     quizas una mejora
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):

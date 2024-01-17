@@ -1,3 +1,4 @@
+"""
 from tkinter import *
 class MyLabelFrame(Tk):
     def __init__(self):
@@ -13,3 +14,21 @@ if __name__ == '__main__':
     myroot = MyLabelFrame() # creating an instance of Scrollbar_En-try
     myroot.geometry('400x150')
     myroot.mainloop() # infinite loop to run the application
+""" 
+
+from conexion_sqlite import Comunicacion
+
+bd = Comunicacion()
+
+l_datos = bd.mostrar_datos2()
+# print(l_datos)
+codigos = []
+for fila in l_datos:
+    # print(fila[1])
+    codigos.append(fila[1])
+palabra = '223'
+print(codigos)
+if palabra in codigos:
+    print('codigo existente')
+else:
+    print('codigo nuevo')
