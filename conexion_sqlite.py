@@ -95,6 +95,47 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
+        
+    def buscador2(self, columna, palabra):
+        cursor = self.bd.cursor()
+        # print(columna)
+        query = '''
+        SELECT 
+            LibroId,
+            NivelEducativo,
+            Titulo,
+            Autor,
+            Editorial,
+            AñoEdicion,
+            Cantidad
+        FROM 
+            libros
+        WHERE 
+            {} LIKE '%{}%'
+        '''.format(columna,palabra)
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
+    
+    def buscador3(self, columna, palabra):
+        cursor = self.bd.cursor()
+        # print(columna)
+        query = '''
+        SELECT 
+            EstudianteId,
+            Nivel,
+            Usuario,
+            Grado,
+            Seccion
+        FROM 
+            alumnos
+        WHERE 
+            {} LIKE '%{}%'
+        '''.format(columna,palabra)
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
+    
     """ 
     quizas una mejora
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
