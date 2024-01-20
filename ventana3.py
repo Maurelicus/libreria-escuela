@@ -68,7 +68,7 @@ class Widgets3v():
         pedido_boton.grid(column=0, row=10, padx=5, pady=[5,10])
     
     def seccion_dos(self, frame_seis):
-        frame_busqueda1 = ttk.LabelFrame(frame_seis, text='Opciones2')
+        frame_busqueda1 = ttk.LabelFrame(frame_seis, text='Opciones Libro')
         frame_busqueda1.grid(column=0, row=0, padx=5, pady=5, sticky='ew')
         l_columna = ("Titulo", "Editorial", "Autor")
         buscar_palabra = ttk.Combobox(frame_busqueda1, width=20, value=l_columna, textvariable=self.nombre_columna)
@@ -113,7 +113,7 @@ class Widgets3v():
         self.tabla_libro.bind("<<TreeviewSelect>>", self.obtener_fila2)
         
         
-        frame_busqueda2 = ttk.LabelFrame(frame_seis, text='Opciones')
+        frame_busqueda2 = ttk.LabelFrame(frame_seis, text='Opciones Alumno')
         frame_busqueda2.grid(column=0, row=2, padx=5, pady=5, sticky='ew')
         l_columna2 = ("USUARIO", "DNI")
         buscar_palabra = ttk.Combobox(frame_busqueda2, width=20, value=l_columna2, textvariable=self.nombre_columna2)
