@@ -49,7 +49,7 @@ class Widgets3v():
         cantidad_label = ttk.Label(frame_cinco, text='Cantidad')
         cantidad_label.grid(column=0, row=5, padx=5, pady=[5,10])
         
-        ttk.Label(frame_cinco, text='USUARIO').grid(column=0, row=6, padx=5, pady=[5,10])
+        ttk.Label(frame_cinco, text='USUARIO').grid(column=0, row=6, padx=5, pady=[5,10], sticky='w')
         
         nombre_label = ttk.Label(frame_cinco, textvariable=self.usuario)
         nombre_label.grid(column=0, row=7, padx=5, pady=[10,5])
