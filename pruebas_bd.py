@@ -1,6 +1,13 @@
 from conexion_sqlite import Comunicacion
+from datetime import date, datetime
 
 bd = Comunicacion()
 
-l_datos = bd.buscador2()
-print(l_datos)
+today = date.today()
+now = datetime.now()
+print(today)
+print(now)
+
+# format = now.strftime('Día :%d, Mes: %m, Año:%Y, Hora:%H, Minutos: %M, Segundos: %S')
+format = now.strftime('%Y-%m-%d')
+print(format)

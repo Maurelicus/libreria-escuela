@@ -204,6 +204,7 @@ class Widgets3v():
             self.nivel.set(diccionario_fila['values'][0])
         else:
             print('hola')
-    
+    """ 
     def pedido(self):
+    """
         
