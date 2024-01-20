@@ -64,7 +64,7 @@ class Widgets3v():
         cantidad_entry = ttk.Entry(frame_cinco, textvariable=self.cantidad)
         cantidad_entry.grid(column=1, row=5, padx=5 ,pady=[5,10])
         #! Botones
-        pedido_boton = ttk.Button(frame_cinco, text='Hacer pedido', width=20)#, command=lista_metodos[1])
+        pedido_boton = ttk.Button(frame_cinco, text='Hacer pedido', width=20, command=self.pedido)
         pedido_boton.grid(column=0, row=10, padx=5, pady=[5,10])
     
     def seccion_dos(self, frame_seis):
@@ -158,23 +158,30 @@ class Widgets3v():
         # self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
-        l_datos = self.bd.buscador2(columna, palabra)
-        self.tabla_libro.delete(*self.tabla_libro.get_children())
-        i = -1
-        for fila in l_datos:
-            i = i+1
-            self.tabla_libro.insert('', i,text=fila[0], values=fila[1:11])
+        if palabra != '':
+            l_datos = self.bd.buscador2(columna, palabra)
+            self.tabla_libro.delete(*self.tabla_libro.get_children())
+            i = -1
+            for fila in l_datos:
+                i = i+1
+                self.tabla_libro.insert('', i,text=fila[0], values=fila[1:11])
+        else:
+            messagebox.showerror('Informaciòn', 'No se a agragado una busqueda')
+
     
     def buscador3(self):
         # self.limpiar_campos()
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
-        l_datos = self.bd.buscador3(columna, palabra)
-        self.tabla_alumno.delete(*self.tabla_alumno.get_children())
-        i = -1
-        for fila in l_datos:
-            i = i+1
-            self.tabla_alumno.insert('', i,text=fila[0], values=fila[1:11])
+        if palabra != '':        
+            l_datos = self.bd.buscador3(columna, palabra)
+            self.tabla_alumno.delete(*self.tabla_alumno.get_children())
+            i = -1
+            for fila in l_datos:
+                i = i+1
+                self.tabla_alumno.insert('', i,text=fila[0], values=fila[1:11])
+        else:
+            messagebox.showerror('Informaciòn', 'No se a agragado una busqueda')
     
     def obtener_fila2(self, event):
         item_selec = self.tabla_libro.focus()
@@ -197,3 +204,6 @@ class Widgets3v():
             self.nivel.set(diccionario_fila['values'][0])
         else:
             print('hola')
+    
+    def pedido(self):
+        
