@@ -39,13 +39,13 @@ class Widgets3v():
         # print(funciones[0])
         #! TEXTO
         titulo_label = ttk.Label(frame_cinco, textvariable=self.titulo)
-        titulo_label.grid(column=0, row=1, padx=5, pady=[10,5])
+        titulo_label.grid(column=0, row=1, padx=5, pady=[10,5], sticky='w')
         autor_label = ttk.Label(frame_cinco, textvariable=self.autor)
-        autor_label.grid(column=0, row=2, padx=5, pady=[10,5])
+        autor_label.grid(column=0, row=2, padx=5, pady=[10,5], sticky='w')
         editorial_label = ttk.Label(frame_cinco, textvariable=self.editorial)
-        editorial_label.grid(column=0, row=3, padx=5, pady=[10,5])
+        editorial_label.grid(column=0, row=3, padx=5, pady=[10,5], sticky='w')
         aedicion_label = ttk.Label(frame_cinco, textvariable=self.aedicion)
-        aedicion_label.grid(column=0, row=4, padx=5, pady=[10,5])
+        aedicion_label.grid(column=0, row=4, padx=5, pady=[10,5], sticky='w')
         cantidad_label = ttk.Label(frame_cinco, text='Cantidad')
         cantidad_label.grid(column=0, row=5, padx=5, pady=[5,10])
         

@@ -20,15 +20,5 @@ from conexion_sqlite import Comunicacion
 
 bd = Comunicacion()
 
-l_datos = bd.mostrar_datos2()
-# print(l_datos)
-codigos = []
-for fila in l_datos:
-    # print(fila[1])
-    codigos.append(fila[1])
-palabra = '223'
-print(codigos)
-if palabra in codigos:
-    print('codigo existente')
-else:
-    print('codigo nuevo')
+l_datos = bd.buscador2()
+print(l_datos)
