@@ -1,6 +1,7 @@
 import tkinter  as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+from datetime import date
 
 from conexion_sqlite import Comunicacion
 
@@ -11,6 +12,7 @@ class Widgets3v():
         self.editorial = tk.StringVar()
         self.aedicion = tk.StringVar()
         self.cantidad = tk.StringVar()
+        self.codigo_libro = tk.StringVar()
         
         self.usuario = tk.StringVar()
         self.grado = tk.StringVar()
@@ -47,25 +49,29 @@ class Widgets3v():
         aedicion_label = ttk.Label(frame_cinco, textvariable=self.aedicion)
         aedicion_label.grid(column=0, row=4, padx=5, pady=[10,5], sticky='w')
         cantidad_label = ttk.Label(frame_cinco, text='Cantidad')
-        cantidad_label.grid(column=0, row=5, padx=5, pady=[5,10])
+        cantidad_label.grid(column=0, row=5, padx=5, pady=[10,5])
+        codigo_label = ttk.Label(frame_cinco, text='Codigo')
+        codigo_label.grid(column=0, row=6, padx=5, pady=[5,10])
         
-        ttk.Label(frame_cinco, text='USUARIO').grid(column=0, row=6, padx=5, pady=[5,10], sticky='w')
+        ttk.Label(frame_cinco, text='USUARIO').grid(column=0, row=7, padx=5, pady=[5,10], sticky='w')
         
         nombre_label = ttk.Label(frame_cinco, textvariable=self.usuario)
-        nombre_label.grid(column=0, row=7, padx=5, pady=[10,5])
+        nombre_label.grid(column=0, row=8, padx=5, pady=[10,5])
         grado_label = ttk.Label(frame_cinco, textvariable=self.grado)
-        grado_label.grid(column=0, row=8, padx=5, pady=5)
+        grado_label.grid(column=0, row=9, padx=5, pady=5)
         seccion_label = ttk.Label(frame_cinco, textvariable=self.seccion)
-        seccion_label.grid(column=0, row=9, padx=5, pady=5)
+        seccion_label.grid(column=0, row=10, padx=5, pady=5)
         nivel_label = ttk.Label(frame_cinco, textvariable=self.nivel)
-        nivel_label.grid(column=0, row=9, padx=5, pady=5)
+        nivel_label.grid(column=0, row=11, padx=5, pady=5)
         #! ENTRADAS
         
         cantidad_entry = ttk.Entry(frame_cinco, textvariable=self.cantidad)
         cantidad_entry.grid(column=1, row=5, padx=5 ,pady=[5,10])
+        codigo_entry = ttk.Entry(frame_cinco, textvariable=self.codigo_libro)
+        codigo_entry.grid(column=1, row=6, padx=5 ,pady=[5,10])
         #! Botones
         pedido_boton = ttk.Button(frame_cinco, text='Hacer pedido', width=20, command=self.pedido)
-        pedido_boton.grid(column=0, row=10, padx=5, pady=[5,10])
+        pedido_boton.grid(column=0, row=12, padx=5, pady=[5,10])
     
     def seccion_dos(self, frame_seis):
         frame_busqueda1 = ttk.LabelFrame(frame_seis, text='Opciones Libro')
@@ -204,7 +210,27 @@ class Widgets3v():
             self.nivel.set(diccionario_fila['values'][0])
         else:
             print('hola')
-    """ 
+            
     def pedido(self):
-    """
+        libro_selec = self.tabla_libro.focus()
+        diccionario_libro = self.tabla_libro.item(libro_selec)
+        alumno_selec = self.tabla_alumno.focus()
+        diccionario_alumno = self.tabla_alumno.item(alumno_selec)
+        cantidad_pedida = self.cantidad.get()
+        codigo = self.codigo_libro.get()
+        # print('esto')
+        # print('esto')
+        if cantidad_pedida != '' and codigo != '':
+            print(diccionario_libro['text'])
+            libroid = diccionario_libro['text']
+            print(diccionario_alumno['text'])
+            usuarioid = diccionario_alumno['text']
+            print(cantidad_pedida)
+            print(codigo)
+            hoy = date.today()
+            situacion = 'entregado'
+            observacion = 'ninguna'
+            self.bd.insertar_fila3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
+        else:
+            messagebox.showerror('Informaciòn', 'No se a agragado una cantidad')
         

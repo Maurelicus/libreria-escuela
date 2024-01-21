@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("BDprueba2.db")
+        self.bd = sqlite3.connect("BDprincipalv1.db")
     #! LIBROS
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
@@ -136,6 +136,15 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
+    def insertar_fila3(self, codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO pedido_libro (Codigo, LibroId, UsuarioId, Fecha, Situacion, Observacion, Cantidad)
+        VALUES('{}','{}','{}','{}','{}','{}','{}')
+        '''.format(codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
     """ 
     quizas una mejora
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
