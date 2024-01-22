@@ -11,32 +11,22 @@ class Widgets3v():
         self.autor = tk.StringVar()
         self.editorial = tk.StringVar()
         self.aedicion = tk.StringVar()
-        self.cantidad = tk.StringVar()
+        self.cantidad_total = tk.StringVar()
         self.codigo_libro = tk.StringVar()
         
         self.usuario = tk.StringVar()
         self.grado = tk.StringVar()
         self.seccion = tk.StringVar()
         self.nivel = tk.StringVar()
-        self.cantidad = tk.StringVar()
+        self.cantidad = tk.IntVar()
         self.palabra = tk.StringVar()
         self.palabra2 = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.nombre_columna2 = tk.StringVar()
         self.bd = Comunicacion()
-        
-        
-    def widgets(self, frame_cinco, frame_seis):
-        #! parte1
-        self.seccion_uno(frame_cinco)
-        #! parte2
-        # lista_atributos2 = []
-        lista_metodos2 = []
         self.photo1 = ImageTk.PhotoImage(Image.open("reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("excel.png"))
-        
-        self.seccion_dos(frame_seis)    
-        
+                
     def seccion_uno(self, frame_cinco):
         # print(funciones[0])
         #! TEXTO
@@ -83,7 +73,7 @@ class Widgets3v():
         buscar_palabra.state(["readonly"])
         filtro_libroid = ttk.Entry(frame_busqueda1, textvariable=self.palabra)
         filtro_libroid.grid(column=1, row=0, padx=5 ,pady=1 )
-        buscar_boton = ttk.Button(frame_busqueda1, text='buscar', width=20, command=self.buscador2)
+        buscar_boton = ttk.Button(frame_busqueda1, text='buscar', width=20, command=self.buscador1)
         buscar_boton.grid(column=2, row=0, padx=5, pady=5)
         
         #! TABLA
@@ -152,7 +142,7 @@ class Widgets3v():
         self.tabla_alumno.column('#3', minwidth=100, width=100, anchor='center')
         self.tabla_alumno.column('#4', minwidth=100, width=100, anchor='center')
             
-        self.tabla_alumno.heading('#0', text='Nº', anchor='center')
+        self.tabla_alumno.heading('#0', text='Codigo del Estudiante', anchor='center')
         self.tabla_alumno.heading('#1', text='Nivel Educativo', anchor='center')
         self.tabla_alumno.heading('#2', text='Usuario', anchor='center')
         self.tabla_alumno.heading('#3', text='Grado', anchor='center')
@@ -160,17 +150,17 @@ class Widgets3v():
         self.tabla_alumno.bind("<<TreeviewSelect>>", self.obtener_fila3)
     
     
-    def buscador2(self):
+    def buscador1(self):
         # self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscador2(columna, palabra)
+            l_datos = self.bd.buscador3(columna, palabra)
             self.tabla_libro.delete(*self.tabla_libro.get_children())
             i = -1
             for fila in l_datos:
                 i = i+1
-                self.tabla_libro.insert('', i,text=fila[0], values=fila[1:11])
+                self.tabla_libro.insert('', i,text=i+1, values=fila[0:7])
         else:
             messagebox.showerror('Informaciòn', 'No se a agragado una busqueda')
 
@@ -180,12 +170,12 @@ class Widgets3v():
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
         if palabra != '':        
-            l_datos = self.bd.buscador3(columna, palabra)
+            l_datos = self.bd.buscador4(columna, palabra)
             self.tabla_alumno.delete(*self.tabla_alumno.get_children())
             i = -1
             for fila in l_datos:
                 i = i+1
-                self.tabla_alumno.insert('', i,text=fila[0], values=fila[1:11])
+                self.tabla_alumno.insert('', i,text=fila[0], values=fila[1:6])
         else:
             messagebox.showerror('Informaciòn', 'No se a agragado una busqueda')
     
@@ -221,13 +211,21 @@ class Widgets3v():
         # print('esto')
         # print('esto')
         if cantidad_pedida != '' and codigo != '':
-            print(diccionario_libro['text'])
-            libroid = diccionario_libro['text']
-            print(diccionario_alumno['text'])
+            libroid = diccionario_libro['values'][6]
             usuarioid = diccionario_alumno['text']
+            print('el codigo del libro es:')
+            print(libroid)
+            print('el codigo del alumno es:')
+            print(usuarioid)
+            print('cantidad pedida:') 
             print(cantidad_pedida)
-            print(codigo)
+            #! Me quede aqui
+            canti=self.bd.cantidad()
+            for can in canti:
+                print(can)
+                print(can[0]-cantidad_pedida)
             hoy = date.today()
+            #! Me quede aqui
             situacion = 'entregado'
             observacion = 'ninguna'
             self.bd.insertar_fila3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)

@@ -71,7 +71,12 @@ class Ventana(tk.Tk):
         frame_seis.rowconfigure(2, weight=0)
         frame_seis.rowconfigure(3, weight=10)
         
-        self.v1.widgets(frame_uno, frame_dos)
-        self.v2.widgets(frame_tres, frame_cuatro)
-        self.v3.widgets(frame_cinco, frame_seis)
+        # self.v1.widgets(frame_dos)
+        self.v1.seccion_uno(frame_uno)
+        self.v1.seccion_dos(frame_dos)
+        self.v2.seccion_uno(frame_tres)
+        self.v2.seccion_dos(frame_cuatro)
+        # self.v3.widgets(frame_cinco, frame_seis)
+        self.v3.seccion_uno(frame_cinco)
+        self.v3.seccion_dos(frame_seis)
         
