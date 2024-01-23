@@ -8,11 +8,12 @@ now = datetime.now()
 print(today)
 print(now)
 
-# format = now.strftime('Día :%d, Mes: %m, Año:%Y, Hora:%H, Minutos: %M, Segundos: %S')
-format = now.strftime('%Y-%m-%d')
-print(format)
-# numero=
-canti=bd.cantidad(89)
-print(canti[0])
-print(canti[0][0]-9)
-# print(canti)
+total=4
+c_pedida=5
+c_restante=total-c_pedida
+if total==0:
+    print('no hay existentes')
+elif c_restante < 0:
+    print('cantidad exedida')
+else:
+    print('correcto')

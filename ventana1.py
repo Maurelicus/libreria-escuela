@@ -21,7 +21,6 @@ class Widgets1v():
         self.photo1 = ImageTk.PhotoImage(Image.open("reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("excel.png"))
         
-        
     def seccion_uno(self, frame_uno):
         # print(funciones[0])
         #! TEXTO
@@ -193,7 +192,7 @@ class Widgets1v():
                 añoedicion = self.año_edicion.get()
                 condicionlibro = self.condicion_libro.get()
                 cantidad = self.cantidad.get()
-                pregunta_box = messagebox.askquestion('Informaciòn', '¿Estas seguro?')
+                pregunta_box = messagebox.askquestion('Información', '¿Estas seguro?')
                 if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and pregunta_box == 'yes':
                     self.bd.actualizar_fila(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
                     self.actualizar_tabla()
@@ -222,7 +221,7 @@ class Widgets1v():
         self.limpiar_campos()
         l_item = self.tabla.selection()[0]
         diccionario_fila = self.tabla.item(l_item)
-        question_box = messagebox.askquestion('Informaciòn', '¿Desea eliminar?')
+        question_box = messagebox.askquestion('Información', '¿Desea eliminar?')
         if question_box == 'yes':
             self.tabla.delete(l_item)
             self.bd.eliminar_fila(diccionario_fila['values'][9])
@@ -231,9 +230,13 @@ class Widgets1v():
         self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
-        l_datos = self.bd.buscador(columna, palabra)
-        self.tabla.delete(*self.tabla.get_children())
-        i = -1
-        for fila in l_datos:
-            i = i+1
-            self.tabla.insert('', i,text=i+1, values=fila[0:11])
+        if palabra != '':
+            l_datos = self.bd.buscador(columna, palabra)
+            self.tabla.delete(*self.tabla.get_children())
+            i = -1
+            for fila in l_datos:
+                i = i+1
+                self.tabla.insert('', i,text=i+1, values=fila[0:11])
+        else:
+            messagebox.showerror('Información', 'No se agrego una busqueda')
+

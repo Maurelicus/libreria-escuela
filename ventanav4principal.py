@@ -4,6 +4,7 @@ from tkinter import ttk
 import ventana1 as ven1
 import ventana2 as ven2
 import ventana3 as ven3
+import ventana4 as ven4
 
 class Ventana(tk.Tk):
     def __init__(self):
@@ -12,6 +13,7 @@ class Ventana(tk.Tk):
         self.v1 = ven1.Widgets1v()
         self.v2 = ven2.Widgets2v()
         self.v3 = ven3.Widgets3v()
+        self.v4 = ven4.Widgets4v()
         self.mytabcontrol = ttk.Notebook(self)
         self.mytab1 = ttk.LabelFrame(self.mytabcontrol, text='Libros')
         self.mytab1.columnconfigure(0, weight=1, minsize=440)
@@ -21,15 +23,20 @@ class Ventana(tk.Tk):
         self.mytab2.columnconfigure(0, weight=1, minsize=440)
         self.mytab2.columnconfigure(1, weight=1)
         self.mytab2.rowconfigure(0, weight=1)
-        self.mytab3 = ttk.LabelFrame(self.mytabcontrol, text='Pedidos') 
+        self.mytab3 = ttk.LabelFrame(self.mytabcontrol, text='Hacer Pedido') 
         self.mytab3.columnconfigure(0, weight=1, minsize=440)
         self.mytab3.columnconfigure(1, weight=1)
         self.mytab3.rowconfigure(0, weight=1)
+        self.mytab4 = ttk.LabelFrame(self.mytabcontrol, text='Lista de pedidos') 
+        self.mytab4.columnconfigure(0, weight=1, minsize=440)
+        self.mytab4.columnconfigure(1, weight=1)
+        self.mytab4.rowconfigure(0, weight=1)
         
         
         self.mytabcontrol.add(self.mytab1, text ='Libros')
         self.mytabcontrol.add(self.mytab2, text ='Laminas')
         self.mytabcontrol.add(self.mytab3, text ='Pedidos')
+        self.mytabcontrol.add(self.mytab4, text ='Pedidos2')
         self.mytabcontrol.grid(column=0, row=0,padx=10, pady=10, sticky='nswe')
         
         self.widgets()
@@ -71,12 +78,23 @@ class Ventana(tk.Tk):
         frame_seis.rowconfigure(2, weight=0)
         frame_seis.rowconfigure(3, weight=10)
         
-        # self.v1.widgets(frame_dos)
+        frame_siete = ttk.LabelFrame(self.mytab4, text='Funciones')
+        frame_siete.grid(column=0, row=0, padx=5, pady=5, sticky='n')
+        frame_siete.columnconfigure(0, weight=1)
+        frame_siete.rowconfigure(0, weight=1)
+        
+        frame_ocho = ttk.LabelFrame(self.mytab4, text='Visualizacion')
+        frame_ocho.grid(column=1, row=0, sticky='nsew')
+        frame_ocho.columnconfigure(0, weight=1)
+        frame_ocho.rowconfigure(0, weight=0)
+        frame_ocho.rowconfigure(1, weight=10)
+
         self.v1.seccion_uno(frame_uno)
         self.v1.seccion_dos(frame_dos)
         self.v2.seccion_uno(frame_tres)
         self.v2.seccion_dos(frame_cuatro)
-        # self.v3.widgets(frame_cinco, frame_seis)
         self.v3.seccion_uno(frame_cinco)
         self.v3.seccion_dos(frame_seis)
+        self.v4.seccion_uno(frame_siete)
+        self.v4.seccion_dos(frame_ocho)
         

@@ -169,7 +169,7 @@ class Widgets2v():
                 titulo = self.titulo.get()
                 condicionlamina = self.condicion_lamina.get()
                 cantidad = self.cantidad.get()
-                pregunta_box = messagebox.askquestion('Informaciòn', '¿Estas seguro?')
+                pregunta_box = messagebox.askquestion('Información', '¿Estas seguro?')
                 if remitente and niveleducativo and titulo and codigo and cantidad != '' and pregunta_box == 'yes':
                     self.bd.actualizar_fila2(id, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
                     self.actualizar_tabla()
@@ -207,7 +207,7 @@ class Widgets2v():
         self.limpiar_campos()
         l_item = self.tabla.selection()[0]
         diccionario_fila = self.tabla.item(l_item)
-        question_box = messagebox.askquestion('Informaciòn', '¿Desea eliminar?')
+        question_box = messagebox.askquestion('Información', '¿Desea eliminar?')
         if question_box == 'yes':
             self.tabla.delete(l_item)
             self.bd.eliminar_fila2(diccionario_fila['values'][7])
@@ -216,9 +216,12 @@ class Widgets2v():
         self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
-        l_datos = self.bd.buscador2(columna, palabra)
-        self.tabla.delete(*self.tabla.get_children())
-        i = -1
-        for fila in l_datos:
-            i = i+1
-            self.tabla.insert('', i,text=i+1, values=fila[0:8])
+        if palabra != '':
+            l_datos = self.bd.buscador2(columna, palabra)
+            self.tabla.delete(*self.tabla.get_children())
+            i = -1
+            for fila in l_datos:
+                i = i+1
+                self.tabla.insert('', i,text=i+1, values=fila[0:8])
+        else:
+            messagebox.showerror('Información', 'No se agrego una busqueda')

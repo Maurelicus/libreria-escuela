@@ -118,7 +118,7 @@ class Widgets3v():
         buscar_palabra.state(["readonly"])
         filtro_libroid = ttk.Entry(frame_busqueda2, textvariable=self.palabra2)
         filtro_libroid.grid(column=1, row=0, padx=5 ,pady=1 )
-        buscar2_boton = ttk.Button(frame_busqueda2, text='buscar', width=20, command=self.buscador3)
+        buscar2_boton = ttk.Button(frame_busqueda2, text='buscar', width=20, command=self.buscador2)
         buscar2_boton.grid(column=2, row=0, padx=5, pady=5)
 
         frame_tabla2 = ttk.LabelFrame(frame_seis, text='Tabla Alumnos')
@@ -162,10 +162,10 @@ class Widgets3v():
                 i = i+1
                 self.tabla_libro.insert('', i,text=i+1, values=fila[0:7])
         else:
-            messagebox.showerror('Informaciòn', 'No se a agragado una busqueda')
+            messagebox.showerror('Información', 'No se agrego una busqueda')
 
     
-    def buscador3(self):
+    def buscador2(self):
         # self.limpiar_campos()
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
@@ -177,7 +177,7 @@ class Widgets3v():
                 i = i+1
                 self.tabla_alumno.insert('', i,text=fila[0], values=fila[1:6])
         else:
-            messagebox.showerror('Informaciòn', 'No se a agragado una busqueda')
+            messagebox.showerror('Información', 'No se agrego una busqueda')
     
     def obtener_fila2(self, event):
         item_selec = self.tabla_libro.focus()
@@ -210,26 +210,30 @@ class Widgets3v():
         codigo = self.codigo_libro.get()
         if cantidad_pedida != '' and codigo != '':
             hoy = date.today()
-            situacion = 'entregado'
+            situacion = 'no entregado'
             observacion = 'ninguna'
             libroid = diccionario_libro['values'][6]
+            existentes = self.bd.cantidad(libroid)
+            total = existentes[0][0]
             usuarioid = diccionario_alumno['text']
+            cantidad_restante=total-cantidad_pedida
             print('el codigo del libro es:')
             print(libroid)
             print('el codigo del alumno es:')
             print(usuarioid)
+            print('Total:') 
+            print(total)
             print('cantidad pedida:') 
             print(cantidad_pedida)
             #! Me quede aqui
-            canti=self.bd.cantidad(libroid)
-            cantidad_descontada=canti[0][0]-cantidad_pedida
-            if cantidad_descontada < 0:
-                print(cantidad_descontada)
-                messagebox.showerror('Informaciòn', 'cantidad excedida al total')
+            if total == 0:
+                messagebox.showerror('Información', 'no hay existentes')
+            elif cantidad_restante < 0:
+                messagebox.showerror('Información', 'cantidad excedida al total')
             else:
-                print(cantidad_descontada)
                 self.bd.insertar_fila3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
+                self.bd.actualizar_fila3(libroid, cantidad_restante)
             #! Me quede aqui
         else:
-            messagebox.showerror('Informaciòn', 'No se agrego una cantidad')
+            messagebox.showerror('Información', 'No se agrego una cantidad')
         

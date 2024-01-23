@@ -1,9 +1,11 @@
 SELECT
 	alu.Usuario AS [Alumno],
-	lib.Titulo AS [Libro(s) prestado],
+	lib.Titulo AS [Libro],
+	pl.Observacion,
 	pl.Fecha,
 	pl.Situacion,
-	pl.Cantidad
+	pl.Cantidad,
+	pl.PedidoId
 FROM
 	pedido_libro AS pl
 INNER JOIN
@@ -14,3 +16,7 @@ INNER JOIN
 	alumnos AS alu
 ON
 	alu.EstudianteId = pl.UsuarioId
+WHERE
+	Libro LIKE '%juan%'
+ORDER BY
+	lib.Titulo

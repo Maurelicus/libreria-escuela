@@ -216,6 +216,101 @@ class Comunicacion():
         cursor.execute(query)
         cantidad_total = cursor.fetchall()
         return cantidad_total
+    
+    #! PEDIDOS
+    def mostrar_datos3(self):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT
+            alu.Usuario,
+            lib.Titulo,
+            pl.Observacion,
+            pl.Fecha,
+            pl.Situacion,
+            pl.Cantidad,
+            pl.PedidoId
+        FROM
+            pedido_libro AS pl
+        INNER JOIN
+            libros AS lib
+        ON
+            pl.LibroId = lib.LibroId
+        INNER JOIN
+            alumnos AS alu
+        ON
+            alu.EstudianteId = pl.UsuarioId
+        '''
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
+    
+    def buscador5(self, columna, palabra):
+        cursor = self.bd.cursor()
+        # print(columna)
+        query = '''
+        SELECT
+            alu.Usuario AS [Alumno],
+            lib.Titulo AS [Libro],
+            pl.Observacion,
+            pl.Fecha AS [Fecha],
+            pl.Situacion AS [Situacion],
+            pl.Cantidad,
+            pl.PedidoId
+        FROM
+            pedido_libro AS pl
+        INNER JOIN
+            libros AS lib
+        ON
+            pl.LibroId = lib.LibroId
+        INNER JOIN
+            alumnos AS alu
+        ON
+            alu.EstudianteId = pl.UsuarioId
+        WHERE 
+            {} LIKE '%{}%'
+        ORDER BY
+            Alumno
+        '''.format(columna,palabra)
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
+    
+    def actualizar_fila3(self, libroid, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE libros
+        SET Cantidad = '{}'
+        WHERE LibroId = '{}'
+        '''.format(cantidad, libroid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def obtener_libro(self, pedidoid):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT
+            LibroId,
+            Cantidad
+        FROM
+            pedido_libro
+        WHERE 
+            PedidoId = {}
+        '''.format(pedidoid)
+        cursor.execute(query)
+        idlibro = cursor.fetchall()
+        return idlibro
+    
+    def actualizar_fila4(self, libroid, cantidad, situacion):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE libros
+        SET Cantidad = '{}', Situacion = '{}'
+        WHERE LibroId = '{}'
+        '''.format(cantidad, situacion, libroid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
     """ 
     quizas una mejora
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
