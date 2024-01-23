@@ -208,9 +208,10 @@ class Widgets3v():
         diccionario_alumno = self.tabla_alumno.item(alumno_selec)
         cantidad_pedida = self.cantidad.get()
         codigo = self.codigo_libro.get()
-        # print('esto')
-        # print('esto')
         if cantidad_pedida != '' and codigo != '':
+            hoy = date.today()
+            situacion = 'entregado'
+            observacion = 'ninguna'
             libroid = diccionario_libro['values'][6]
             usuarioid = diccionario_alumno['text']
             print('el codigo del libro es:')
@@ -220,15 +221,15 @@ class Widgets3v():
             print('cantidad pedida:') 
             print(cantidad_pedida)
             #! Me quede aqui
-            canti=self.bd.cantidad()
-            for can in canti:
-                print(can)
-                print(can[0]-cantidad_pedida)
-            hoy = date.today()
+            canti=self.bd.cantidad(libroid)
+            cantidad_descontada=canti[0][0]-cantidad_pedida
+            if cantidad_descontada < 0:
+                print(cantidad_descontada)
+                messagebox.showerror('Informaciòn', 'cantidad excedida al total')
+            else:
+                print(cantidad_descontada)
+                self.bd.insertar_fila3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
             #! Me quede aqui
-            situacion = 'entregado'
-            observacion = 'ninguna'
-            self.bd.insertar_fila3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
         else:
-            messagebox.showerror('Informaciòn', 'No se a agragado una cantidad')
+            messagebox.showerror('Informaciòn', 'No se agrego una cantidad')
         

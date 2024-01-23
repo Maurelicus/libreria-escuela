@@ -2,7 +2,8 @@ SELECT
 	alu.Usuario AS [Alumno],
 	lib.Titulo AS [Libro(s) prestado],
 	pl.Fecha,
-	pl.Situacion
+	pl.Situacion,
+	pl.Cantidad
 FROM
 	pedido_libro AS pl
 INNER JOIN

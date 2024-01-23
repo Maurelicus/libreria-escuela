@@ -204,7 +204,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
         
-    def cantidad(self):
+    def cantidad(self, libroid):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -212,10 +212,10 @@ class Comunicacion():
         FROM
             libros
         WHERE
-            LibroId = 2'''
+            LibroId = {}'''.format(libroid)
         cursor.execute(query)
-        cantidad = cursor.fetchall()
-        return cantidad
+        cantidad_total = cursor.fetchall()
+        return cantidad_total
     """ 
     quizas una mejora
     def actualizar_fila(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):

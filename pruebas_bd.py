@@ -12,8 +12,7 @@ print(now)
 format = now.strftime('%Y-%m-%d')
 print(format)
 # numero=
-canti=bd.cantidad()
-for can in canti:
-    print(can)
-    print(can[0]+1)
+canti=bd.cantidad(89)
+print(canti[0])
+print(canti[0][0]-9)
 # print(canti)
