@@ -1,18 +1,14 @@
 import tkinter  as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+from datetime import date
 
 from conexion_sqlite import Comunicacion
 
 class Widgets4v():
     def __init__(self):
-        self.codigo = tk.StringVar()
-        self.libroid = tk.StringVar()
-        self.usuarioid = tk.StringVar()
-        self.fecha = tk.StringVar()
         self.situacion = tk.StringVar()
         self.observacion = tk.StringVar()
-        self.cantidad = tk.StringVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
@@ -32,33 +28,6 @@ class Widgets4v():
         observacion_entry.grid(column=1, row=2, padx=5 ,pady=5)
         update_boton = ttk.Button(frame_uno, text='Aceptar', width=20, command=self.actualizar_fila)
         update_boton.grid(column=0, row=3, padx=5, pady=[5,10])
-        """
-        nied_list = ["Primaria", "Secundaria"]
-        niveleducativo_combobox = ttk.Combobox(frame_uno, textvariable=self.nivel_educativo ,value=nied_list)
-        niveleducativo_combobox.grid(column=1, row=3, padx=5 ,pady=5)
-        niveleducativo_combobox.current(0)
-        niveleducativo_combobox.state(["readonly"])
-        titulo_entry = ttk.Entry(frame_uno, textvariable=self.titulo)
-        titulo_entry.grid(column=1, row=4, padx=5 ,pady=5)
-        autor_entry = ttk.Entry(frame_uno, textvariable=self.autor)
-        autor_entry.grid(column=1, row=5, padx=5 ,pady=5)
-        editorial_entry = ttk.Entry(frame_uno, textvariable=self.editorial)
-        editorial_entry.grid(column=1, row=6, padx=5 ,pady=5)
-        añoedicion_entry = ttk.Entry(frame_uno, textvariable=self.año_edicion)
-        añoedicion_entry.grid(column=1, row=7, padx=5 ,pady=5)
-        coli_list = ["B", "R"]
-        condicionlibro_combobox = ttk.Combobox(frame_uno, textvariable=self.condicion_libro ,value=coli_list)
-        condicionlibro_combobox.grid(column=1, row=8, padx=5 ,pady=5)
-        condicionlibro_combobox.current(0)
-        condicionlibro_combobox.state(["readonly"])
-        cantidad_entry = ttk.Entry(frame_uno, textvariable=self.cantidad)
-        cantidad_entry.grid(column=1, row=9, padx=5 ,pady=[5,10])
-        #! Botones
-        clear_boton = ttk.Button(frame_uno, text='Limpiar campos', width=20, command=self.limpiar_campos)
-        clear_boton.grid(column=1, row=10, padx=5, pady=[5,10])
-        add_boton = ttk.Button(frame_uno, text='Añadir fila', width=20, command=self.agregar_fila)
-        add_boton.grid(column=0, row=11, padx=5, pady=[5,10])
-        """ 
     
     def seccion_dos(self, frame_dos):
         frame_busqueda = ttk.LabelFrame(frame_dos, text='Opciones')
@@ -112,14 +81,11 @@ class Widgets4v():
         self.tabla.heading('#5', text='Situacion', anchor='center')
         self.tabla.heading('#6', text='Cantidad', anchor='center')
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_fila)
-        """ 
-        self.tabla.bind("<Double-1>", self.eliminar_datos)
-        """
 
     def obtener_fila(self, event):
         item_selec = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_selec)
-        if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 0:
+        if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
             self.situacion.set(diccionario_fila['values'][4])
             self.observacion.set(diccionario_fila['values'][2])
         else:
@@ -127,7 +93,7 @@ class Widgets4v():
             
     def actualizar_tabla(self):
         self.limpiar_campos()
-        l_datos = self.bd.mostrar_datos3()
+        l_datos = self.bd.mostrar_datosv4()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
@@ -143,7 +109,7 @@ class Widgets4v():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscador5(columna, palabra)
+            l_datos = self.bd.buscadorv4(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -155,52 +121,30 @@ class Widgets4v():
     def actualizar_fila(self):
         item_l = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_l)
+        # print(diccionario_fila)
         id_pedido = diccionario_fila['values'][6]
-        # situacion_actual = diccionario_fila['values'][4]
-        l_datos = self.bd.mostrar_datos3()
-        libro = self.bd.obtener_libro(id_pedido)
+        # print(id_pedido)
+        cantidad_devuelta = diccionario_fila['values'][5]
+        # print(cantidad_devuelta)
+        info_libro = self.bd.obtener_librov4(id_pedido)
+        # print(info_libro)
+        id_libro = info_libro[0][0]
+        # print(id_libro)
+        cantidad_libro = info_libro[0][1]
+        # print(cantidad_libro)
+        situacion = self.situacion.get()
+        # print(situacion)
+        observacion = self.observacion.get()
+        # print(observacion)
+        pregunta_box = messagebox.askquestion('Información', '¿Estas seguro?')
         
-        for fila in l_datos:
-            id_bdpedido = fila[6]
-            cantidad_devuelta = fila[5]
-            situacion_actual = fila[4]
-            if id_bdpedido == id_pedido and id_bdpedido != None and self.situacion == 'entregado':
-                situacion = self.situacion.get()
-                observacion = self.observacion.get()
-                pregunta_box = messagebox.askquestion('Información', '¿Estas seguro?')
-                if situacion and observacion != '' and pregunta_box == 'yes':
-                    cantidad = cantidad_devuelta + libro[0][1]
-                    self.bd.actualizar_fila4(libro[0][0], cantidad, situacion)
-                    self.actualizar_tabla()
-    
-    """ 
-    def agregar_fila(self):
-        remitente = self.remitente.get()
-        añorecepcion = self.año_recepcion.get()
-        niveleducativo = self.nivel_educativo.get()
-        titulo = self.titulo.get()
-        autor = self.autor.get()
-        editorial = self.editorial.get()
-        añoedicion = self.año_edicion.get()
-        condicionlibro = self.condicion_libro.get()
-        cantidad = self.cantidad.get()
-        c_filas = len(self.tabla.get_children())
-        datos = (remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
-        if remitente and niveleducativo and titulo and condicionlibro and cantidad != '':
-            self.bd.insertar_fila(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
-            # falta mejorar
-            self.tabla.insert('',"end",text=c_filas+1, values=datos)
-            self.limpiar_campos()
-        else:
-            messagebox.showwarning('error', 'falta rellenar')
-    
-    def eliminar_datos(self, event):
-        self.limpiar_campos()
-        l_item = self.tabla.selection()[0]
-        diccionario_fila = self.tabla.item(l_item)
-        question_box = messagebox.askquestion('Informaciòn', '¿Desea eliminar?')
-        if question_box == 'yes':
-            self.tabla.delete(l_item)
-            self.bd.eliminar_fila(diccionario_fila['values'][9])
-    """
-    
+        if observacion != '' and situacion == 'entregado' and pregunta_box == 'yes':
+                cantidad = cantidad_devuelta + cantidad_libro
+                # print(cantidad)
+                hoy = date.today()
+                # print(hoy)
+                self.bd.actualizar_filav3(id_libro, cantidad)
+                self.bd.actualizar_filav4(id_pedido, hoy, situacion, observacion)
+                self.limpiar_campos()
+                self.actualizar_tabla()
+                

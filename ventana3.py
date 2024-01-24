@@ -11,7 +11,6 @@ class Widgets3v():
         self.autor = tk.StringVar()
         self.editorial = tk.StringVar()
         self.aedicion = tk.StringVar()
-        self.cantidad_total = tk.StringVar()
         self.codigo_libro = tk.StringVar()
         
         self.usuario = tk.StringVar()
@@ -151,11 +150,11 @@ class Widgets3v():
     
     
     def buscador1(self):
-        # self.limpiar_campos()
+        self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscador3(columna, palabra)
+            l_datos = self.bd.buscador_librov3(columna, palabra)
             self.tabla_libro.delete(*self.tabla_libro.get_children())
             i = -1
             for fila in l_datos:
@@ -166,11 +165,11 @@ class Widgets3v():
 
     
     def buscador2(self):
-        # self.limpiar_campos()
+        self.limpiar_campos()
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
         if palabra != '':        
-            l_datos = self.bd.buscador4(columna, palabra)
+            l_datos = self.bd.buscador_alumnov3(columna, palabra)
             self.tabla_alumno.delete(*self.tabla_alumno.get_children())
             i = -1
             for fila in l_datos:
@@ -188,7 +187,7 @@ class Widgets3v():
             self.editorial.set(diccionario_fila['values'][3])
             self.aedicion.set(diccionario_fila['values'][4])
         else:
-            print('hola')
+            self.limpiar_campos()
             
     def obtener_fila3(self, event):
         item_selec = self.tabla_alumno.focus()
@@ -199,7 +198,7 @@ class Widgets3v():
             self.seccion.set(diccionario_fila['values'][3])
             self.nivel.set(diccionario_fila['values'][0])
         else:
-            print('hola')
+            self.limpiar_campos()
             
     def pedido(self):
         libro_selec = self.tabla_libro.focus()
@@ -213,27 +212,23 @@ class Widgets3v():
             situacion = 'no entregado'
             observacion = 'ninguna'
             libroid = diccionario_libro['values'][6]
-            existentes = self.bd.cantidad(libroid)
-            total = existentes[0][0]
+            existentes = diccionario_libro['values'][5]
             usuarioid = diccionario_alumno['text']
-            cantidad_restante=total-cantidad_pedida
-            print('el codigo del libro es:')
-            print(libroid)
-            print('el codigo del alumno es:')
-            print(usuarioid)
-            print('Total:') 
-            print(total)
-            print('cantidad pedida:') 
-            print(cantidad_pedida)
+            cantidad_restante=existentes-cantidad_pedida
             #! Me quede aqui
-            if total == 0:
+            if existentes == 0:
                 messagebox.showerror('Información', 'no hay existentes')
             elif cantidad_restante < 0:
                 messagebox.showerror('Información', 'cantidad excedida al total')
             else:
-                self.bd.insertar_fila3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
-                self.bd.actualizar_fila3(libroid, cantidad_restante)
+                self.bd.insertar_filav3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
+                self.bd.actualizar_filav3(libroid, cantidad_restante)
+                self.limpiar_campos()
+                messagebox.showinfo('Información', 'pedido existoso')
             #! Me quede aqui
         else:
             messagebox.showerror('Información', 'No se agrego una cantidad')
-        
+    
+    def limpiar_campos(self):
+        self.codigo_libro.set('')
+        self.cantidad.set('')

@@ -16,7 +16,3 @@ INNER JOIN
 	alumnos AS alu
 ON
 	alu.EstudianteId = pl.UsuarioId
-WHERE
-	Libro LIKE '%juan%'
-ORDER BY
-	lib.Titulo

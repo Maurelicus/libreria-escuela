@@ -6,7 +6,7 @@ bd = Comunicacion()
 today = date.today()
 now = datetime.now()
 print(today)
-print(now)
+# print(now)
 
 total=4
 c_pedida=5
