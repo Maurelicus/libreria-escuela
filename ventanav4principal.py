@@ -37,19 +37,18 @@ class Ventana(tk.Tk):
         self.mytabcontrol.add(self.mytab2, text ='Laminas')
         self.mytabcontrol.add(self.mytab3, text ='Pedidos')
         self.mytabcontrol.add(self.mytab4, text ='Pedidos2')
-        self.mytabcontrol.grid(column=0, row=0,padx=10, pady=10, sticky='nswe')
+        self.mytabcontrol.grid(column=0, row=0, padx=10, pady=10, sticky='nswe')
         
         self.widgets()
         
     def widgets(self):
         #! Funciones label
         frame_uno = ttk.LabelFrame(self.mytab1, text='Funciones')
-        frame_uno.grid(column=0, row=0, padx=5, pady=5, sticky='n')
+        frame_uno.grid(column=0, row=0, padx=5, pady=5, sticky='nswe')
         frame_uno.columnconfigure(0, weight=1)
-        frame_uno.rowconfigure(0, weight=1)
         
         frame_dos = ttk.LabelFrame(self.mytab1, text='Visualizacion')
-        frame_dos.grid(column=1, row=0, sticky='nsew')
+        frame_dos.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
         frame_dos.columnconfigure(0, weight=1)
         frame_dos.rowconfigure(0, weight=0)
         frame_dos.rowconfigure(1, weight=10)
