@@ -15,7 +15,7 @@ class Ventana(tk.Tk):
         self.v3 = ven3.Widgets3v()
         self.v4 = ven4.Widgets4v()
         self.mytabcontrol = ttk.Notebook(self)
-        self.mytab1 = ttk.LabelFrame(self.mytabcontrol, text='Libros')
+        self.mytab1 = ttk.Frame(self.mytabcontrol)
         self.mytab1.columnconfigure(0, weight=1, minsize=440)
         self.mytab1.columnconfigure(1, weight=1)
         self.mytab1.rowconfigure(0, weight=1)

@@ -14,7 +14,7 @@ class Widgets1v():
         self.editorial = tk.StringVar()
         self.año_edicion = tk.StringVar()
         self.condicion_libro = tk.StringVar()
-        self.cantidad = tk.StringVar()
+        self.cantidad = tk.IntVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
@@ -43,29 +43,31 @@ class Widgets1v():
         cantidad = ttk.Label(frame_uno, text='Cantidad')
         cantidad.grid(column=0, row=8, padx=30, pady=[5,10], sticky='w')
         #! ENTRADAS
-        reminente_entry = ttk.Entry(frame_uno, textvariable=self.remitente, width=15)
+        reminente_entry = ttk.Entry(frame_uno, textvariable=self.remitente, width=10)
         reminente_entry.grid(column=1, row=0, padx=5 ,pady=[10,5], sticky='w')
-        añorecepcion_entry = ttk.Entry(frame_uno, textvariable=self.año_recepcion)
+        añorecepcion_entry = ttk.Entry(frame_uno, textvariable=self.año_recepcion, width=7)
         añorecepcion_entry.grid(column=1, row=1, padx=5 ,pady=5, sticky='w')
         nied_list = ["Primaria", "Secundaria"]
         niveleducativo_combobox = ttk.Combobox(frame_uno, textvariable=self.nivel_educativo ,value=nied_list, width=10)
         niveleducativo_combobox.grid(column=1, row=2, padx=5 ,pady=5, sticky='w')
         niveleducativo_combobox.current(0)
         niveleducativo_combobox.state(["readonly"])
-        titulo_entry = ttk.Entry(frame_uno, textvariable=self.titulo, width=30)
+        titulo_entry = ttk.Entry(frame_uno, textvariable=self.titulo, width=20)
         titulo_entry.grid(column=1, row=3, padx=5 ,pady=5, sticky='w')
         autor_entry = ttk.Entry(frame_uno, textvariable=self.autor)
         autor_entry.grid(column=1, row=4, padx=5 ,pady=5, sticky='w')
         editorial_entry = ttk.Entry(frame_uno, textvariable=self.editorial)
         editorial_entry.grid(column=1, row=5, padx=5 ,pady=5, sticky='w')
-        añoedicion_entry = ttk.Entry(frame_uno, textvariable=self.año_edicion)
+        añoedicion_entry = ttk.Entry(frame_uno, textvariable=self.año_edicion, width=7)
         añoedicion_entry.grid(column=1, row=6, padx=5 ,pady=5, sticky='w')
         coli_list = ["A", "B", "C"]
         condicionlibro_combobox = ttk.Combobox(frame_uno, textvariable=self.condicion_libro ,value=coli_list, width=2)
         condicionlibro_combobox.grid(column=1, row=7, padx=5 ,pady=5, sticky='w')
         condicionlibro_combobox.current(0)
         condicionlibro_combobox.state(["readonly"])
-        cantidad_entry = ttk.Entry(frame_uno, textvariable=self.cantidad)
+        # cantidad_entry = ttk.Entry(frame_uno, textvariable=self.cantidad)
+        cantidad_entry = ttk.Spinbox(frame_uno, textvariable=self.cantidad, from_=0, to=100, width=5)
+        cantidad_entry.state(["readonly"])
         cantidad_entry.grid(column=1, row=8, padx=5 ,pady=[5,10], sticky='w')
         #! Botones
         update_boton = ttk.Button(frame_uno, text='Actualizar fila', width=20, command=self.actualizar_fila)
@@ -76,30 +78,30 @@ class Widgets1v():
         add_boton.grid(column=0, row=10, padx=10, pady=10)
     
     def seccion_dos(self, frame_dos):
-        frame_busqueda = ttk.LabelFrame(frame_dos, text='Opciones')
+        frame_busqueda = ttk.Frame(frame_dos)
         frame_busqueda.grid(column=0, row=0, padx=5, pady=[1,5], sticky='nsew')
         
         l_columna = ("Autor", "Titulo", "Editorial", "AñoRecepcion", "AñoEdicion", "Remitente", "NivelEducativo", "AñoEdicion", "CondicionLibro", "Cantidad")
         buscar_palabra = ttk.Combobox(frame_busqueda, width=15, value=l_columna, textvariable=self.nombre_columna)
         buscar_palabra.current(0)
-        buscar_palabra.grid(column=0, row=0, padx=5, pady=5, )
         buscar_palabra.state(["readonly"])
-        filtro_libroid = ttk.Entry(frame_busqueda, textvariable=self.palabra)
-        filtro_libroid.grid(column=1, row=0, padx=5 ,pady=1 )
-        busc_boton = ttk.Button(frame_busqueda, text='buscar', width=10, 
+        buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nsew')
+        filtro_libroid = ttk.Entry(frame_busqueda, textvariable=self.palabra, width=40)
+        filtro_libroid.grid(column=1, row=0, padx=5 ,pady=5 , sticky='nsew')
+        busc_boton = ttk.Button(frame_busqueda, text='Buscar', width=10, 
                                 command=self.buscador)
-        busc_boton.grid(column=2, row=0, padx=5, pady=5)
+        busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
         save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2)
-        save_boton.grid(column=3, row=0, padx=5, pady=5)
+        save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
         show_boton = ttk.Button(frame_busqueda, image=self.photo1,
                                 command=self.actualizar_tabla)
-        show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='e', rowspan=3)
+        show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='nsew')
         
         #! TABLA
         frame_tabla = ttk.LabelFrame(frame_dos, text='Tabla')
         frame_tabla.grid(column=0, row=1, padx=5, pady=[1,5] ,sticky='nsew')
-        frame_tabla.columnconfigure(1 , weight=10)
-        frame_tabla.rowconfigure(0 , weight=10)
+        frame_tabla.columnconfigure(1 , weight=15)
+        frame_tabla.rowconfigure(0 , weight=15)
         
         self.tabla = ttk.Treeview(frame_tabla)
         self.tabla.grid(column=1, row=0, sticky='nsew',padx=5, pady=5)
@@ -223,6 +225,7 @@ class Widgets1v():
         question_box = messagebox.askquestion('Información', '¿Desea eliminar?')
         if question_box == 'yes':
             self.tabla.delete(l_item)
+            self.limpiar_campos()
             self.bd.eliminar_filav1(diccionario_fila['values'][9])
     
     def buscador(self):
