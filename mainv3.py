@@ -8,7 +8,7 @@ if __name__ == "__main__":
     estilo_ventana = ttk.Style(app)
     app.tk.call("source", "forest-dark.tcl")
     estilo_ventana.theme_use("forest-dark")
-    app.minsize(width=1250, height=650)
+    app.minsize(width=1200, height=650)
     # 1440x900
     app.geometry('1000x600')
     app.columnconfigure(0, weight=1)
