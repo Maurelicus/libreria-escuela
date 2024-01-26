@@ -179,7 +179,7 @@ class Comunicacion():
         # print(columna)
         query = '''
         SELECT 
-            EstudianteId,
+            EstudianteId AS [DNI],
             Nivel,
             Usuario,
             Grado,

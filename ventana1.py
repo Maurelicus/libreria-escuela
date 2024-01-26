@@ -22,7 +22,6 @@ class Widgets1v():
         self.photo2 = ImageTk.PhotoImage(Image.open("excel.png"))
         
     def seccion_uno(self, frame_uno):
-        # print(funciones[0])
         #! TEXTO
         reminente_label = ttk.Label(frame_uno, text='Remitente') 
         reminente_label.grid(column=0, row=0, padx=30, pady=[10,5], sticky='w')
@@ -49,12 +48,12 @@ class Widgets1v():
         añorecepcion_entry.grid(column=1, row=1, padx=5 ,pady=5, sticky='w')
         nied_list = ["Primaria", "Secundaria"]
         niveleducativo_combobox = ttk.Combobox(frame_uno, textvariable=self.nivel_educativo ,value=nied_list, width=10)
-        niveleducativo_combobox.grid(column=1, row=2, padx=5 ,pady=5, sticky='w')
         niveleducativo_combobox.current(0)
         niveleducativo_combobox.state(["readonly"])
+        niveleducativo_combobox.grid(column=1, row=2, padx=5 ,pady=5, sticky='w')
         titulo_entry = ttk.Entry(frame_uno, textvariable=self.titulo, width=20)
         titulo_entry.grid(column=1, row=3, padx=5 ,pady=5, sticky='w')
-        autor_entry = ttk.Entry(frame_uno, textvariable=self.autor)
+        autor_entry = ttk.Entry(frame_uno, textvariable=self.autor, width=20)
         autor_entry.grid(column=1, row=4, padx=5 ,pady=5, sticky='w')
         editorial_entry = ttk.Entry(frame_uno, textvariable=self.editorial)
         editorial_entry.grid(column=1, row=5, padx=5 ,pady=5, sticky='w')
@@ -65,17 +64,16 @@ class Widgets1v():
         condicionlibro_combobox.grid(column=1, row=7, padx=5 ,pady=5, sticky='w')
         condicionlibro_combobox.current(0)
         condicionlibro_combobox.state(["readonly"])
-        # cantidad_entry = ttk.Entry(frame_uno, textvariable=self.cantidad)
         cantidad_entry = ttk.Spinbox(frame_uno, textvariable=self.cantidad, from_=0, to=100, width=5)
         cantidad_entry.state(["readonly"])
         cantidad_entry.grid(column=1, row=8, padx=5 ,pady=[5,10], sticky='w')
         #! Botones
-        update_boton = ttk.Button(frame_uno, text='Actualizar fila', width=20, command=self.actualizar_fila)
-        update_boton.grid(column=0, row=9, padx=10, pady=10)
-        clear_boton = ttk.Button(frame_uno, text='Limpiar campos', width=20, command=self.limpiar_campos)
-        clear_boton.grid(column=1, row=9, padx=10, pady=10)
-        add_boton = ttk.Button(frame_uno, text='Añadir fila', width=20, command=self.agregar_fila)
-        add_boton.grid(column=0, row=10, padx=10, pady=10)
+        update_boton = ttk.Button(frame_uno, text='Actualizar fila', width=15, command=self.actualizar_fila)
+        update_boton.grid(column=0, row=9, padx=30, pady=10, sticky='w')
+        clear_boton = ttk.Button(frame_uno, text='Limpiar campos', width=15, command=self.limpiar_campos)
+        clear_boton.grid(column=1, row=9, padx=5, pady=10, sticky='w')
+        add_boton = ttk.Button(frame_uno, text='Añadir fila', width=15, command=self.agregar_fila)
+        add_boton.grid(column=0, row=10, padx=30, pady=10, sticky='w')
     
     def seccion_dos(self, frame_dos):
         frame_busqueda = ttk.Frame(frame_dos)
@@ -86,8 +84,8 @@ class Widgets1v():
         buscar_palabra.current(0)
         buscar_palabra.state(["readonly"])
         buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nsew')
-        filtro_libroid = ttk.Entry(frame_busqueda, textvariable=self.palabra, width=40)
-        filtro_libroid.grid(column=1, row=0, padx=5 ,pady=5 , sticky='nsew')
+        palaba_entry = ttk.Entry(frame_busqueda, textvariable=self.palabra, width=40)
+        palaba_entry.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
         busc_boton = ttk.Button(frame_busqueda, text='Buscar', width=10, 
                                 command=self.buscador)
         busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
@@ -115,7 +113,7 @@ class Widgets1v():
         self.tabla['columns'] = ('Remitente', 'Añorecepcion', 'Niveleducativo', 'Titulo', 'Autor', 'Editorial', 'Añoedicion', 'Condicion', 'Cantidad')
         self.tabla.column('#0', minwidth=60, width=60, anchor='center')
         self.tabla.column('#1', minwidth=100, width=100, anchor='center')
-        self.tabla.column('#2', minwidth=100, width=120, anchor='center')
+        self.tabla.column('#2', minwidth=90, width=110, anchor='center')
         self.tabla.column('#3', minwidth=120, width=120, anchor='center')
         self.tabla.column('#4', minwidth=200, width=200, anchor='w')
         self.tabla.column('#5', minwidth=200, width=200, anchor='w')
@@ -126,12 +124,12 @@ class Widgets1v():
             
         self.tabla.heading('#0', text='Nº', anchor='center')
         self.tabla.heading('#1', text='Remitente', anchor='center')
-        self.tabla.heading('#2', text='Año recepcion', anchor='center')
-        self.tabla.heading('#3', text='Nivel educativo', anchor='center')
+        self.tabla.heading('#2', text='Año Recepcion', anchor='center')
+        self.tabla.heading('#3', text='Nivel Educativo', anchor='center')
         self.tabla.heading('#4', text='Titulo', anchor='center')
         self.tabla.heading('#5', text='Autor', anchor='center')
         self.tabla.heading('#6', text='Editorial', anchor='center')
-        self.tabla.heading('#7', text='Año edicion', anchor='center')
+        self.tabla.heading('#7', text='Año Edicion', anchor='center')
         self.tabla.heading('#8', text='Condicion', anchor='center')
         self.tabla.heading('#9', text='Cantidad', anchor='center')
         

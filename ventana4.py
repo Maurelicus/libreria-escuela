@@ -19,39 +19,42 @@ class Widgets4v():
     def seccion_uno(self, frame_uno):
         #! TEXTO
         situacion_label = ttk.Label(frame_uno, text='Situacion')
-        situacion_label.grid(column=0, row=1, padx=5, pady=[10,5])
+        situacion_label.grid(column=0, row=1, padx=30, pady=[10,5], sticky='w')
         observacion_label = ttk.Label(frame_uno, text='Observacion')
-        observacion_label.grid(column=0, row=2, padx=5, pady=5)
-        situacion_entry = ttk.Entry(frame_uno, textvariable=self.situacion)
-        situacion_entry.grid(column=1, row=1, padx=5 ,pady=5)
-        observacion_entry = ttk.Entry(frame_uno, textvariable=self.observacion)
-        observacion_entry.grid(column=1, row=2, padx=5 ,pady=5)
-        update_boton = ttk.Button(frame_uno, text='Aceptar', width=20, command=self.actualizar_fila)
-        update_boton.grid(column=0, row=3, padx=5, pady=[5,10])
+        observacion_label.grid(column=0, row=2, padx=30, pady=5, sticky='w')
+        si_list = ["entregado", "no entregado"]
+        situacion_combobox = ttk.Combobox(frame_uno, textvariable=self.situacion, value=si_list, width=20)
+        situacion_combobox.current(0)
+        situacion_combobox.state(["readonly"])
+        situacion_combobox.grid(column=1, row=1, padx=5 ,pady=5, sticky='w')
+        observacion_entry = ttk.Entry(frame_uno, textvariable=self.observacion, width=20)
+        observacion_entry.grid(column=1, row=2, padx=5 ,pady=5, sticky='w')
+        update_boton = ttk.Button(frame_uno, text='Aceptar', width=6, command=self.actualizar_fila)
+        update_boton.grid(column=0, row=3, padx=30, pady=10, sticky='nsw')
     
     def seccion_dos(self, frame_dos):
-        frame_busqueda = ttk.LabelFrame(frame_dos, text='Opciones')
-        frame_busqueda.grid(column=0, row=0, padx=5, pady=5, sticky='ew')
+        frame_busqueda = ttk.Frame(frame_dos)
+        frame_busqueda.grid(column=0, row=0, padx=5, pady=[1,5], sticky='nsew')
         
         l_columna = ('Alumno', 'Libro', 'Fecha', 'Situacion',)
-        columna_box = ttk.Combobox(frame_busqueda, width=20, value=l_columna, textvariable=self.nombre_columna)
+        columna_box = ttk.Combobox(frame_busqueda, width=15, value=l_columna, textvariable=self.nombre_columna)
         columna_box.current(0)
-        columna_box.grid(column=0, row=0, padx=5, pady=5)
         columna_box.state(["readonly"])
-        palabra_entry = ttk.Entry(frame_busqueda, textvariable=self.palabra)
-        palabra_entry.grid(column=1, row=0, padx=5 ,pady=1 )
-        busc_boton = ttk.Button(frame_busqueda, text='buscar', width=20, 
+        columna_box.grid(column=0, row=0, padx=5, pady=5, sticky='nswe')
+        palabra_entry = ttk.Entry(frame_busqueda, textvariable=self.palabra, width=40)
+        palabra_entry.grid(column=1, row=0, padx=5 ,pady=5, sticky='nswe')
+        busc_boton = ttk.Button(frame_busqueda, text='buscar', width=10, 
                                 command=self.buscador)
-        busc_boton.grid(column=2, row=0, padx=5, pady=5)
+        busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nswe')
         save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2)
-        save_boton.grid(column=3, row=0, padx=5, pady=5)
+        save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nswe')
         show_boton = ttk.Button(frame_busqueda, width=20, image=self.photo1,
                                 command=self.actualizar_tabla)
-        show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='w')
+        show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='nswe')
         
         #! TABLA
         frame_tabla = ttk.LabelFrame(frame_dos, text='Tabla')
-        frame_tabla.grid(column=0, row=1, padx=5, pady=5 ,sticky='nsew')
+        frame_tabla.grid(column=0, row=1, padx=5, pady=[1,5], sticky='nsew')
         frame_tabla.columnconfigure(1 , weight=10)
         frame_tabla.rowconfigure(0 , weight=10)
         
@@ -66,11 +69,11 @@ class Widgets4v():
         #! COLUMNAS
         self.tabla['columns'] = ('Alumno', 'Libro', 'Observacion', 'Fecha', 'Situacion', 'Cantidad')
         self.tabla.column('#0', minwidth=50, width=60, anchor='center')
-        self.tabla.column('#1', minwidth=150, width=160, anchor='w')
-        self.tabla.column('#2', minwidth=150, width=160, anchor='w')
-        self.tabla.column('#3', minwidth=120, width=120, anchor='center')
-        self.tabla.column('#4', minwidth=120, width=130, anchor='center')
-        self.tabla.column('#5', minwidth=120, width=130, anchor='center')
+        self.tabla.column('#1', minwidth=200, width=220, anchor='w')
+        self.tabla.column('#2', minwidth=200, width=220, anchor='w')
+        self.tabla.column('#3', minwidth=150, width=170, anchor='w')
+        self.tabla.column('#4', minwidth=100, width=110, anchor='center')
+        self.tabla.column('#5', minwidth=100, width=100, anchor='center')
         self.tabla.column('#6', minwidth=50, width=60, anchor='center')
             
         self.tabla.heading('#0', text='Nº', anchor='center')
