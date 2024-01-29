@@ -67,29 +67,31 @@ class Widgets4v():
         ladoy.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla.configure(xscrollcommand=ladox.set, yscrollcommand=ladoy.set)
         #! COLUMNAS
-        self.tabla['columns'] = ('Alumno', 'Libro', 'Observacion', 'Fecha', 'Situacion', 'Cantidad')
+        self.tabla['columns'] = ('Alumno', 'Libro', 'Observacion', 'FechaSalida','FechaEntrada', 'Situacion', 'Cantidad')
         self.tabla.column('#0', minwidth=50, width=60, anchor='center')
         self.tabla.column('#1', minwidth=200, width=220, anchor='w')
         self.tabla.column('#2', minwidth=200, width=220, anchor='w')
         self.tabla.column('#3', minwidth=150, width=170, anchor='w')
         self.tabla.column('#4', minwidth=100, width=110, anchor='center')
-        self.tabla.column('#5', minwidth=100, width=100, anchor='center')
-        self.tabla.column('#6', minwidth=50, width=60, anchor='center')
+        self.tabla.column('#5', minwidth=100, width=110, anchor='center')
+        self.tabla.column('#6', minwidth=100, width=100, anchor='center')
+        self.tabla.column('#7', minwidth=50, width=60, anchor='center')
             
         self.tabla.heading('#0', text='Nº', anchor='center')
         self.tabla.heading('#1', text='Alumno', anchor='center')
         self.tabla.heading('#2', text='Libro', anchor='center')
         self.tabla.heading('#3', text='Observacion', anchor='center')
-        self.tabla.heading('#4', text='Fecha', anchor='center')
-        self.tabla.heading('#5', text='Situacion', anchor='center')
-        self.tabla.heading('#6', text='Cantidad', anchor='center')
+        self.tabla.heading('#4', text='Fecha Salida', anchor='center')
+        self.tabla.heading('#5', text='Fecha Entrada', anchor='center')
+        self.tabla.heading('#6', text='Situacion', anchor='center')
+        self.tabla.heading('#7', text='Cantidad', anchor='center')
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_fila)
 
     def obtener_fila(self, event):
         item_selec = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_selec)
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
-            self.situacion.set(diccionario_fila['values'][4])
+            self.situacion.set(diccionario_fila['values'][5])
             self.observacion.set(diccionario_fila['values'][2])
         else:
             self.limpiar_campos()
@@ -101,7 +103,7 @@ class Widgets4v():
         i = -1
         for fila in l_datos:
             i = i+1
-            self.tabla.insert('', i,text=i+1, values=fila[0:7])
+            self.tabla.insert('', i, text=i+1, values=fila[0:8])
             
     def limpiar_campos(self):
         self.observacion.set('')
@@ -117,37 +119,28 @@ class Widgets4v():
             i = -1
             for fila in l_datos:
                 i = i+1
-                self.tabla.insert('', i,text=i+1, values=fila[0:7])
+                self.tabla.insert('', i,text=i+1, values=fila[0:8])
         else:
-            messagebox.showerror('Información', 'No se agrego una busqueda')
+            messagebox.showerror('ERROR', 'No se agrego una busqueda')
             
     def actualizar_fila(self):
         item_l = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_l)
-        # print(diccionario_fila)
-        id_pedido = diccionario_fila['values'][6]
-        # print(id_pedido)
-        cantidad_devuelta = diccionario_fila['values'][5]
-        # print(cantidad_devuelta)
+        id_pedido = diccionario_fila['values'][7]
+        cantidad_devuelta = diccionario_fila['values'][6]
         info_libro = self.bd.obtener_librov4(id_pedido)
-        # print(info_libro)
         id_libro = info_libro[0][0]
-        # print(id_libro)
         cantidad_libro = info_libro[0][1]
-        # print(cantidad_libro)
         situacion = self.situacion.get()
-        # print(situacion)
         observacion = self.observacion.get()
-        # print(observacion)
-        pregunta_box = messagebox.askquestion('Información', '¿Estas seguro?')
+        pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
         
-        if observacion != '' and situacion == 'entregado' and pregunta_box == 'yes':
+        if observacion != '' and situacion == 'entregado' and pregunta_box == True:
                 cantidad = cantidad_devuelta + cantidad_libro
-                # print(cantidad)
                 hoy = date.today()
-                # print(hoy)
                 self.bd.actualizar_filav3(id_libro, cantidad)
                 self.bd.actualizar_filav4(id_pedido, hoy, situacion, observacion)
                 self.limpiar_campos()
+                messagebox.showinfo('Información', 'Fila modificada')
                 self.actualizar_tabla()
                 

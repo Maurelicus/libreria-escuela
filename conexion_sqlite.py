@@ -197,7 +197,7 @@ class Comunicacion():
     def insertar_filav3(self, codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO pedido_libro (Codigo, LibroId, UsuarioId, Fecha, Situacion, Observacion, Cantidad)
+        INSERT INTO pedido_libro (Codigo, LibroId, UsuarioId, FechaSalida, Situacion, Observacion, Cantidad)
         VALUES('{}','{}','{}','{}','{}','{}','{}')
         '''.format(codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad)
         cursor.execute(query)
@@ -236,7 +236,8 @@ class Comunicacion():
             alu.Usuario,
             lib.Titulo,
             pl.Observacion,
-            pl.Fecha,
+            pl.FechaSalida,
+            pl.FechaEntrada,
             pl.Situacion,
             pl.Cantidad,
             pl.PedidoId
@@ -257,13 +258,13 @@ class Comunicacion():
     
     def buscadorv4(self, columna, palabra):
         cursor = self.bd.cursor()
-        # print(columna)
         query = '''
         SELECT
             alu.Usuario AS [Alumno],
             lib.Titulo AS [Libro],
             pl.Observacion,
-            pl.Fecha AS [Fecha],
+            pl.FechaSalida AS [Fecha],
+            pl.FechaEntrada,
             pl.Situacion AS [Situacion],
             pl.Cantidad,
             pl.PedidoId
@@ -304,13 +305,13 @@ class Comunicacion():
         idlibro = cursor.fetchall()
         return idlibro
     
-    def actualizar_filav4(self, pedidoid, fecha, situacion, observacion):
+    def actualizar_filav4(self, pedidoid, fecha_devolucion, situacion, observacion):
         cursor = self.bd.cursor()
         query = '''
         UPDATE pedido_libro
-        SET Fecha = '{}', Situacion = '{}', Observacion = '{}'
+        SET FechaEntrada = '{}', Situacion = '{}', Observacion = '{}'
         WHERE PedidoId = '{}'
-        '''.format(fecha, situacion, observacion, pedidoid)
+        '''.format(fecha_devolucion, situacion, observacion, pedidoid)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()

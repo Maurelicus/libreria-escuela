@@ -158,7 +158,6 @@ class Widgets1v():
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
-            # print(fila[9])
             i = i+1
             self.tabla.insert('', i,text=i+1, values=fila[0:11])
             
@@ -191,9 +190,10 @@ class Widgets1v():
                 añoedicion = self.año_edicion.get()
                 condicionlibro = self.condicion_libro.get()
                 cantidad = self.cantidad.get()
-                pregunta_box = messagebox.askquestion('Información', '¿Estas seguro?')
-                if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and pregunta_box == 'yes':
+                confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
+                if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
                     self.bd.actualizar_filav1(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
+                    messagebox.showinfo('Información', 'Fila modificada')
                     self.actualizar_tabla()
     
     def agregar_fila(self):
@@ -210,21 +210,23 @@ class Widgets1v():
         datos = (remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
         if remitente and niveleducativo and titulo and condicionlibro and cantidad != '':
             self.bd.insertar_filav1(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
-            # falta mejorar
             self.tabla.insert('',"end",text=c_filas+1, values=datos)
+            messagebox.showinfo('Información', 'Fila agregada')
             self.limpiar_campos()
         else:
-            messagebox.showwarning('error', 'falta rellenar')
+            messagebox.showerror('ERROR', 'Falta Rellenar')
     
     def eliminar_datos(self, event):
         self.limpiar_campos()
         l_item = self.tabla.selection()[0]
         diccionario_fila = self.tabla.item(l_item)
-        question_box = messagebox.askquestion('Información', '¿Desea eliminar?')
+        question_box = messagebox.askquestion('Información', '¿Desea eliminar la fila?')
         if question_box == 'yes':
             self.tabla.delete(l_item)
             self.limpiar_campos()
             self.bd.eliminar_filav1(diccionario_fila['values'][9])
+            messagebox.showinfo('Información', 'Fila Eliminada')
+
     
     def buscador(self):
         self.limpiar_campos()
@@ -238,5 +240,5 @@ class Widgets1v():
                 i = i+1
                 self.tabla.insert('', i,text=i+1, values=fila[0:11])
         else:
-            messagebox.showerror('Información', 'No se agrego una busqueda')
+            messagebox.showerror('ERROR', 'No se agrego una busqueda')
 

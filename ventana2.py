@@ -76,7 +76,7 @@ class Widgets2v():
         buscar_palabra.state(["readonly"])
         filtro_libroid = ttk.Entry(frame_busqueda, textvariable=self.palabra, width=40)
         filtro_libroid.grid(column=1, row=0, padx=5 ,pady=5, sticky='nsew')
-        busc_boton = ttk.Button(frame_busqueda, text='buscar', width=20, command=self.buscador)
+        busc_boton = ttk.Button(frame_busqueda, text='Buscar', width=10, command=self.buscador)
         busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
         save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2)
         save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
@@ -167,9 +167,10 @@ class Widgets2v():
                 titulo = self.titulo.get()
                 condicionlamina = self.condicion_lamina.get()
                 cantidad = self.cantidad.get()
-                pregunta_box = messagebox.askquestion('Información', '¿Estas seguro?')
-                if remitente and niveleducativo and titulo and codigo and cantidad != '' and pregunta_box == 'yes':
+                confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
+                if remitente and niveleducativo and titulo and codigo and cantidad != '' and confirmar_box == True:
                     self.bd.actualizar_filav2(id, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
+                    messagebox.showinfo('Información', 'Fila modificada')
                     self.actualizar_tabla()
     
     def agregar_fila(self):
@@ -185,30 +186,31 @@ class Widgets2v():
         for fila in l_datos:
             codigos.append(fila[0])
         palabra = codigo
-        # print(codigos)
         if palabra in codigos:
-            # print('codigo existente')
-            messagebox.showwarning('error', 'codigo existente')
+            messagebox.showerror('ERROR', 'Codigo Existente')
+
         else:
-            # print('codigo nuevo')
             c_filas = len(self.tabla.get_children())
             datos = (codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
             if codigo and remitente and niveleducativo and titulo and condicionlamina and cantidad != '':
                 self.bd.insertar_filav2(codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
-                # falta mejorar
                 self.tabla.insert('', "end", text=c_filas+1, values=datos)
                 self.limpiar_campos()
             else:
-                messagebox.showwarning('error', 'falta rellenar')
+                messagebox.showerror('ERROR', 'Falta Rellenar datos')
+                
     
     def eliminar_datos(self, event):
         self.limpiar_campos()
         l_item = self.tabla.selection()[0]
         diccionario_fila = self.tabla.item(l_item)
-        question_box = messagebox.askquestion('Información', '¿Desea eliminar?')
+        question_box = messagebox.askquestion('Información', '¿Desea eliminar la fila?')
+
         if question_box == 'yes':
             self.tabla.delete(l_item)
             self.bd.eliminar_filav2(diccionario_fila['values'][7])
+            messagebox.showinfo('Información', 'Fila Eliminada')
+
     
     def buscador(self):
         self.limpiar_campos()
@@ -222,4 +224,5 @@ class Widgets2v():
                 i = i+1
                 self.tabla.insert('', i,text=i+1, values=fila[0:8])
         else:
-            messagebox.showerror('Información', 'No se agrego una busqueda')
+            messagebox.showerror('ERROR', 'No se agrego una busqueda')
+

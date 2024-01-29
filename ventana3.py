@@ -12,7 +12,6 @@ class Widgets3v():
         self.editorial = tk.StringVar()
         self.aedicion = tk.StringVar()
         self.codigo_libro = tk.StringVar()
-        
         self.usuario = tk.StringVar()
         self.grado = tk.StringVar()
         self.seccion = tk.StringVar()
@@ -41,7 +40,8 @@ class Widgets3v():
         codigo_label = ttk.Label(frame_cinco, text='Codigo:')
         codigo_label.grid(column=0, row=6, padx=30, pady=[5,10], sticky='w')
         
-        ttk.Label(frame_cinco, text='USUARIO').grid(column=0, row=7, padx=30, pady=10, sticky='w')
+        ttk.Label(frame_cinco, text='DATOS DEL USUARIO:').grid(column=0, row=7, 
+                padx=30, pady=10, sticky='w', columnspan=2)
         
         n_label = ttk.Label(frame_cinco, text='Nombre:')
         n_label.grid(column=0, row=8, padx=30, pady=[10,5], sticky='nsw')
@@ -52,7 +52,6 @@ class Widgets3v():
         ni_label = ttk.Label(frame_cinco, text='Nivel:')
         ni_label.grid(column=0, row=11, padx=30, pady=[5,10], sticky='w')
         #! ENTRADAS
-        
         titulo_label = ttk.Label(frame_cinco, textvariable=self.titulo, wraplength=160)
         titulo_label.grid(column=1, row=1, padx=5, pady=[10,5], sticky='w')
         autor_label = ttk.Label(frame_cinco, textvariable=self.autor, wraplength=160)
@@ -88,7 +87,7 @@ class Widgets3v():
         buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nswe')
         filtro_libroid = ttk.Entry(frame_busqueda1, textvariable=self.palabra, width=40)
         filtro_libroid.grid(column=1, row=0, padx=5 ,pady=5, sticky='nswe')
-        buscar_boton = ttk.Button(frame_busqueda1, text='buscar', width=10, 
+        buscar_boton = ttk.Button(frame_busqueda1, text='Buscar', width=10, 
                                   command=self.buscador1)
         buscar_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nswe')      
         #! TABLA
@@ -123,7 +122,6 @@ class Widgets3v():
         self.tabla_libro.heading('#6', text='Cantidad', anchor='center')
         self.tabla_libro.bind("<<TreeviewSelect>>", self.obtener_fila2)
         
-        
         frame_busqueda2 = ttk.Frame(frame_seis)
         frame_busqueda2.grid(column=0, row=2, padx=5, pady=[1,5], sticky='nsew')
         l_columna2 = ("USUARIO", "DNI")
@@ -133,7 +131,7 @@ class Widgets3v():
         buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nsew')
         filtro_libroid = ttk.Entry(frame_busqueda2, textvariable=self.palabra2, width=40)
         filtro_libroid.grid(column=1, row=0, padx=5 ,pady=5, sticky='nsew')
-        buscar2_boton = ttk.Button(frame_busqueda2, text='buscar', width=10, 
+        buscar2_boton = ttk.Button(frame_busqueda2, text='Buscar', width=10, 
                                    command=self.buscador2)
         buscar2_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nswe')
 
@@ -178,7 +176,7 @@ class Widgets3v():
                 i = i+1
                 self.tabla_libro.insert('', i,text=i+1, values=fila[0:7])
         else:
-            messagebox.showerror('Información', 'No se agrego una busqueda')
+            messagebox.showerror('ERROR', 'No se agrego una busqueda')
 
     
     def buscador2(self):
@@ -193,7 +191,7 @@ class Widgets3v():
                 i = i+1
                 self.tabla_alumno.insert('', i,text=fila[0], values=fila[1:6])
         else:
-            messagebox.showerror('Información', 'No se agrego una busqueda')
+            messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
     def obtener_fila2(self, event):
         item_selec = self.tabla_libro.focus()
@@ -234,18 +232,19 @@ class Widgets3v():
             cantidad_restante=existentes-cantidad_pedida
             #! Me quede aqui
             if existentes == 0:
-                messagebox.showerror('Información', 'no hay existentes')
+                messagebox.showerror('Información', 'No hay existentes')
             elif cantidad_restante < 0:
-                messagebox.showerror('Información', 'cantidad excedida al total')
+                messagebox.showerror('Información', 'Cantidad excedida al total')
             else:
                 self.bd.insertar_filav3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
                 self.bd.actualizar_filav3(libroid, cantidad_restante)
                 self.limpiar_campos()
-                messagebox.showinfo('Información', 'pedido existoso')
+                messagebox.showinfo('Información', 'Pedido Existoso')
             #! Me quede aqui
         else:
-            messagebox.showerror('Información', 'No se agrego una cantidad')
+            messagebox.showerror('Información', 'Falta Rellenar')
     
     def limpiar_campos(self):
         self.codigo_libro.set('')
         self.cantidad.set('')
+        
