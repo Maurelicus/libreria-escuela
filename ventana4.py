@@ -29,7 +29,7 @@ class Widgets4v():
         situacion_combobox.grid(column=1, row=1, padx=5 ,pady=5, sticky='w')
         observacion_entry = ttk.Entry(frame_uno, textvariable=self.observacion, width=20)
         observacion_entry.grid(column=1, row=2, padx=5 ,pady=5, sticky='w')
-        update_boton = ttk.Button(frame_uno, text='Aceptar', width=6, command=self.actualizar_fila)
+        update_boton = ttk.Button(frame_uno, text='Aceptar', width=9, command=self.actualizar_fila)
         update_boton.grid(column=0, row=3, padx=30, pady=10, sticky='nsw')
     
     def seccion_dos(self, frame_dos):

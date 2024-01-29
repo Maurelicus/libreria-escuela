@@ -163,7 +163,6 @@ class Widgets3v():
         self.tabla_alumno.heading('#4', text='Seccion', anchor='center')
         self.tabla_alumno.bind("<<TreeviewSelect>>", self.obtener_fila3)
     
-    
     def buscador1(self):
         self.limpiar_campos()
         palabra = self.palabra.get()

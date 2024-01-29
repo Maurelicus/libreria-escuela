@@ -28,7 +28,7 @@ class Ventana(tk.Tk):
         self.mytab3.columnconfigure(1, weight=1)
         self.mytab3.rowconfigure(0, weight=1)
         self.mytab4 = ttk.Frame(self.mytabcontrol)
-        self.mytab4.columnconfigure(0, weight=1, minsize=280)
+        self.mytab4.columnconfigure(0, weight=1, minsize=330)
         self.mytab4.columnconfigure(1, weight=1)
         self.mytab4.rowconfigure(0, weight=1)
         
@@ -78,7 +78,7 @@ class Ventana(tk.Tk):
         
         frame_siete = ttk.LabelFrame(self.mytab4, text='Funciones')
         frame_siete.grid(column=0, row=0, padx=5, pady=5, sticky='nswe')
-        frame_siete.columnconfigure(0, weight=1, minsize=125)
+        frame_siete.columnconfigure(0, weight=1, minsize=165)
         frame_siete.columnconfigure(1, weight=1, minsize=125)
         
         frame_ocho = ttk.LabelFrame(self.mytab4, text='Visualizacion')
