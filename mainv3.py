@@ -4,7 +4,7 @@ from ventanav4principal import Ventana
 if __name__ == "__main__":
     
     app = Ventana()
-    app.title('Biblioteca')
+    app.title('Biblioteca Colegio')
     estilo_ventana = ttk.Style(app)
     app.tk.call("source", "forest-dark.tcl")
     estilo_ventana.theme_use("forest-dark")
