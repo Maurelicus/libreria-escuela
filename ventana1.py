@@ -1,6 +1,8 @@
 import tkinter  as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+from time import strftime
+import pandas as pd
 
 from conexion_sqlite import Comunicacion
 
@@ -89,7 +91,8 @@ class Widgets1v():
         busc_boton = ttk.Button(frame_busqueda, text='Buscar', width=10, 
                                 command=self.buscador)
         busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
-        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2)
+        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
+                                command=self.guardar_datos)
         save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
         show_boton = ttk.Button(frame_busqueda, image=self.photo1,
                                 command=self.actualizar_tabla)
@@ -241,4 +244,33 @@ class Widgets1v():
                 self.tabla.insert('', i,text=i+1, values=fila[0:11])
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
-
+    
+    def guardar_datos(self):
+        self.limpiar_campos()
+        datos = self.bd.mostrar_datosv1()
+        i = -1
+        remitente,cantidad,niveleducativo,condicionlibro = [],[],[],[]
+        autor,editorial,añoedicion,titulo,añorecepcion= [],[],[],[],[]
+        for dato in datos:
+            remitente.append(dato[0])
+            añorecepcion.append(dato[1])
+            niveleducativo.append(dato[2])
+            titulo.append(dato[3])
+            autor.append(dato[4])
+            editorial.append(dato[5])
+            añoedicion.append(dato[6])
+            condicionlibro.append(dato[7])
+            cantidad.append(dato[8])
+        fecha = str(strftime('%d-%m-%y_%H-%M-%S'))
+        df_datos = {'Remitente': remitente, 'Año de Entrega': añorecepcion,
+                      'Nivel Educativo': niveleducativo, 'Titulo': titulo,
+                      'Autor': autor, 'Editorial': editorial, 
+                      'Año de Edicion': añoedicion, 
+                      'Condicion': condicionlibro, 'Cantidad': cantidad
+                    }
+        df = pd.DataFrame(df_datos, columns=['Remitente',
+                                             'Año de Entrega', 'Nivel Educativo',
+                                             'Titulo', 'Autor', 'Editorial',
+                                             'Año de Edicion', 'Condicion', 'Cantidad'])
+        df.to_excel(f'DATOS {fecha}.xlsx')
+        messagebox.showinfo('Informacion', 'Datos guardados')
