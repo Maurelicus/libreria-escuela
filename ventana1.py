@@ -95,7 +95,7 @@ class Widgets1v():
                                 command=self.guardar_datos)
         save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
         show_boton = ttk.Button(frame_busqueda, image=self.photo1,
-                                command=self.actualizar_tabla)
+                                command=self.mostrar_tabla)
         show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='nsew')
         
         #! TABLA
@@ -155,7 +155,7 @@ class Widgets1v():
         else:
             self.limpiar_campos()
             
-    def actualizar_tabla(self):
+    def mostrar_tabla(self):
         self.limpiar_campos()
         l_datos = self.bd.mostrar_datosv1()
         self.tabla.delete(*self.tabla.get_children())
@@ -197,7 +197,7 @@ class Widgets1v():
                 if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
                     self.bd.actualizar_filav1(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
                     messagebox.showinfo('Información', 'Fila modificada')
-                    self.actualizar_tabla()
+                    self.mostrar_tabla()
     
     def agregar_fila(self):
         remitente = self.remitente.get()
@@ -229,7 +229,6 @@ class Widgets1v():
             self.limpiar_campos()
             self.bd.eliminar_filav1(diccionario_fila['values'][9])
             messagebox.showinfo('Información', 'Fila Eliminada')
-
     
     def buscador(self):
         self.limpiar_campos()
