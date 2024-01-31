@@ -1,12 +1,12 @@
 from tkinter import ttk
 from ventanav4principal import Ventana
-    
+import openpyxl
+import csv
+
 if __name__ == "__main__":
     
     app = Ventana()
-    # app2 = Ventana()
     app.title('Biblioteca Colegio')
-    # app2.title('Biblioteca')
     estilo_ventana = ttk.Style(app)
     app.tk.call("source", "forest-dark.tcl")
     estilo_ventana.theme_use("forest-dark")
@@ -16,4 +16,10 @@ if __name__ == "__main__":
     app.columnconfigure(0, weight=1)
     app.rowconfigure(0, weight=1)
     app.mainloop()
-    
+
+exampleFile = open('rptListadoEstudiantes.csv')
+exampleReader = csv.reader(exampleFile)
+exampleData = list(exampleReader)
+
+print(exampleData)
+
