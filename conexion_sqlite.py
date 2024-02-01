@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprincipalv1.db")
+        self.bd = sqlite3.connect("data/BDprueba3.db")
     #! VENTANA 1
     def actualizar_filav1(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
@@ -59,7 +59,6 @@ class Comunicacion():
     
     def buscadorv1(self, columna, palabra):
         cursor = self.bd.cursor()
-        # print(columna)
         query = '''
         SELECT 
             Remitente,
@@ -133,7 +132,6 @@ class Comunicacion():
         
     def buscadorv2(self, columna, palabra):
         cursor = self.bd.cursor()
-        # print(columna)
         query = '''
         SELECT 
             Codigo,
@@ -155,7 +153,6 @@ class Comunicacion():
     #! PEDIDO
     def buscador_librov3(self, columna, palabra):
         cursor = self.bd.cursor()
-        # print(columna)
         query = '''
         SELECT 
             NivelEducativo,
@@ -176,7 +173,6 @@ class Comunicacion():
     
     def buscador_alumnov3(self, columna, palabra):
         cursor = self.bd.cursor()
-        # print(columna)
         query = '''
         SELECT 
             EstudianteId AS [DNI],
@@ -291,7 +287,6 @@ class Comunicacion():
     def obtener_librov4(self, pedidoid):
         cursor = self.bd.cursor()
         query = '''
-        
         SELECT
             pl.LibroId,
             lib.cantidad
@@ -327,3 +322,4 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
+        
