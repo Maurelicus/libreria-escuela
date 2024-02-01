@@ -20,8 +20,8 @@ class Widgets1v():
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
-        self.photo1 = ImageTk.PhotoImage(Image.open("reload.png"))
-        self.photo2 = ImageTk.PhotoImage(Image.open("excel.png"))
+        self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
+        self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         
     def seccion_uno(self, frame_uno):
         #! TEXTO

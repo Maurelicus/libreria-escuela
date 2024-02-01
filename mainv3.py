@@ -1,7 +1,5 @@
 from tkinter import ttk
 from ventanav4principal import Ventana
-import openpyxl
-import csv
 
 if __name__ == "__main__":
     
@@ -17,9 +15,4 @@ if __name__ == "__main__":
     app.rowconfigure(0, weight=1)
     app.mainloop()
 
-exampleFile = open('rptListadoEstudiantes.csv')
-exampleReader = csv.reader(exampleFile)
-exampleData = list(exampleReader)
-
-print(exampleData)
 

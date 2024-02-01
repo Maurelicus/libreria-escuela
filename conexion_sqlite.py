@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("BDprueba3.db")
+        self.bd = sqlite3.connect("data/BDprincipalv1.db")
     #! VENTANA 1
     def actualizar_filav1(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
@@ -190,9 +190,12 @@ class Comunicacion():
         WHERE 
             {} LIKE '%{}%'
         '''.format(columna,palabra)
-        cursor.execute(query)
-        l_filas = cursor.fetchall()
-        return l_filas
+        try:
+            cursor.execute(query)
+            l_filas = cursor.fetchall()
+            return l_filas
+        except sqlite3.OperationalError:
+            print("incorrecto")
     
     def insertar_filav3(self, codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
@@ -312,6 +315,15 @@ class Comunicacion():
         SET FechaEntrada = '{}', Situacion = '{}', Observacion = '{}'
         WHERE PedidoId = '{}'
         '''.format(fecha_devolucion, situacion, observacion, pedidoid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+
+    def insertar_alumnos(self, estudianteid, usuario, sexo, nivel, grado, seccion):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO "alumnos" VALUES ("{}", "{}", "{}", "{}", "{}", "{}")
+        '''.format(estudianteid, usuario, sexo, nivel, grado, seccion)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
