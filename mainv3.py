@@ -14,5 +14,3 @@ if __name__ == "__main__":
     app.columnconfigure(0, weight=1)
     app.rowconfigure(0, weight=1)
     app.mainloop()
-
-

@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 from time import strftime
 import pandas as pd
+import openpyxl
 
 from conexion_sqlite import Comunicacion
 
@@ -267,9 +268,22 @@ class Widgets1v():
                       'Año de Edicion': añoedicion, 
                       'Condicion': condicionlibro, 'Cantidad': cantidad
                     }
-        df = pd.DataFrame(df_datos, columns=['Remitente',
+        df = pd.DataFrame(df_datos)#,index=None ,columns=['Remitente',
+        """ 
                                              'Año de Entrega', 'Nivel Educativo',
                                              'Titulo', 'Autor', 'Editorial',
                                              'Año de Edicion', 'Condicion', 'Cantidad'])
-        df.to_excel(f'DATOS {fecha}.xlsx')
+        """
+        name_xlsx = f'DATOS {fecha}.xlsx'
+        df.to_excel(name_xlsx, sheet_name='libros')
+        workbook = openpyxl.load_workbook(name_xlsx)
+        sheet = workbook['libros']
+        sheet.delete_cols(1)
+        workbook.save(name_xlsx)
+        archivo_excel = pd.read_excel(name_xlsx)
+        # print(archivo_excel[['Cantidad', 'Nivel Educativo', 'Condicion']])
+        tabla_pivote = archivo_excel.pivot_table(index='Nivel Educativo', columns='Condicion', 
+                       values='Cantidad', aggfunc='sum')
+        tabla_pivote.to_excel('libros_estado.xlsx', startrow=2, startcol=2, sheet_name='report')
         messagebox.showinfo('Informacion', 'Datos guardados')
+        
