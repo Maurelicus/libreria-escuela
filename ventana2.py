@@ -76,11 +76,14 @@ class Widgets2v():
         buscar_palabra.state(["readonly"])
         filtro_libroid = ttk.Entry(frame_busqueda, textvariable=self.palabra, width=40)
         filtro_libroid.grid(column=1, row=0, padx=5 ,pady=5, sticky='nsew')
-        busc_boton = ttk.Button(frame_busqueda, text='Buscar', width=10, command=self.buscador)
+        busc_boton = ttk.Button(frame_busqueda, text='Buscar', width=10,
+                                command=self.buscador)
         busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
-        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2)
+        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
+                                command=self.guardar_datos)
         save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
-        show_boton = ttk.Button(frame_busqueda, width=20, image=self.photo1,command=self.actualizar_tabla)
+        show_boton = ttk.Button(frame_busqueda, width=20, image=self.photo1,
+                                command=self.mostrar_tabla)
         show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='nsew')
         #! TABLA
         frame_tabla = ttk.LabelFrame(frame_dos, text='Tabla')
@@ -133,7 +136,7 @@ class Widgets2v():
         else:
             self.limpiar_campos()
             
-    def actualizar_tabla(self):
+    def mostrar_tabla(self):
         self.limpiar_campos()
         l_datos = self.bd.mostrar_datosv2()
         self.tabla.delete(*self.tabla.get_children())
@@ -171,7 +174,7 @@ class Widgets2v():
                 if remitente and niveleducativo and titulo and codigo and cantidad != '' and confirmar_box == True:
                     self.bd.actualizar_filav2(id, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
                     messagebox.showinfo('Información', 'Fila modificada')
-                    self.actualizar_tabla()
+                    self.mostrar_tabla()
     
     def agregar_fila(self):
         codigo = self.codigo.get()
@@ -226,3 +229,7 @@ class Widgets2v():
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
 
+    def guardar_datos(self):
+        self.limpiar_campos()
+        self.informe.guardar_datos2()
+        messagebox.showinfo('Informacion', 'Datos guardados')
