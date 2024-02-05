@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 
 from conexion_sqlite import Comunicacion
+from informes import Informe
 
 class Widgets2v():
     def __init__(self):
@@ -18,7 +19,7 @@ class Widgets2v():
         self.bd = Comunicacion()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
-        
+        self.informe = Informe()
         
     def seccion_uno(self, frame_uno):
         #! TEXTO

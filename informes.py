@@ -36,7 +36,7 @@ class Informe():
         'Titulo', 'Autor', 'Editorial',
         'Año de Edicion', 'Condicion', 'Cantidad'])
         """
-        name_xlsx = f'DATOS {fecha}.xlsx'
+        name_xlsx = f'LIBROS {fecha}.xlsx'
         df.to_excel(name_xlsx, sheet_name='libros')
         workbook = openpyxl.load_workbook(name_xlsx)
         sheet = workbook['libros']
@@ -51,3 +51,33 @@ class Informe():
         
     def guardar_datos2(self):
         l_datos = self.bd.mostrar_datosv2()
+        i = -1
+        remitente,cantidad,niveleducativo,condicionlamina = [],[],[],[]
+        codigo,titulo,añorecepcion= [],[],[]
+        for dato in l_datos:
+            codigo.append(dato[0])
+            remitente.append(dato[1])
+            añorecepcion.append(dato[2])
+            niveleducativo.append(dato[3])
+            titulo.append(dato[4])
+            condicionlamina.append(dato[5])
+            cantidad.append(dato[6])
+        fecha = str(strftime('%d-%m-%y_%H-%M-%S'))
+        df_datos = {'Codigo':codigo, 'Remitente': remitente, 
+                    'Año de Entrega': añorecepcion, 'Nivel Educativo': niveleducativo, 
+                    'Titulo': titulo, 'Condicion': condicionlamina, 'Cantidad': cantidad}
+        df = pd.DataFrame(df_datos)
+        name_xlsx = f'LAMINAS {fecha}.xlsx'
+        df.to_excel(name_xlsx, sheet_name='laminas')
+        workbook = openpyxl.load_workbook(name_xlsx)
+        sheet = workbook['laminas']
+        sheet.delete_cols(1)
+        workbook.save(name_xlsx)
+        """
+        archivo_excel = pd.read_excel(name_xlsx)
+        # print(archivo_excel[['Cantidad', 'Nivel Educativo', 'Condicion']])
+        tabla_pivote = archivo_excel.pivot_table(index='Nivel Educativo',
+                                                 columns='Condicion', 
+                                                 values='Cantidad', aggfunc='sum')
+        tabla_pivote.to_excel('libros_estado.xlsx', startrow=2, startcol=2, sheet_name='report')
+        """ 
