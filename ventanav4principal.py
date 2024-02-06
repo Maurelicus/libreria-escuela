@@ -1,20 +1,21 @@
 import tkinter as tk
-from tkinter import ttk
+# from tkinter import ttk
+import ttkbootstrap as ttk
 
 import ventana1 as ven1
 import ventana2 as ven2
 import ventana3 as ven3
 import ventana4 as ven4
 
-class Ventana(tk.Tk):
-    def __init__(self):
-        super().__init__()
+class Ventana(ttk.Frame):
+    def __init__(self, master):
+        super().__init__(master)
         
         self.v1 = ven1.Widgets1v()
         self.v2 = ven2.Widgets2v()
         self.v3 = ven3.Widgets3v()
         self.v4 = ven4.Widgets4v()
-        self.mytabcontrol = ttk.Notebook(self)
+        self.mytabcontrol = ttk.Notebook(self.master)
         self.mytab1 = ttk.Frame(self.mytabcontrol)
         self.mytab1.columnconfigure(0, weight=1, minsize=340)
         self.mytab1.columnconfigure(1, weight=1)
