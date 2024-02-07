@@ -18,8 +18,9 @@ if __name__ == "__main__":
     app.rowconfigure(0, weight=1)
     app.mainloop()
     """
-    ven_pri = ttk.Window(themename='superhero')
+    ven_pri = ttk.Window()
     ven_pri.title('Biblioteca Colegio')
+    ven_pri.themename = 'superhero'
     ven_pri.minsize(width=1200, height=650)
     # 1440x900
     ven_pri.geometry('1000x600')
