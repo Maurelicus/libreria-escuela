@@ -182,27 +182,30 @@ class Widgets1v():
     def actualizar_fila(self):
         item_l = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_l)
-        id = diccionario_fila['values'][9]
-        l_datos = self.bd.mostrar_datosv1()
-        
-        for fila in l_datos:
-            id_bd = fila[9]
-            if id_bd == id and id_bd != None:
-                remitente = self.remitente.get()
-                añorecepcion = self.año_recepcion.get()
-                niveleducativo = self.nivel_educativo.get()
-                titulo = self.titulo.get()
-                autor = self.autor.get()
-                editorial = self.editorial.get()
-                añoedicion = self.año_edicion.get()
-                condicionlibro = self.condicion_libro.get()
-                cantidad = self.cantidad.get()
-                confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
-                if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
-                    self.bd.actualizar_filav1(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
-                    messagebox.showinfo('Información', 'Fila modificada')
-                    self.mostrar_tabla()
-    
+        if len(diccionario_fila['values']) != 0:
+            id = diccionario_fila['values'][9]
+            l_datos = self.bd.mostrar_datosv1()
+            
+            for fila in l_datos:
+                id_bd = fila[9]
+                if id_bd == id and id_bd != None:
+                    remitente = self.remitente.get()
+                    añorecepcion = self.año_recepcion.get()
+                    niveleducativo = self.nivel_educativo.get()
+                    titulo = self.titulo.get()
+                    autor = self.autor.get()
+                    editorial = self.editorial.get()
+                    añoedicion = self.año_edicion.get()
+                    condicionlibro = self.condicion_libro.get()
+                    cantidad = self.cantidad.get()
+                    confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
+                    if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
+                        self.bd.actualizar_filav1(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
+                        messagebox.showinfo('Información', 'Fila modificada')
+                        self.mostrar_tabla()
+        else:
+            messagebox.showerror('ERROR', 'Falta Rellenar')
+
     def agregar_fila(self):
         remitente = self.remitente.get()
         añorecepcion = self.año_recepcion.get()
@@ -212,10 +215,10 @@ class Widgets1v():
         editorial = self.editorial.get()
         añoedicion = self.año_edicion.get()
         condicionlibro = self.condicion_libro.get()
-        cantidad = self.cantidad.get()
         c_filas = len(self.tabla.get_children())
-        datos = (remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
-        if remitente and niveleducativo and titulo and condicionlibro and cantidad != '':
+        if remitente and niveleducativo and titulo and condicionlibro != '':
+            cantidad = self.cantidad.get()
+            datos = (remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
             self.bd.insertar_filav1(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
             self.tabla.insert('',"end",text=c_filas+1, values=datos)
             messagebox.showinfo('Información', 'Fila agregada')
