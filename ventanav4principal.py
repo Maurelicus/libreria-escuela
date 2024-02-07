@@ -32,16 +32,16 @@ class Ventana(ttk.Frame):
         self.mytab4.columnconfigure(0, weight=1, minsize=330)
         self.mytab4.columnconfigure(1, weight=1)
         self.mytab4.rowconfigure(0, weight=1)
-        self.mytab5.columnconfigure(0, weight=1, minsize=330)
-        self.mytab5.columnconfigure(1, weight=1)
-        self.mytab5.rowconfigure(0, weight=1)
+        # self.mytab5.columnconfigure(0, weight=1, minsize=330)
+        # self.mytab5.columnconfigure(1, weight=1)
+        # self.mytab5.rowconfigure(0, weight=1)
         
         
         self.mytabcontrol.add(self.mytab1, text ='Libros')
         self.mytabcontrol.add(self.mytab2, text ='Laminas')
         self.mytabcontrol.add(self.mytab3, text ='Pedidos')
         self.mytabcontrol.add(self.mytab4, text ='Devoluciones')
-        self.mytabcontrol.add(self.mytab5, text ='Baja')
+        # self.mytabcontrol.add(self.mytab5, text ='Baja')
         self.mytabcontrol.grid(column=0, row=0, padx=10, pady=10, sticky='nswe')
         
         self.widgets()
