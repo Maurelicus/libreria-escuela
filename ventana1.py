@@ -90,18 +90,28 @@ class Widgets1v():
                                       textvariable=self.nombre_columna, bootstyle='success')
         buscar_palabra.current(0)
         buscar_palabra.state(["readonly"])
-        buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nsew')
+        # buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nsew')
+        buscar_palabra.pack(side='left', padx=4)
+        
         palaba_entry = ttk.Entry(frame_busqueda, textvariable=self.palabra, width=40, bootstyle='success')
-        palaba_entry.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
+        # palaba_entry.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
+        palaba_entry.pack(side='left', padx=4)
+
         busc_boton = ttk.Button(frame_busqueda, text='Buscar', width=10, 
                                 command=self.buscador, bootstyle='success')
-        busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
+        # busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
+        busc_boton.pack(side='left', padx=4)
+
         save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
                                 command=self.guardar_datos, bootstyle='success-link')
-        save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
+        save_boton.pack(side='left', padx=4)
+        # save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
+
         show_boton = ttk.Button(frame_busqueda, image=self.photo1,
                                 command=self.mostrar_tabla, bootstyle='success-link')
-        show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='nsew')
+        show_boton.pack(side='right', padx=4)
+        # show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='nsew')
+        # buscar_palabra.pack(side='right')
         
         #! TABLA
         frame_tabla = ttk.LabelFrame(frame_dos, text='Tabla', bootstyle='primary')
