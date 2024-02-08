@@ -1,6 +1,6 @@
-from tkinter import messagebox
-import tkinter as tk
+from tkinter import messagebox, PhotoImage, Canvas, font
 import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 from PIL import Image, ImageTk
 
 from ventanav4principal import Ventana
@@ -29,17 +29,28 @@ def cerrar_aplicacion():
     if messagebox.askokcancel("Cerrar Aplicación", "¿Seguro que quieres salir?"):
         root.destroy()
 
-root = ttk.Window(themename= 'superhero')
-root.title('Biblioteca Colegio')
-root.minsize(width=1200, height=650)
-root.geometry('1080x747')
+root = ttk.Window(themename= 'morph')
+root.title('Biblioteca Colegio Administrador')
+root.maxsize(width=640, height=426)
+root.minsize(width=640, height=426)
+root.geometry('640x426')
 root.protocol("WM_DELETE_WINDOW", cerrar_aplicacion)
-imagen1 = Image.open('images/library.jpg').resize((1080,647))
-image_tk = ImageTk.PhotoImage(imagen1)
 
-label = ttk.Label(root, text = 'libreria', image= image_tk)
-label.pack()
-button1 = ttk.Button(root, text='ingresar', command = ingresar)
-button1.pack()
+imagen1 = Image.open('images/logo_colegio.png').resize((180,223))
+image_tk = ImageTk.PhotoImage(imagen1)
+bg = PhotoImage(file='images/fondo.png')
+# bg1 = PhotoImage(file='images/logo_colegio.png')
+
+my_canvas = Canvas(root, width=640, height=426)
+my_canvas.pack(fill='both', expand=True)
+
+my_canvas.create_image(0,0, image = bg, anchor='nw')
+my_canvas.create_text(320, 30, text='Biblioteca Ricardo Florez Gutierrez', 
+                      fill='#fdfefe', font=("Chandas", 22))
+my_canvas.create_image(240,90,image=image_tk, anchor='nw')
+
+button1 = ttk.Button(root, text='ingresar', command = ingresar, bootstyle='info-outline')
+button1_window = my_canvas.create_window(290,360,anchor='nw', window=button1)
+
 
 root.mainloop()
