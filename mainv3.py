@@ -3,7 +3,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from PIL import Image, ImageTk
 
-from ventanav4principal import Ventana
+from ventana_gestor import Ventana
 
 
 def ingresar():
