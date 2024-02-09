@@ -55,7 +55,8 @@ git clone https://github.com/Maurelicus/libreria-escuela.git
 ```bash
 pip install -r requirements.txt
 ```
-6. Ejecuta la aplicación ejecutando el script principal biblioteca.py.
+6. Ejecuta la aplicación ejecutando el script principal mainv3.py.
 ```bash
 python mainv3.py
 ```
+## Capturas de pantalla
