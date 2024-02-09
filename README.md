@@ -1,4 +1,4 @@
-# Libreria Escolar :umbrella:
+# Libreria Escolar :school:
 
 <p>
 Esta es una aplicación de administración de biblioteca escolar desarrollada en Python para facilitar la gestión de libros, usuarios y préstamos en una biblioteca escolar. La aplicación proporciona una interfaz de usuario con funcionalidades que permiten al personal de la biblioteca llevar un registro organizado de los libros disponibles, los usuarios registrados y los préstamos realizados.
