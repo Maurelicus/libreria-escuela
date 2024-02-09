@@ -30,4 +30,4 @@ git clone https://github.com/Maurelicus/libreria-escuela.git
 
 O sino descargar el archivo ZIP
 
-![alt text](https://github.com/Maurelicus/libreria-escuela.git/blob/[branch]/fondo.png?raw=true)
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/fondo.png?raw=true "imagen1")
