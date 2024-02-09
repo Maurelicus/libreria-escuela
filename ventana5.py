@@ -9,7 +9,7 @@ import openpyxl
 from conexion_sqlite import Comunicacion
 from informes import Informe
 
-class Widgets1v():
+class Widgets5v():
     def __init__(self):
         self.remitente = tk.StringVar()
         self.año_recepcion = tk.StringVar()

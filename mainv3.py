@@ -39,7 +39,6 @@ root.protocol("WM_DELETE_WINDOW", cerrar_aplicacion)
 imagen1 = Image.open('images/logo_colegio.png').resize((180,223))
 image_tk = ImageTk.PhotoImage(imagen1)
 bg = PhotoImage(file='images/fondo.png')
-# bg1 = PhotoImage(file='images/logo_colegio.png')
 
 my_canvas = Canvas(root, width=640, height=426)
 my_canvas.pack(fill='both', expand=True)

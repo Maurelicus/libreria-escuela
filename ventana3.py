@@ -21,6 +21,9 @@ class Widgets3v():
         self.cantidad = tk.IntVar()
         self.palabra = tk.StringVar()
         self.palabra2 = tk.StringVar()
+        self.temp_palabra = tk.StringVar()
+        self.temp_columna = tk.StringVar()
+
         self.nombre_columna = tk.StringVar()
         self.nombre_columna2 = tk.StringVar()
         self.bd = Comunicacion()
@@ -123,7 +126,7 @@ class Widgets3v():
         self.tabla_libro.heading('#4', text='Editorial', anchor='center')
         self.tabla_libro.heading('#5', text='Año Edicion', anchor='center')
         self.tabla_libro.heading('#6', text='Cantidad', anchor='center')
-        self.tabla_libro.bind("<<TreeviewSelect>>", self.obtener_fila2)
+        self.tabla_libro.bind("<<TreeviewSelect>>", self.obtener_fila1)
         
         frame_busqueda2 = ttk.Frame(frame_seis)
         frame_busqueda2.grid(column=0, row=2, padx=5, pady=[1,5], sticky='nsew')
@@ -165,12 +168,14 @@ class Widgets3v():
         self.tabla_alumno.heading('#2', text='Usuario', anchor='center')
         self.tabla_alumno.heading('#3', text='Grado', anchor='center')
         self.tabla_alumno.heading('#4', text='Seccion', anchor='center')
-        self.tabla_alumno.bind("<<TreeviewSelect>>", self.obtener_fila3)
+        self.tabla_alumno.bind("<<TreeviewSelect>>", self.obtener_fila2)
     
     def buscador1(self):
         self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
+        self.temp_palabra.set(palabra)
+        self.temp_columna.set(columna)
         if palabra != '':
             l_datos = self.bd.buscador_librov3(columna, palabra)
             self.tabla_libro.delete(*self.tabla_libro.get_children())
@@ -183,7 +188,7 @@ class Widgets3v():
 
     
     def buscador2(self):
-        self.limpiar_campos()
+        self.limpiar_campos2()
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
         if palabra != '':        
@@ -196,7 +201,7 @@ class Widgets3v():
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
-    def obtener_fila2(self, event):
+    def obtener_fila1(self, event):
         item_selec = self.tabla_libro.focus()
         diccionario_fila = self.tabla_libro.item(item_selec)
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
@@ -207,7 +212,7 @@ class Widgets3v():
         else:
             self.limpiar_campos()
             
-    def obtener_fila3(self, event):
+    def obtener_fila2(self, event):
         item_selec = self.tabla_alumno.focus()
         diccionario_fila = self.tabla_alumno.item(item_selec)
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
@@ -216,7 +221,7 @@ class Widgets3v():
             self.seccion.set(diccionario_fila['values'][3])
             self.nivel.set(diccionario_fila['values'][0])
         else:
-            self.limpiar_campos()
+            self.limpiar_campos2()
             
     def pedido(self):
         libro_selec = self.tabla_libro.focus()
@@ -225,9 +230,9 @@ class Widgets3v():
         diccionario_alumno = self.tabla_alumno.item(alumno_selec)
         cantidad_pedida = self.cantidad.get()
         codigo = self.codigo_libro.get()
-        if cantidad_pedida != '' and codigo != '':
+        if cantidad_pedida != '' and codigo != '' and len(diccionario_libro['values']) >= 2 and diccionario_alumno['text'] != '':
             hoy = date.today()
-            situacion = 'no entregado'
+            situacion = 'falta'
             observacion = 'ninguna'
             libroid = diccionario_libro['values'][6]
             existentes = diccionario_libro['values'][5]
@@ -242,12 +247,32 @@ class Widgets3v():
                 self.bd.insertar_filav3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
                 self.bd.actualizar_filav3(libroid, cantidad_restante)
                 self.limpiar_campos()
+                self.limpiar_campos2()
+                palabra = self.temp_palabra.get()
+                columna = self.temp_columna.get()
+                l_datos = self.bd.buscador_librov3(columna, palabra)
+                self.tabla_libro.delete(*self.tabla_libro.get_children())
+                i = -1
+                for fila in l_datos:
+                    i = i+1
+                    self.tabla_libro.insert('', i,text=i+1, values=fila[0:7])
                 messagebox.showinfo('Información', 'Pedido Existoso')
-            #! Me quede aqui
         else:
             messagebox.showerror('Información', 'Falta Rellenar')
     
     def limpiar_campos(self):
+        self.titulo.set('')
+        self.autor.set('')
+        self.editorial.set('')
+        self.aedicion.set('')
+
         self.codigo_libro.set('')
-        self.cantidad.set('')
+        self.cantidad.set(0)
+    def limpiar_campos2(self):
+        self.codigo_libro.set('')
+        self.cantidad.set(0)
         
+        self.usuario.set('')
+        self.grado.set('')
+        self.seccion.set('')
+        self.nivel.set('')

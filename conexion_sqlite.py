@@ -239,7 +239,10 @@ class Comunicacion():
             pl.FechaEntrada,
             pl.Situacion,
             pl.Cantidad,
-            pl.PedidoId
+            pl.PedidoId,
+            pl.Codigo,
+            pl.LibroId,
+            pl.UsuarioId
         FROM
             pedido_libro AS pl
         INNER JOIN
@@ -289,7 +292,9 @@ class Comunicacion():
         query = '''
         SELECT
             pl.LibroId,
-            lib.cantidad
+            lib.Cantidad,
+            pl.UsuarioId,
+            pl.FechaSalida
         FROM
             pedido_libro AS pl
         INNER JOIN
@@ -302,14 +307,35 @@ class Comunicacion():
         cursor.execute(query)
         idlibro = cursor.fetchall()
         return idlibro
-    
-    def actualizar_filav4(self, pedidoid, fecha_devolucion, situacion, observacion):
+        
+    def insertar_filav4(self, codigo, libroid, usuarioid, fecha_s, fecha_e, situacion, observacion, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO pedido_libro (Codigo, LibroId, UsuarioId, FechaSalida, FechaEntrada, Situacion, Observacion, Cantidad)
+        VALUES('{}','{}','{}','{}','{}','{}','{}','{}')
+        '''.format(codigo, libroid, usuarioid, fecha_s, fecha_e, situacion, observacion, cantidad)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def actualizar_filav4(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
         UPDATE pedido_libro
-        SET FechaEntrada = '{}', Situacion = '{}', Observacion = '{}'
+        SET FechaEntrada = '{}', Situacion = '{}', Observacion = '{}', Cantidad = '{}'
         WHERE PedidoId = '{}'
-        '''.format(fecha_devolucion, situacion, observacion, pedidoid)
+        '''.format(fecha_devolucion, situacion, observacion, cantidad, pedidoid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def actualizar_filav5(self, pedidoid, situacion, observacion, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE pedido_libro
+        SET Situacion = '{}', Observacion = '{}', Cantidad = '{}'
+        WHERE PedidoId = '{}'
+        '''.format(situacion, observacion, cantidad, pedidoid)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()

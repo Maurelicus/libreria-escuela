@@ -6,6 +6,7 @@ import ventana1 as ven1
 import ventana2 as ven2
 import ventana3 as ven3
 import ventana4 as ven4
+import ventana5 as ven5
 
 class Ventana(ttk.Frame):
     def __init__(self, master):
@@ -15,6 +16,7 @@ class Ventana(ttk.Frame):
         self.v2 = ven2.Widgets2v()
         self.v3 = ven3.Widgets3v()
         self.v4 = ven4.Widgets4v()
+        self.v5 = ven5.Widgets5v()
         self.mytabcontrol = ttk.Notebook(self.master, bootstyle='primary')
         self.mytab1 = ttk.Frame(self.mytabcontrol)
         self.mytab1.columnconfigure(0, weight=1, minsize=370)
@@ -29,19 +31,22 @@ class Ventana(ttk.Frame):
         self.mytab3.columnconfigure(1, weight=10)
         self.mytab3.rowconfigure(0, weight=1)
         self.mytab4 = ttk.Frame(self.mytabcontrol)
-        self.mytab4.columnconfigure(0, weight=1, minsize=330)
-        self.mytab4.columnconfigure(1, weight=1)
+        self.mytab4.columnconfigure(0, weight=1, minsize=340)
+        self.mytab4.columnconfigure(1, weight=10)
         self.mytab4.rowconfigure(0, weight=1)
-        # self.mytab5.columnconfigure(0, weight=1, minsize=330)
-        # self.mytab5.columnconfigure(1, weight=1)
-        # self.mytab5.rowconfigure(0, weight=1)
+        
+        self.mytab5 = ttk.Frame(self.mytabcontrol)
+        self.mytab5.columnconfigure(0, weight=1, minsize=340)
+        self.mytab5.columnconfigure(1, weight=1)
+        self.mytab5.rowconfigure(0, weight=1)
         
         
         self.mytabcontrol.add(self.mytab1, text ='Libros')
         self.mytabcontrol.add(self.mytab2, text ='Laminas')
         self.mytabcontrol.add(self.mytab3, text ='Pedidos')
         self.mytabcontrol.add(self.mytab4, text ='Devoluciones')
-        # self.mytabcontrol.add(self.mytab5, text ='Baja')
+        
+        self.mytabcontrol.add(self.mytab5, text ='Dados de Baja')
         self.mytabcontrol.grid(column=0, row=0, padx=10, pady=10, sticky='nswe')
         
         self.widgets()
@@ -85,15 +90,27 @@ class Ventana(ttk.Frame):
         frame_seis.rowconfigure(3, weight=10)
         
         frame_siete = ttk.LabelFrame(self.mytab4, text='Funciones', bootstyle='dark')
-        frame_siete.grid(column=0, row=0, padx=5, pady=5, sticky='nsw')
-        frame_siete.columnconfigure(0, weight=1, minsize=165)
-        frame_siete.columnconfigure(1, weight=1, minsize=125)
+        frame_siete.grid(column=0, row=0, padx=5, pady=5, sticky='ns')
+        frame_siete.columnconfigure(0, weight=1, minsize=139)
+        frame_siete.columnconfigure(1, weight=1, minsize=185)
         
         frame_ocho = ttk.LabelFrame(self.mytab4, text='Visualizacion', bootstyle='dark')
         frame_ocho.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
         frame_ocho.columnconfigure(0, weight=1)
         frame_ocho.rowconfigure(0, weight=0)
-        frame_ocho.rowconfigure(1, weight=10)
+        frame_ocho.rowconfigure(1, weight=10)      
+        
+          
+        frame_nueve = ttk.LabelFrame(self.mytab5, text='Funciones', bootstyle='dark')
+        frame_nueve.grid(column=0, row=0, padx=5, pady=5, sticky='ns')
+        frame_nueve.columnconfigure(0, weight=1, minsize=139)
+        frame_nueve.columnconfigure(1, weight=1, minsize=185)
+        
+        frame_diez = ttk.LabelFrame(self.mytab5, text='Visualizacion', bootstyle='dark')
+        frame_diez.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
+        frame_diez.columnconfigure(0, weight=1)
+        frame_diez.rowconfigure(0, weight=0)
+        frame_diez.rowconfigure(1, weight=10)
 
         self.v1.seccion_uno(frame_uno)
         self.v1.seccion_dos(frame_dos)
@@ -103,4 +120,6 @@ class Ventana(ttk.Frame):
         self.v3.seccion_dos(frame_seis)
         self.v4.seccion_uno(frame_siete)
         self.v4.seccion_dos(frame_ocho)
+        self.v5.seccion_uno(frame_nueve)
+        self.v5.seccion_dos(frame_diez)
         
