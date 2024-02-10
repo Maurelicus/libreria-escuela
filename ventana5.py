@@ -74,12 +74,9 @@ class Widgets5v():
         cantidad_entry.state(["readonly"])
         cantidad_entry.grid(column=1, row=8, padx=5 ,pady=[5,10], sticky='w')
         #! Botones
-        update_boton = ttk.Button(frame_uno, text='Actualizar Fila', width=15, command=self.actualizar_fila, bootstyle='primary-outline')
-        update_boton.grid(column=0, row=9, padx=30, pady=10, sticky='w')
-        clear_boton = ttk.Button(frame_uno, text='Limpiar Campos', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
-        clear_boton.grid(column=1, row=9, padx=5, pady=10, sticky='w')
-        add_boton = ttk.Button(frame_uno, text='Añadir Fila', width=15, command=self.agregar_fila, bootstyle='primary-outline')
-        add_boton.grid(column=0, row=10, padx=30, pady=10, sticky='w')
+        update_boton = ttk.Button(frame_uno, text='Dar de Baja', width=20, command=self.actualizar_fila, bootstyle='primary-outline')
+        update_boton.grid(column=0, row=9, padx=30, pady=10, sticky='w', columnspan=2)
+        
     
     def seccion_dos(self, frame_dos):
         frame_busqueda = ttk.Frame(frame_dos)
