@@ -60,3 +60,15 @@ pip install -r requirements.txt
 python mainv3.py
 ```
 ## Capturas de pantalla
+
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap1.png?raw=true "1")
+
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap2.png?raw=true "2")
+
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap3.png?raw=true "3")
+
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap4.png?raw=true "4")
+
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap5.png?raw=true "5")
+
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap6.png?raw=true "6")
