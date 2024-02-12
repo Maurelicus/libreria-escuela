@@ -5,7 +5,7 @@ class Comunicacion():
     def __init__(self):
         self.bd = sqlite3.connect("data/BDprueba3.db")
     #! VENTANA 1
-    def actualizar_filav1(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
+    def update_libros(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
         query = '''
         UPDATE libros
@@ -16,7 +16,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
     
-    def mostrar_datosv1(self):
+    def show_libros(self):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
@@ -37,7 +37,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def insertar_filav1(self, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
+    def agregar_libro(self, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
         query = '''
         INSERT INTO libros (Remitente, AñoRecepcion, NivelEducativo, Titulo, Autor, Editorial, AñoEdicion, CondicionLibro, Cantidad)
@@ -47,7 +47,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
 
-    def eliminar_filav1(self, id):
+    def delete_libro(self, id):
         cursor = self.bd.cursor()
         query = '''
         DELETE FROM libros
@@ -57,7 +57,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
     
-    def buscadorv1(self, columna, palabra):
+    def buscar_libros(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
@@ -80,7 +80,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     #! VENTANA 2
-    def mostrar_datosv2(self):
+    def show_laminas(self):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -99,7 +99,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def eliminar_filav2(self, id):
+    def delete_lamina(self, id):
         cursor = self.bd.cursor()
         query = '''
         DELETE FROM laminas
@@ -109,7 +109,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
     
-    def actualizar_filav2(self, id, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
+    def update_lamina(self, id, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
         cursor = self.bd.cursor()
         query = '''
         UPDATE laminas
@@ -120,7 +120,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
         
-    def insertar_filav2(self, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
+    def agregar_lamina(self, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
         cursor = self.bd.cursor()
         query = '''
         INSERT INTO laminas (Codigo, Remitente, AñoRecepcion, NivelEducativo, Titulo, CondicionLamina, Cantidad)
@@ -130,7 +130,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
         
-    def buscadorv2(self, columna, palabra):
+    def buscar_laminas(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
@@ -151,7 +151,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     #! PEDIDO
-    def buscador_librov3(self, columna, palabra):
+    def buscar_libromal(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
@@ -171,7 +171,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def buscador_alumnov3(self, columna, palabra):
+    def buscar_alumnos(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
@@ -193,7 +193,7 @@ class Comunicacion():
         except sqlite3.OperationalError:
             print("incorrecto")
     
-    def insertar_filav3(self, codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad):
+    def agregar_libro(self, codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
         INSERT INTO pedido_libro (Codigo, LibroId, UsuarioId, FechaSalida, Situacion, Observacion, Cantidad)
@@ -202,21 +202,8 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
-        
-    def cantidadv3(self, libroid):
-        cursor = self.bd.cursor()
-        query = '''
-        SELECT
-            Cantidad
-        FROM
-            libros
-        WHERE
-            LibroId = {}'''.format(libroid)
-        cursor.execute(query)
-        cantidad_total = cursor.fetchall()
-        return cantidad_total
     
-    def actualizar_filav3(self, libroid, cantidad):
+    def update_cantidad_libro(self, libroid, cantidad):
         cursor = self.bd.cursor()
         query = '''
         UPDATE libros
@@ -228,7 +215,7 @@ class Comunicacion():
         cursor.close()
         
     #! DEVOLUCIONES
-    def mostrar_datosv4(self):
+    def show_pedidos(self):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -253,12 +240,14 @@ class Comunicacion():
             alumnos AS alu
         ON
             alu.EstudianteId = pl.UsuarioId
+        ORDER BY
+            pl.Situacion
         '''
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
     
-    def buscadorv4(self, columna, palabra):
+    def buscar_pedidos(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT

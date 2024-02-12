@@ -142,7 +142,7 @@ class Widgets2v():
             
     def mostrar_tabla(self):
         self.limpiar_campos()
-        l_datos = self.bd.mostrar_datosv2()
+        l_datos = self.bd.show_laminas()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
@@ -163,7 +163,7 @@ class Widgets2v():
         diccionario_fila = self.tabla.item(item_l)
         if len(diccionario_fila['values']) != 0:
             id = diccionario_fila['values'][7]
-            l_datos = self.bd.mostrar_datosv2()
+            l_datos = self.bd.show_laminas()
             
             for fila in l_datos:
                 id_bd = fila[7]
@@ -177,7 +177,7 @@ class Widgets2v():
                     cantidad = self.cantidad.get()
                     confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                     if remitente and niveleducativo and titulo and codigo and cantidad != '' and confirmar_box == True:
-                        self.bd.actualizar_filav2(id, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
+                        self.bd.update_lamina(id, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
                         messagebox.showinfo('Información', 'Fila modificada')
                         self.mostrar_tabla()
         else:
@@ -191,7 +191,7 @@ class Widgets2v():
         titulo = self.titulo.get()
         condicionlamina = self.condicion_lamina.get()
         cantidad = self.cantidad.get()
-        l_datos = self.bd.mostrar_datosv2()
+        l_datos = self.bd.show_laminas()
         codigos = []
         for fila in l_datos:
             codigos.append(fila[0])
@@ -205,7 +205,7 @@ class Widgets2v():
             if codigo and remitente and niveleducativo and titulo and condicionlamina != '' and cantidad > 0:
                 question_box = messagebox.askquestion('Información', '¿Desea agregar la fila?')
                 if question_box == 'yes':
-                    self.bd.insertar_filav2(codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
+                    self.bd.agregar_lamina(codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad)
                     self.tabla.insert('', "end", text=c_filas+1, values=datos)
                     self.limpiar_campos()
             else:
@@ -220,7 +220,7 @@ class Widgets2v():
 
         if question_box == 'yes':
             self.tabla.delete(l_item)
-            self.bd.eliminar_filav2(diccionario_fila['values'][7])
+            self.bd.delete_lamina(diccionario_fila['values'][7])
             messagebox.showinfo('Información', 'Fila Eliminada')
 
     
@@ -229,7 +229,7 @@ class Widgets2v():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscadorv2(columna, palabra)
+            l_datos = self.bd.buscar_laminas(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:

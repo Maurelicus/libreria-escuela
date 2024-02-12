@@ -177,7 +177,7 @@ class Widgets3v():
         self.temp_palabra.set(palabra)
         self.temp_columna.set(columna)
         if palabra != '':
-            l_datos = self.bd.buscador_librov3(columna, palabra)
+            l_datos = self.bd.buscar_libromal(columna, palabra)
             self.tabla_libro.delete(*self.tabla_libro.get_children())
             i = -1
             for fila in l_datos:
@@ -192,7 +192,7 @@ class Widgets3v():
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
         if palabra != '':        
-            l_datos = self.bd.buscador_alumnov3(columna, palabra)
+            l_datos = self.bd.buscar_alumnos(columna, palabra)
             self.tabla_alumno.delete(*self.tabla_alumno.get_children())
             i = -1
             for fila in l_datos:
@@ -244,13 +244,13 @@ class Widgets3v():
             elif cantidad_restante < 0:
                 messagebox.showerror('Información', 'Cantidad excedida al total')
             else:
-                self.bd.insertar_filav3(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
-                self.bd.actualizar_filav3(libroid, cantidad_restante)
+                self.bd.agregar_libro(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
+                self.bd.update_cantidad_libro(libroid, cantidad_restante)
                 self.limpiar_campos()
                 self.limpiar_campos2()
                 palabra = self.temp_palabra.get()
                 columna = self.temp_columna.get()
-                l_datos = self.bd.buscador_librov3(columna, palabra)
+                l_datos = self.bd.buscar_libromal(columna, palabra)
                 self.tabla_libro.delete(*self.tabla_libro.get_children())
                 i = -1
                 for fila in l_datos:

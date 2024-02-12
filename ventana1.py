@@ -96,7 +96,7 @@ class Widgets1v():
         palaba_entry.pack(side='left', padx=4)
 
         busc_boton = ttk.Button(frame_busqueda, text='Buscar', width=10, 
-                                command=self.buscador, bootstyle='success')
+                                command=self.buscar, bootstyle='success')
         busc_boton.pack(side='left', padx=4)
 
         save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
@@ -166,7 +166,7 @@ class Widgets1v():
             
     def mostrar_tabla(self):
         self.limpiar_campos()
-        l_datos = self.bd.mostrar_datosv1()
+        l_datos = self.bd.show_libros()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
@@ -189,7 +189,7 @@ class Widgets1v():
         diccionario_fila = self.tabla.item(item_l)
         if len(diccionario_fila['values']) != 0:
             id = diccionario_fila['values'][9]
-            l_datos = self.bd.mostrar_datosv1()
+            l_datos = self.bd.show_libros()
             
             for fila in l_datos:
                 id_bd = fila[9]
@@ -205,7 +205,7 @@ class Widgets1v():
                     cantidad = self.cantidad.get()
                     confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                     if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
-                        self.bd.actualizar_filav1(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
+                        self.bd.update_libros(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
                         messagebox.showinfo('Información', 'Fila modificada')
                         self.mostrar_tabla()
         else:
@@ -227,7 +227,7 @@ class Widgets1v():
         if remitente and niveleducativo and titulo and condicionlibro != '' and cantidad > 0:
             question_box = messagebox.askquestion('Información', '¿Desea agregar la fila?')
             if question_box == 'yes':
-                self.bd.insertar_filav1(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
+                self.bd.agregar_libro(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
                 self.tabla.insert('',"end",text=c_filas+1, values=datos)
                 messagebox.showinfo('Información', 'Fila agregada')
                 self.limpiar_campos()
@@ -242,15 +242,15 @@ class Widgets1v():
         if question_box == 'yes':
             self.tabla.delete(l_item)
             self.limpiar_campos()
-            self.bd.eliminar_filav1(diccionario_fila['values'][9])
+            self.bd.delete_libro(diccionario_fila['values'][9])
             messagebox.showinfo('Información', 'Fila Eliminada')
     
-    def buscador(self):
+    def buscar(self):
         self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscadorv1(columna, palabra)
+            l_datos = self.bd.buscar_libros(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:

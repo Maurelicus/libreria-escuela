@@ -127,7 +127,7 @@ class Widgets4v():
             
     def actualizar_tabla(self):
         self.limpiar_campos()
-        l_datos = self.bd.mostrar_datosv4()
+        l_datos = self.bd.show_pedidos()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
@@ -138,7 +138,7 @@ class Widgets4v():
                 self.tabla.insert('', i, text=i+1, values=fila[0:11], tags=fila[5])
         self.tabla.tag_configure('entregado', background='#bbead7')
         self.tabla.tag_configure('falta', background='#ffd6ca')
-            
+        
     def limpiar_campos(self):
         self.observacion.set('')
         self.situacion.set('')
@@ -149,7 +149,7 @@ class Widgets4v():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscadorv4(columna, palabra)
+            l_datos = self.bd.buscar_pedidos(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -170,6 +170,7 @@ class Widgets4v():
         
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
 
+            situacion_a = diccionario_fila['values'][5]
             cantidad_total = diccionario_fila['values'][6]
             id_pedido = diccionario_fila['values'][7]
             codigo = diccionario_fila['values'][8]
@@ -180,32 +181,32 @@ class Widgets4v():
             usuarioid = info_libro[0][2]
             fecha_salida = info_libro[0][3]
             
-
-            pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
-            if cantidad_total > cantidad_devuelta and situacion == 'entregado' and observacion != '' and pregunta_box == True and len(diccionario_fila['values']) >= 1:
-                hoy = date.today()
-                self.bd.insertar_filav4(codigo, libroid, usuarioid, fecha_salida, hoy, situacion, observacion, cantidad_devuelta)
-                cantidad_nueva = cantidad_libro + cantidad_devuelta
-                self.bd.actualizar_filav3(id_libro, cantidad_nueva)
-                cantidad_faltante = cantidad_total - cantidad_devuelta
-                situacion_actual = 'falta'
-                self.bd.actualizar_filav5(id_pedido, situacion_actual, observacion, cantidad_faltante)
-                self.limpiar_campos()
-                messagebox.showinfo('Información', 'Fila modificada')
-                self.actualizar_tabla()
-            elif cantidad_total == cantidad_devuelta and observacion != '' and situacion == 'entregado' and pregunta_box == True and len(diccionario_fila['values']) >= 1:
-                hoy = date.today()
-                self.bd.actualizar_filav4(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
-                cantidad_nueva = cantidad_devuelta + cantidad_libro
-                self.bd.actualizar_filav3(id_libro, cantidad_nueva)
-                self.limpiar_campos()
-                messagebox.showinfo('Información', 'Fila modificada')
-                self.actualizar_tabla()
-                    
-            elif cantidad_total < cantidad_devuelta:
-                messagebox.showerror('Información', 'Cantidad excedida al total pedido')
-
+            if situacion_a != 'entregado':     
+                pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
+                if cantidad_total > cantidad_devuelta and situacion == 'entregado' and observacion != '' and pregunta_box == True:
+                    hoy = date.today()
+                    self.bd.insertar_filav4(codigo, libroid, usuarioid, fecha_salida, hoy, situacion, observacion, cantidad_devuelta)
+                    cantidad_nueva = cantidad_libro + cantidad_devuelta
+                    self.bd.update_cantidad_libro(id_libro, cantidad_nueva)
+                    cantidad_faltante = cantidad_total - cantidad_devuelta
+                    situacion_actual = 'falta'
+                    self.bd.actualizar_filav5(id_pedido, situacion_actual, observacion, cantidad_faltante)
+                    self.limpiar_campos()
+                    messagebox.showinfo('Información', 'Fila modificada')
+                    self.actualizar_tabla()
+                elif cantidad_total == cantidad_devuelta and observacion != '' and situacion == 'entregado' and pregunta_box == True:
+                    hoy = date.today()
+                    self.bd.actualizar_filav4(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
+                    cantidad_nueva = cantidad_devuelta + cantidad_libro
+                    self.bd.update_cantidad_libro(id_libro, cantidad_nueva)
+                    self.limpiar_campos()
+                    messagebox.showinfo('Información', 'Fila modificada')
+                    self.actualizar_tabla()
+                elif cantidad_total < cantidad_devuelta:
+                    messagebox.showerror('Información', 'Cantidad excedida al total pedido')
+                else:
+                    messagebox.showerror('Información', 'Proceso erroneo')
             else:
-                messagebox.showerror('Información', 'Falta Seleccionar')
+                messagebox.showerror('Información', 'Fila ya entregada')
         else:
             messagebox.showerror('Información', 'Falta Rellenar')

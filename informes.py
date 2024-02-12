@@ -9,7 +9,7 @@ class Informe():
     def __init__(self):
         self.bd = Comunicacion()
     def guardar_datos(self):
-        datos = self.bd.mostrar_datosv1()
+        datos = self.bd.show_libros()
         i = -1
         remitente,cantidad,niveleducativo,condicionlibro = [],[],[],[]
         autor,editorial,añoedicion,titulo,añorecepcion= [],[],[],[],[]
@@ -50,7 +50,7 @@ class Informe():
         tabla_pivote.to_excel('libros_estado.xlsx', startrow=2, startcol=2, sheet_name='report')
         
     def guardar_datos2(self):
-        l_datos = self.bd.mostrar_datosv2()
+        l_datos = self.bd.show_laminas()
         i = -1
         remitente,cantidad,niveleducativo,condicionlamina = [],[],[],[]
         codigo,titulo,añorecepcion= [],[],[]
