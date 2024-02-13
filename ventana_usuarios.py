@@ -64,11 +64,11 @@ class VentanaUsuarios():
         seccion_combobox.state(["readonly"])
         seccion_combobox.grid(column=1, row=5, padx=5 ,pady=[5,10], sticky='w')
         #! Botones
-        update_boton = ttk.Button(frame_uno, text='Actualizar Fila', width=15, command=self.actualizar_fila, bootstyle='primary-outline')
+        update_boton = ttk.Button(frame_uno, text='Actualizar Fila', width=15, bootstyle='primary-outline')
         update_boton.grid(column=0, row=9, padx=30, pady=10, sticky='w')
         clear_boton = ttk.Button(frame_uno, text='Limpiar Campos', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
         clear_boton.grid(column=1, row=9, padx=5, pady=10, sticky='w')
-        add_boton = ttk.Button(frame_uno, text='Añadir Fila', width=15, command=self.agregar_fila, bootstyle='primary-outline')
+        add_boton = ttk.Button(frame_uno, text='Añadir Fila', width=15, bootstyle='primary-outline')
         add_boton.grid(column=0, row=10, padx=30, pady=10, sticky='w')
     
     def seccion_dos(self, frame_dos):
@@ -161,7 +161,7 @@ class VentanaUsuarios():
         self.nivel.set('')
         self.grado.set('')
         self.seccion.set('')
-    """ 
+    """
     def actualizar_fila(self):
         item_l = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_l)
@@ -188,8 +188,8 @@ class VentanaUsuarios():
                         self.mostrar_tabla()
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
+    """ 
 
-    """
     def agregar_fila(self):
         remitente = self.remitente.get()
         añorecepcion = self.año_recepcion.get()
