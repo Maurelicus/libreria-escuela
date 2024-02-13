@@ -9,17 +9,14 @@ import openpyxl
 from conexion_sqlite import Comunicacion
 from informes import Informe
 
-class Widgets1v():
+class VentanaUsuarios():
     def __init__(self):
-        self.remitente = tk.StringVar()
-        self.año_recepcion = tk.StringVar()
-        self.nivel_educativo = tk.StringVar()
-        self.titulo = tk.StringVar()
-        self.autor = tk.StringVar()
-        self.editorial = tk.StringVar()
-        self.año_edicion = tk.StringVar()
-        self.condicion_libro = tk.StringVar()
-        self.cantidad = tk.IntVar()
+        self.usuarioid = tk.StringVar()
+        self.usuario = tk.StringVar()
+        self.sexo = tk.StringVar()
+        self.nivel = tk.StringVar()
+        self.grado = tk.StringVar()
+        self.seccion = tk.StringVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
@@ -29,50 +26,43 @@ class Widgets1v():
         
     def seccion_uno(self, frame_uno):
         #! TEXTO
-        reminente_label = ttk.Label(frame_uno, text='Remitente', bootstyle='dark') 
-        reminente_label.grid(column=0, row=0, padx=30, pady=[10,5], sticky='we')
-        año_recepcion = ttk.Label(frame_uno, text='Año de Recepcion', bootstyle='dark')
-        año_recepcion.grid(column=0, row=1, padx=30, pady=5, sticky='we')
-        nivel_educativo = ttk.Label(frame_uno, text='Nivel Educativo', bootstyle='dark')
-        nivel_educativo.grid(column=0, row=2, padx=30, pady=5, sticky='we')
-        titulo = ttk.Label(frame_uno, text='Titulo', bootstyle='dark')
-        titulo.grid(column=0, row=3, padx=30, pady=5, sticky='we')
-        autor = ttk.Label(frame_uno, text='Autor', bootstyle='dark')
-        autor.grid(column=0, row=4, padx=30, pady=5, sticky='we')
-        editorial = ttk.Label(frame_uno, text='Editorial', bootstyle='dark')
-        editorial.grid(column=0, row=5, padx=30, pady=5, sticky='we')
-        año_edicion = ttk.Label(frame_uno, text='Año de edicion', bootstyle='dark')
-        año_edicion.grid(column=0, row=6, padx=30, pady=5, sticky='we')
-        condicion_libro = ttk.Label(frame_uno, text='Condicion', bootstyle='dark')
-        condicion_libro.grid(column=0, row=7, padx=30, pady=5, sticky='we')
-        cantidad = ttk.Label(frame_uno, text='Cantidad', bootstyle='dark')
-        cantidad.grid(column=0, row=8, padx=30, pady=[5,10], sticky='we')
+        usuarioid_label = ttk.Label(frame_uno, text='Codigo', bootstyle='dark') 
+        usuarioid_label.grid(column=0, row=0, padx=30, pady=[10,5], sticky='we')
+        usuario = ttk.Label(frame_uno, text='Usuario', bootstyle='dark')
+        usuario.grid(column=0, row=1, padx=30, pady=5, sticky='we')
+        sexo = ttk.Label(frame_uno, text='Sexo', bootstyle='dark')
+        sexo.grid(column=0, row=2, padx=30, pady=5, sticky='we')
+        nivel = ttk.Label(frame_uno, text='Nivel', bootstyle='dark')
+        nivel.grid(column=0, row=3, padx=30, pady=5, sticky='we')
+        grado = ttk.Label(frame_uno, text='Grado', bootstyle='dark')
+        grado.grid(column=0, row=4, padx=30, pady=5, sticky='we')
+        seccion = ttk.Label(frame_uno, text='Seccion', bootstyle='dark')
+        seccion.grid(column=0, row=5, padx=30, pady=[5,10], sticky='we')
         #! ENTRADAS
-        reminente_entry = ttk.Entry(frame_uno, textvariable=self.remitente, width=10, bootstyle='primary')
-        reminente_entry.grid(column=1, row=0, padx=5 ,pady=[10,5], sticky='w')
-        añorecepcion_entry = ttk.Entry(frame_uno, textvariable=self.año_recepcion, width=7, bootstyle='primary')
-        añorecepcion_entry.grid(column=1, row=1, padx=5 ,pady=5, sticky='w')
-        nied_list = ["Primaria", "Secundaria"]
-        niveleducativo_combobox = ttk.Combobox(frame_uno, textvariable=self.nivel_educativo ,value=nied_list, width=10, bootstyle='primary')
-        niveleducativo_combobox.current(0)
-        niveleducativo_combobox.state(["readonly"])
-        niveleducativo_combobox.grid(column=1, row=2, padx=5 ,pady=5, sticky='w')
-        titulo_entry = ttk.Entry(frame_uno, textvariable=self.titulo, width=20, bootstyle='primary')
-        titulo_entry.grid(column=1, row=3, padx=5 ,pady=5, sticky='w')
-        autor_entry = ttk.Entry(frame_uno, textvariable=self.autor, width=20, bootstyle='primary')
-        autor_entry.grid(column=1, row=4, padx=5 ,pady=5, sticky='w')
-        editorial_entry = ttk.Entry(frame_uno, textvariable=self.editorial, bootstyle='primary')
-        editorial_entry.grid(column=1, row=5, padx=5 ,pady=5, sticky='w')
-        añoedicion_entry = ttk.Entry(frame_uno, textvariable=self.año_edicion, width=7, bootstyle='primary')
-        añoedicion_entry.grid(column=1, row=6, padx=5 ,pady=5, sticky='w')
-        coli_list = ["A", "B", "C"]
-        condicionlibro_combobox = ttk.Combobox(frame_uno, textvariable=self.condicion_libro ,value=coli_list, width=2, bootstyle='primary')
-        condicionlibro_combobox.grid(column=1, row=7, padx=5 ,pady=5, sticky='w')
-        condicionlibro_combobox.current(0)
-        condicionlibro_combobox.state(["readonly"])
-        cantidad_entry = ttk.Spinbox(frame_uno, textvariable=self.cantidad, from_=0, to=100, width=5, bootstyle='primary')
-        cantidad_entry.state(["readonly"])
-        cantidad_entry.grid(column=1, row=8, padx=5 ,pady=[5,10], sticky='w')
+        usuarioid_entry = ttk.Entry(frame_uno, textvariable=self.usuarioid, width=10, bootstyle='primary')
+        usuarioid_entry.grid(column=1, row=0, padx=5 ,pady=[10,5], sticky='w')
+        usuario_entry = ttk.Entry(frame_uno, textvariable=self.usuario, width=7, bootstyle='primary')
+        usuario_entry.grid(column=1, row=1, padx=5 ,pady=5, sticky='w')
+        se_list = ["Hombre", "Mujer"]
+        sexo_combobox = ttk.Combobox(frame_uno, textvariable=self.sexo ,value=se_list, width=10, bootstyle='primary')
+        sexo_combobox.current(1)
+        sexo_combobox.state(["readonly"])
+        sexo_combobox.grid(column=1, row=2, padx=5 ,pady=5, sticky='w')
+        ni_list = ["Primaria", "Secundaria"]
+        nivel_combobox = ttk.Combobox(frame_uno, textvariable=self.nivel ,value=ni_list, width=10, bootstyle='primary')
+        nivel_combobox.current(0)
+        nivel_combobox.state(["readonly"])
+        nivel_combobox.grid(column=1, row=3, padx=5 ,pady=5, sticky='w')
+        gra_list = ["PRIMERO", "SEGUNDO", "TERCERO", "CUARTO", "QUINTO", "SEXTO"]
+        grado_combobox = ttk.Combobox(frame_uno, textvariable=self.grado ,value=gra_list, width=10, bootstyle='primary')
+        grado_combobox.current(0)
+        grado_combobox.state(["readonly"])
+        grado_combobox.grid(column=1, row=4, padx=5 ,pady=5, sticky='w')
+        sec_list = ["A", "B", "C", "D", "E"]
+        seccion_combobox = ttk.Combobox(frame_uno, textvariable=self.seccion ,value=sec_list, width=10, bootstyle='primary')
+        seccion_combobox.current(0)
+        seccion_combobox.state(["readonly"])
+        seccion_combobox.grid(column=1, row=5, padx=5 ,pady=[5,10], sticky='w')
         #! Botones
         update_boton = ttk.Button(frame_uno, text='Actualizar Fila', width=15, command=self.actualizar_fila, bootstyle='primary-outline')
         update_boton.grid(column=0, row=9, padx=30, pady=10, sticky='w')
@@ -85,9 +75,7 @@ class Widgets1v():
         frame_busqueda = ttk.Frame(frame_dos)
         frame_busqueda.grid(column=0, row=0, padx=5, pady=1, sticky='nsew')
         
-        l_columna = ("Autor", "Titulo", "Editorial", "Año de recepcion",
-                     "Año de edicion", "Remitente", "Nivel educativo", 
-                     "AñoEdicion", "Condicion del libro", "Cantidad")
+        l_columna = ("Codigo", "Usuario", "Sexo", "Nivel", "Grado", "Seccion")
         buscar_palabra = ttk.Combobox(frame_busqueda, width=15, value=l_columna, 
                                       textvariable=self.nombre_columna, bootstyle='success')
         buscar_palabra.current(0)
@@ -102,7 +90,7 @@ class Widgets1v():
         busc_boton.pack(side='left', padx=4)
 
         save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
-                                command=self.guardar_datos, bootstyle='success-link')
+                                bootstyle='success-link')
         save_boton.pack(side='left', padx=4)
 
         show_boton = ttk.Button(frame_busqueda, image=self.photo1,
@@ -124,7 +112,7 @@ class Widgets1v():
         ladoy.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla.configure(xscrollcommand=ladox.set, yscrollcommand=ladoy.set)
         #! COLUMNAS
-        self.tabla['columns'] = ('Remitente', 'Añorecepcion', 'Niveleducativo', 'Titulo', 'Autor', 'Editorial', 'Añoedicion', 'Condicion', 'Cantidad')
+        self.tabla['columns'] = ('UsuarioId', 'Usuario', 'Sexo', 'Nivel', 'Grado', 'Seccion')
         self.tabla.column('#0', minwidth=60, width=60, anchor='center')
         self.tabla.column('#1', minwidth=100, width=100, anchor='center')
         self.tabla.column('#2', minwidth=90, width=110, anchor='center')
@@ -132,60 +120,48 @@ class Widgets1v():
         self.tabla.column('#4', minwidth=200, width=200, anchor='w')
         self.tabla.column('#5', minwidth=200, width=200, anchor='w')
         self.tabla.column('#6', minwidth=100, width=105, anchor='w')
-        self.tabla.column('#7', minwidth=100, width=100, anchor='center')
-        self.tabla.column('#8', minwidth=90, width=90, anchor='center')
-        self.tabla.column('#9', minwidth=90, width=90, anchor='center')
-            
+
         self.tabla.heading('#0', text='Nº', anchor='center')
-        self.tabla.heading('#1', text='Remitente', anchor='center')
-        self.tabla.heading('#2', text='Año Recepcion', anchor='center')
-        self.tabla.heading('#3', text='Nivel Educativo', anchor='center')
-        self.tabla.heading('#4', text='Titulo', anchor='center')
-        self.tabla.heading('#5', text='Autor', anchor='center')
-        self.tabla.heading('#6', text='Editorial', anchor='center')
-        self.tabla.heading('#7', text='Año Edicion', anchor='center')
-        self.tabla.heading('#8', text='Condicion', anchor='center')
-        self.tabla.heading('#9', text='Cantidad', anchor='center')
+        self.tabla.heading('#1', text='Codigo', anchor='center')
+        self.tabla.heading('#2', text='Usuario', anchor='center')
+        self.tabla.heading('#3', text='Sexo', anchor='center')
+        self.tabla.heading('#4', text='Nivel', anchor='center')
+        self.tabla.heading('#5', text='Grado', anchor='center')
+        self.tabla.heading('#6', text='Seccion', anchor='center')
         
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_fila)
         self.tabla.bind("<Double-1>", self.eliminar_datos)
 
-    def obtener_fila(self, event):
-        item_selec = self.tabla.focus()
-        diccionario_fila = self.tabla.item(item_selec)
-        if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 4:
-            self.remitente.set(diccionario_fila['values'][0])
-            self.año_recepcion.set(diccionario_fila['values'][1])
-            self.nivel_educativo.set(diccionario_fila['values'][2])
-            self.titulo.set(diccionario_fila['values'][3])
-            self.autor.set(diccionario_fila['values'][4])
-            self.editorial.set(diccionario_fila['values'][5])
-            self.año_edicion.set(diccionario_fila['values'][6])
-            self.condicion_libro.set(diccionario_fila['values'][7])
-            self.cantidad.set(diccionario_fila['values'][8])
-        else:
-            self.limpiar_campos()
-            
     def mostrar_tabla(self):
         self.limpiar_campos()
-        l_datos = self.bd.show_libros()
+        l_datos = self.bd.show_usuarios()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
             i = i+1
-            self.tabla.insert('', i,text=i+1, values=fila[0:11])
+            self.tabla.insert('', i,text=i+1, values=fila[0:6])
+            
+    def obtener_fila(self, event):
+        item_selec = self.tabla.focus()
+        diccionario_fila = self.tabla.item(item_selec)
+        if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
+            self.usuarioid.set(diccionario_fila['values'][0])
+            self.usuario.set(diccionario_fila['values'][1])
+            self.sexo.set(diccionario_fila['values'][2])
+            self.nivel.set(diccionario_fila['values'][3])
+            self.grado.set(diccionario_fila['values'][4])
+            self.seccion.set(diccionario_fila['values'][5])
+        else:
+            self.limpiar_campos()            
             
     def limpiar_campos(self):
-        self.remitente.set('')
-        self.año_recepcion.set('')
-        self.nivel_educativo.set('')
-        self.titulo.set('')
-        self.autor.set('')
-        self.editorial.set('')
-        self.año_edicion.set('')
-        self.condicion_libro.set('')
-        self.cantidad.set(0)
-    
+        self.usuarioid.set('')
+        self.usuario.set('')
+        self.sexo.set('')
+        self.nivel.set('')
+        self.grado.set('')
+        self.seccion.set('')
+    """ 
     def actualizar_fila(self):
         item_l = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_l)
@@ -213,6 +189,7 @@ class Widgets1v():
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
 
+    """
     def agregar_fila(self):
         remitente = self.remitente.get()
         añorecepcion = self.año_recepcion.get()

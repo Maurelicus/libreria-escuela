@@ -32,5 +32,5 @@ for fila in filas_procesadas:
     fila_bd.append(grado)
     fila_bd.append(seccion)
     filas_bd.append(fila_bd)
-    bd.insertar_alumnos(estudianteid, final_usuario, sexo, nivel, grado, seccion)
+    bd.agregar_usuario(estudianteid, final_usuario, sexo, nivel, grado, seccion)
 # print(filas_bd)

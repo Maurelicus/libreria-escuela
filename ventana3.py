@@ -110,14 +110,15 @@ class Widgets3v():
         ladoy1.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla_libro.configure(xscrollcommand=ladox1.set, yscrollcommand=ladoy1.set)
         #! COLUMNAS
-        self.tabla_libro['columns'] = ('NivelEducativo', 'Titulo', 'Autor', 'Editorial', 'Año Edicion', 'Cantidad')
+        self.tabla_libro['columns'] = ('NivelEducativo', 'Titulo', 'Autor', 'Editorial', 'Año Edicion', 'Condicion Libro', 'Cantidad')
         self.tabla_libro.column('#0', minwidth=60, width=60, anchor='center')
         self.tabla_libro.column('#1', minwidth=130, width=140, anchor='center')
         self.tabla_libro.column('#2', minwidth=150, width=160, anchor='w')
         self.tabla_libro.column('#3', minwidth=130, width=140, anchor='w')
         self.tabla_libro.column('#4', minwidth=120, width=120, anchor='w')
         self.tabla_libro.column('#5', minwidth=100, width=100, anchor='center')
-        self.tabla_libro.column('#6', minwidth=80, width=80, anchor='center')
+        self.tabla_libro.column('#6', minwidth=100, width=100, anchor='center')
+        self.tabla_libro.column('#7', minwidth=80, width=80, anchor='center')
             
         self.tabla_libro.heading('#0', text='Nº', anchor='center')
         self.tabla_libro.heading('#1', text='Nivel Educativo', anchor='center')
@@ -125,12 +126,13 @@ class Widgets3v():
         self.tabla_libro.heading('#3', text='Autor', anchor='center')
         self.tabla_libro.heading('#4', text='Editorial', anchor='center')
         self.tabla_libro.heading('#5', text='Año Edicion', anchor='center')
-        self.tabla_libro.heading('#6', text='Cantidad', anchor='center')
+        self.tabla_libro.heading('#6', text='Condicion Libro', anchor='center')
+        self.tabla_libro.heading('#7', text='Cantidad', anchor='center')
         self.tabla_libro.bind("<<TreeviewSelect>>", self.obtener_fila1)
         
         frame_busqueda2 = ttk.Frame(frame_seis)
         frame_busqueda2.grid(column=0, row=2, padx=5, pady=[1,5], sticky='nsew')
-        l_columna2 = ("USUARIO", "DNI")
+        l_columna2 = ("Usuario", "Codigo")
         buscar_palabra = ttk.Combobox(frame_busqueda2, width=15, value=l_columna2, 
                                       textvariable=self.nombre_columna2, bootstyle='info')
         buscar_palabra.current(0)
@@ -177,12 +179,15 @@ class Widgets3v():
         self.temp_palabra.set(palabra)
         self.temp_columna.set(columna)
         if palabra != '':
-            l_datos = self.bd.buscar_libromal(columna, palabra)
+            # l_datos = self.bd.buscar_libromal(columna, palabra)
+            l_datos = self.bd.buscar_libros(columna, palabra)
+            # print(l2_datos)
             self.tabla_libro.delete(*self.tabla_libro.get_children())
             i = -1
+            
             for fila in l_datos:
                 i = i+1
-                self.tabla_libro.insert('', i,text=i+1, values=fila[0:7])
+                self.tabla_libro.insert('', i,text=i+1, values=fila[2:10])
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
 
@@ -192,7 +197,7 @@ class Widgets3v():
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
         if palabra != '':        
-            l_datos = self.bd.buscar_alumnos(columna, palabra)
+            l_datos = self.bd.buscar_usuarios(columna, palabra)
             self.tabla_alumno.delete(*self.tabla_alumno.get_children())
             i = -1
             for fila in l_datos:
@@ -234,8 +239,8 @@ class Widgets3v():
             hoy = date.today()
             situacion = 'falta'
             observacion = 'ninguna'
-            libroid = diccionario_libro['values'][6]
-            existentes = diccionario_libro['values'][5]
+            libroid = diccionario_libro['values'][7]
+            existentes = diccionario_libro['values'][6]
             usuarioid = diccionario_alumno['text']
             cantidad_restante=existentes-cantidad_pedida
             #! Me quede aqui
@@ -245,7 +250,7 @@ class Widgets3v():
                 messagebox.showerror('Información', 'Cantidad excedida al total')
             else:
                 self.bd.agregar_libro(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
-                self.bd.update_cantidad_libro(libroid, cantidad_restante)
+                self.bd.update_libro_cantidad(libroid, cantidad_restante)
                 self.limpiar_campos()
                 self.limpiar_campos2()
                 palabra = self.temp_palabra.get()
@@ -268,6 +273,7 @@ class Widgets3v():
 
         self.codigo_libro.set('')
         self.cantidad.set(0)
+
     def limpiar_campos2(self):
         self.codigo_libro.set('')
         self.cantidad.set(0)

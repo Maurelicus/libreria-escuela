@@ -58,7 +58,7 @@ class Widgets4v():
         frame_busqueda = ttk.Frame(frame_dos)
         frame_busqueda.grid(column=0, row=0, padx=5, pady=[1,5], sticky='nsew')
         
-        l_columna = ('Alumno', 'Libro', 'Fecha', 'Situacion',)
+        l_columna = ('Usuario', 'Libro', 'Fecha', 'Situacion',)
         columna_box = ttk.Combobox(frame_busqueda, width=15, value=l_columna, 
                                    textvariable=self.nombre_columna, bootstyle='success')
         columna_box.current(0)
@@ -92,7 +92,7 @@ class Widgets4v():
         ladoy.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla.configure(xscrollcommand=ladox.set, yscrollcommand=ladoy.set)
         #! COLUMNAS
-        self.tabla['columns'] = ('Alumno', 'Libro', 'Observacion', 'FechaSalida','FechaEntrada', 'Situacion', 'Cantidad')
+        self.tabla['columns'] = ('Usuario', 'Libro', 'Observacion', 'FechaSalida','FechaEntrada', 'Situacion', 'Cantidad')
         self.tabla.column('#0', minwidth=50, width=60, anchor='center')
         self.tabla.column('#1', minwidth=200, width=220, anchor='w')
         self.tabla.column('#2', minwidth=200, width=220, anchor='w')
@@ -103,7 +103,7 @@ class Widgets4v():
         self.tabla.column('#7', minwidth=50, width=60, anchor='center')
             
         self.tabla.heading('#0', text='Nº', anchor='center')
-        self.tabla.heading('#1', text='Alumno', anchor='center')
+        self.tabla.heading('#1', text='Usuario', anchor='center')
         self.tabla.heading('#2', text='Libro', anchor='center')
         self.tabla.heading('#3', text='Observacion', anchor='center')
         self.tabla.heading('#4', text='Fecha Salida', anchor='center')
@@ -170,12 +170,14 @@ class Widgets4v():
         
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
 
+            observacion_a = diccionario_fila['values'][2]
+            f_devolucion = diccionario_fila['values'][4]
             situacion_a = diccionario_fila['values'][5]
             cantidad_total = diccionario_fila['values'][6]
             id_pedido = diccionario_fila['values'][7]
             codigo = diccionario_fila['values'][8]
             libroid = diccionario_fila['values'][9]
-            info_libro = self.bd.obtener_librov4(id_pedido)
+            info_libro = self.bd.info_pedidolibro(id_pedido)
             id_libro = info_libro[0][0]
             cantidad_libro = info_libro[0][1]
             usuarioid = info_libro[0][2]
@@ -185,20 +187,19 @@ class Widgets4v():
                 pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                 if cantidad_total > cantidad_devuelta and situacion == 'entregado' and observacion != '' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.insertar_filav4(codigo, libroid, usuarioid, fecha_salida, hoy, situacion, observacion, cantidad_devuelta)
+                    self.bd.agregar_pedido(codigo, libroid, usuarioid, fecha_salida, hoy, situacion, observacion, cantidad_devuelta)
                     cantidad_nueva = cantidad_libro + cantidad_devuelta
-                    self.bd.update_cantidad_libro(id_libro, cantidad_nueva)
+                    self.bd.update_libro_cantidad(id_libro, cantidad_nueva)
                     cantidad_faltante = cantidad_total - cantidad_devuelta
-                    situacion_actual = 'falta'
-                    self.bd.actualizar_filav5(id_pedido, situacion_actual, observacion, cantidad_faltante)
+                    self.bd.update_pedido(id_pedido,f_devolucion, situacion_a, observacion_a, cantidad_faltante)
                     self.limpiar_campos()
                     messagebox.showinfo('Información', 'Fila modificada')
                     self.actualizar_tabla()
                 elif cantidad_total == cantidad_devuelta and observacion != '' and situacion == 'entregado' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.actualizar_filav4(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
+                    self.bd.update_pedido(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
                     cantidad_nueva = cantidad_devuelta + cantidad_libro
-                    self.bd.update_cantidad_libro(id_libro, cantidad_nueva)
+                    self.bd.update_libro_cantidad(id_libro, cantidad_nueva)
                     self.limpiar_campos()
                     messagebox.showinfo('Información', 'Fila modificada')
                     self.actualizar_tabla()
