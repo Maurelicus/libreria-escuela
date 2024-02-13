@@ -7,7 +7,7 @@ from datetime import date
 
 from conexion_sqlite import Comunicacion
 
-class Widgets3v():
+class VentanaPedidos():
     def __init__(self):
         self.titulo = tk.StringVar()
         self.autor = tk.StringVar()

@@ -299,11 +299,11 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
 
-    def agregar_usuario(self, usuarioid, usuario, sexo, nivel, grado, seccion):
+    def agregar_usuario(self, usuarioid, usuario, sexo, nivel, grado, seccion, tipo):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO "usuarios" VALUES ("{}", "{}", "{}", "{}", "{}", "{}")
-        '''.format(usuarioid, usuario, sexo, nivel, grado, seccion)
+        INSERT INTO "usuarios" VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}")
+        '''.format(usuarioid, usuario, sexo, nivel, grado, seccion, tipo)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
@@ -317,11 +317,23 @@ class Comunicacion():
             Sexo,
             Nivel,
             Grado,
-            Seccion
+            Seccion,
+            Tipo
         FROM 
             Usuarios
         '''
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
+    
+    def update_usuario(self, usuario, sexo, nivel, grado, seccion, usuarioid):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE Usuarios
+        SET Usuario = '{}', Sexo = '{}', Nivel = '{}', Grado = '{}', Seccion = '{}'
+        WHERE UsuarioId = '{}'
+        '''.format(usuario, sexo, nivel, grado, seccion, usuarioid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
         

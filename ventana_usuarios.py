@@ -17,6 +17,7 @@ class VentanaUsuarios():
         self.nivel = tk.StringVar()
         self.grado = tk.StringVar()
         self.seccion = tk.StringVar()
+        self.tipo = tk.StringVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
@@ -26,8 +27,6 @@ class VentanaUsuarios():
         
     def seccion_uno(self, frame_uno):
         #! TEXTO
-        usuarioid_label = ttk.Label(frame_uno, text='Codigo', bootstyle='dark') 
-        usuarioid_label.grid(column=0, row=0, padx=30, pady=[10,5], sticky='we')
         usuario = ttk.Label(frame_uno, text='Usuario', bootstyle='dark')
         usuario.grid(column=0, row=1, padx=30, pady=5, sticky='we')
         sexo = ttk.Label(frame_uno, text='Sexo', bootstyle='dark')
@@ -39,9 +38,7 @@ class VentanaUsuarios():
         seccion = ttk.Label(frame_uno, text='Seccion', bootstyle='dark')
         seccion.grid(column=0, row=5, padx=30, pady=[5,10], sticky='we')
         #! ENTRADAS
-        usuarioid_entry = ttk.Entry(frame_uno, textvariable=self.usuarioid, width=10, bootstyle='primary')
-        usuarioid_entry.grid(column=1, row=0, padx=5 ,pady=[10,5], sticky='w')
-        usuario_entry = ttk.Entry(frame_uno, textvariable=self.usuario, width=7, bootstyle='primary')
+        usuario_entry = ttk.Entry(frame_uno, textvariable=self.usuario, width=20, bootstyle='primary')
         usuario_entry.grid(column=1, row=1, padx=5 ,pady=5, sticky='w')
         se_list = ["Hombre", "Mujer"]
         sexo_combobox = ttk.Combobox(frame_uno, textvariable=self.sexo ,value=se_list, width=10, bootstyle='primary')
@@ -63,14 +60,40 @@ class VentanaUsuarios():
         seccion_combobox.current(0)
         seccion_combobox.state(["readonly"])
         seccion_combobox.grid(column=1, row=5, padx=5 ,pady=[5,10], sticky='w')
+
+        self.profesor = ttk.Radiobutton(frame_uno, text='Profesor', variable=self.tipo, value='Profesor', bootstyle='dark') 
+        self.profesor.grid(column=0, row=6, padx=30, pady=[10,5], sticky='we')
+        self.particular = ttk.Radiobutton(frame_uno, text='Particular', variable=self.tipo, value='Particular', bootstyle='dark') 
+        self.particular.grid(column=1, row=6, padx=30, pady=[10,5], sticky='we')
+
         #! Botones
-        update_boton = ttk.Button(frame_uno, text='Actualizar Fila', width=15, bootstyle='primary-outline')
+        update_boton = ttk.Button(frame_uno, text='Actualizar Fila', width=15, 
+                                  command=self.actualizar_fila, bootstyle='primary-outline')
         update_boton.grid(column=0, row=9, padx=30, pady=10, sticky='w')
         clear_boton = ttk.Button(frame_uno, text='Limpiar Campos', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
         clear_boton.grid(column=1, row=9, padx=5, pady=10, sticky='w')
-        add_boton = ttk.Button(frame_uno, text='Añadir Fila', width=15, bootstyle='primary-outline')
+        add_boton = ttk.Button(frame_uno, text='Añadir Fila', width=15, 
+                               command=self.agregar_fila, bootstyle='primary-outline')
         add_boton.grid(column=0, row=10, padx=30, pady=10, sticky='w')
-    
+
+        self.profesor.bind("<Double-1>", self.cosa)
+        self.particular.bind("<Double-1>", self.cosa)
+        self.frame1 = frame_uno
+            
+    def cosa(self, event):
+        tipo = self.tipo.get()
+        if tipo == 'Profesor':
+            usuarioid = ttk.Label(self.frame1, text='Codigo', bootstyle='dark')
+            usuarioid.grid(column=0, row=0, padx=30, pady=5, sticky='we')
+            usuario_entry = ttk.Entry(self.frame1, textvariable=self.usuarioid, width=20, bootstyle='primary')
+            usuario_entry.grid(column=1, row=0, padx=5 ,pady=5, sticky='w')
+        elif tipo == 'Particular':
+            usuarioid = ttk.Label(self.frame1, text='Codigopart', bootstyle='dark')
+            usuarioid.grid(column=0, row=0, padx=30, pady=5, sticky='we')
+            usuario_entry = ttk.Entry(self.frame1, textvariable=self.usuarioid, width=20, bootstyle='primary')
+            usuario_entry.grid(column=1, row=0, padx=5 ,pady=5, sticky='w')
+
+
     def seccion_dos(self, frame_dos):
         frame_busqueda = ttk.Frame(frame_dos)
         frame_busqueda.grid(column=0, row=0, padx=5, pady=1, sticky='nsew')
@@ -139,18 +162,27 @@ class VentanaUsuarios():
         i = -1
         for fila in l_datos:
             i = i+1
-            self.tabla.insert('', i,text=i+1, values=fila[0:6])
+            self.tabla.insert('', i,text=i+1, values=fila[0:7])
             
     def obtener_fila(self, event):
         item_selec = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_selec)
+        # print(diccionario_fila)
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
-            self.usuarioid.set(diccionario_fila['values'][0])
-            self.usuario.set(diccionario_fila['values'][1])
-            self.sexo.set(diccionario_fila['values'][2])
-            self.nivel.set(diccionario_fila['values'][3])
-            self.grado.set(diccionario_fila['values'][4])
-            self.seccion.set(diccionario_fila['values'][5])
+            if diccionario_fila['values'][6] == 'alumno':
+                # self.usuarioid.set(diccionario_fila['values'][0])
+                self.usuario.set(diccionario_fila['values'][1])
+                self.sexo.set(diccionario_fila['values'][2])
+                self.nivel.set(diccionario_fila['values'][3])
+                self.grado.set(diccionario_fila['values'][4])
+                self.seccion.set(diccionario_fila['values'][5])
+            elif diccionario_fila['values'][6] != 'alumno':
+                self.usuarioid.set(diccionario_fila['values'][0])
+                self.usuario.set(diccionario_fila['values'][1])
+                self.sexo.set(diccionario_fila['values'][2])
+                self.nivel.set(diccionario_fila['values'][3])
+                self.grado.set(diccionario_fila['values'][4])
+                self.seccion.set(diccionario_fila['values'][5])
         else:
             self.limpiar_campos()            
             
@@ -161,45 +193,50 @@ class VentanaUsuarios():
         self.nivel.set('')
         self.grado.set('')
         self.seccion.set('')
-    """
+        # self.seccion_uno(self.frame1)
+
     def actualizar_fila(self):
         item_l = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_l)
         if len(diccionario_fila['values']) != 0:
-            id = diccionario_fila['values'][9]
-            l_datos = self.bd.show_libros()
-            
+            codigo = diccionario_fila['values'][0]
+            l_datos = self.bd.show_usuarios()
             for fila in l_datos:
-                id_bd = fila[9]
-                if id_bd == id and id_bd != None:
-                    remitente = self.remitente.get()
-                    añorecepcion = self.año_recepcion.get()
-                    niveleducativo = self.nivel_educativo.get()
-                    titulo = self.titulo.get()
-                    autor = self.autor.get()
-                    editorial = self.editorial.get()
-                    añoedicion = self.año_edicion.get()
-                    condicionlibro = self.condicion_libro.get()
-                    cantidad = self.cantidad.get()
+                id_bd = fila[0]
+                if id_bd == codigo and id_bd != None:
+                    busuario = self.usuario.get()
+                    bsexo = self.sexo.get()
+                    bnivel = self.nivel.get()
+                    bgrado = self.grado.get()
+                    bseccion = self.seccion.get()
                     confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
-                    if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
-                        self.bd.update_libros(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
+                    if busuario and bsexo and bnivel and bgrado and bseccion != '' and confirmar_box == True:
+                        self.bd.update_usuario(busuario, bsexo, bnivel, bgrado, bseccion, codigo)
                         messagebox.showinfo('Información', 'Fila modificada')
                         self.mostrar_tabla()
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
-    """ 
 
     def agregar_fila(self):
-        remitente = self.remitente.get()
-        añorecepcion = self.año_recepcion.get()
-        niveleducativo = self.nivel_educativo.get()
-        titulo = self.titulo.get()
-        autor = self.autor.get()
-        editorial = self.editorial.get()
-        añoedicion = self.año_edicion.get()
-        condicionlibro = self.condicion_libro.get()
-        cantidad = self.cantidad.get()
+        usuarioid = self.usuarioid.get()
+        usuario = self.usuario.get()
+        sexo = self.sexo.get()
+        nivel = self.nivel.get()
+        grado = self.grado.get()
+        seccion = self.seccion.get()
+        tipo = self.tipo.get()
+        print(tipo)
+        
+        if tipo == "Particular":
+            print('esto')
+            usuarioid = ttk.Label(self.frame1, text='Codigopart', bootstyle='dark')
+            usuarioid.grid(column=0, row=0, padx=30, pady=5, sticky='we')
+            usuario_entry = ttk.Entry(self.frame1, textvariable=self.usuarioid, width=20, bootstyle='primary')
+            usuario_entry.grid(column=1, row=0, padx=5 ,pady=5, sticky='w')
+        elif tipo == 'Profesor':
+            particul = ttk.Label(self.frame1, text='Profesor', bootstyle='dark')
+            particul.grid(column=0, row=6, padx=30, pady=5, sticky='we')
+        """ 
         c_filas = len(self.tabla.get_children())
         datos = (remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
 
@@ -212,6 +249,7 @@ class VentanaUsuarios():
                 self.limpiar_campos()
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
+        """
     
     def eliminar_datos(self, event):
         self.limpiar_campos()

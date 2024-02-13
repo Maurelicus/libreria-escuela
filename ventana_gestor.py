@@ -2,22 +2,22 @@ import tkinter as tk
 # from tkinter import ttk
 import ttkbootstrap as ttk
 
-import ventana1 as ven1
-import ventana2 as ven2
-import ventana3 as ven3
-import ventana4 as ven4
-import ventana5 as ven5
+import ventana_libros as ven1
+import ventana_laminas as ven2
+import ventana_pedidos as ven3
+import ventana_devoluciones as ven4
+import ventana_retiro as ven5
 import ventana_usuarios as ven6
 
 class Ventana(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
         
-        self.v1 = ven1.Widgets1v()
-        self.v2 = ven2.Widgets2v()
-        self.v3 = ven3.Widgets3v()
-        self.v4 = ven4.Widgets4v()
-        self.v5 = ven5.Widgets5v()
+        self.v1 = ven1.VentanaLibros()
+        self.v2 = ven2.VentanaLaminas()
+        self.v3 = ven3.VentanaPedidos()
+        self.v4 = ven4.VentanaDevoluciones()
+        self.v5 = ven5.VentanaRetiro()
         self.v6 = ven6.VentanaUsuarios()
         self.mytabcontrol = ttk.Notebook(self.master, bootstyle='primary')
         self.mytab1 = ttk.Frame(self.mytabcontrol)

@@ -7,7 +7,7 @@ from PIL import Image, ImageTk
 from conexion_sqlite import Comunicacion
 from informes import Informe
 
-class Widgets2v():
+class VentanaLaminas():
     def __init__(self):
         self.codigo = tk.StringVar()
         self.remitente = tk.StringVar()

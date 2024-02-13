@@ -6,9 +6,9 @@ from PIL import Image, ImageTk
 from datetime import date
 
 from conexion_sqlite import Comunicacion
-from ventana1 import Widgets1v
+from ventana_libros import VentanaLibros
 
-class Widgets4v():
+class VentanaDevoluciones():
     def __init__(self):
         self.usuario = tk.StringVar()
         self.libro = tk.StringVar()
