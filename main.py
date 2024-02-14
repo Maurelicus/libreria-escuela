@@ -3,7 +3,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from PIL import Image, ImageTk
 
-from ventana_gestor import Ventana
+from gestor_ventanas import Ventana
 
 
 def ingresar():
@@ -49,6 +49,7 @@ my_canvas.create_text(320, 30, text='Biblioteca Ricardo Florez Gutierrez',
 my_canvas.create_image(240,90,image=image_tk, anchor='nw')
 
 button1 = ttk.Button(root, text='ingresar', command = ingresar, bootstyle='info-outline')
+button1.bind("<Return>", ingresar)
 button1_window = my_canvas.create_window(290,360,anchor='nw', window=button1)
 
 

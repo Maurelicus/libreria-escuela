@@ -7,7 +7,7 @@ from datetime import date
 
 from conexion_sqlite import Comunicacion
 
-class VentanaPedidos():
+class PedidosLaminas():
     def __init__(self):
         self.titulo = tk.StringVar()
         self.autor = tk.StringVar()
@@ -30,83 +30,83 @@ class VentanaPedidos():
         # self.photo1 = ImageTk.PhotoImage(Image.open("reload.png"))
         # self.photo2 = ImageTk.PhotoImage(Image.open("excel.png"))
 
-    def seccion_uno(self, frame_cinco):
+    def seccion_uno(self, frame_datos):
         #! TEXTO
-        t_label = ttk.Label(frame_cinco, text='Titulo:', bootstyle='dark')
-        t_label.grid(column=0, row=1, padx=30, pady=[10,5], sticky='w')
-        a_label = ttk.Label(frame_cinco, text='Autor:', bootstyle='dark')
-        a_label.grid(column=0, row=2, padx=30, pady=5, sticky='w')
-        e_label = ttk.Label(frame_cinco, text='Editorial:', bootstyle='dark')
-        e_label.grid(column=0, row=3, padx=30, pady=5, sticky='w')
-        aed_label = ttk.Label(frame_cinco, text='Año de Edicion:', bootstyle='dark')
-        aed_label.grid(column=0, row=4, padx=30, pady=5, sticky='w')
-        cantidad_label = ttk.Label(frame_cinco, text='Cantidad:', bootstyle='dark')
+        title_label = ttk.Label(frame_datos, text='Titulo:', bootstyle='dark')
+        title_label.grid(column=0, row=1, padx=30, pady=[10,5], sticky='w')
+        author_label = ttk.Label(frame_datos, text='Autor:', bootstyle='dark')
+        author_label.grid(column=0, row=2, padx=30, pady=5, sticky='w')
+        publi_label = ttk.Label(frame_datos, text='Editorial:', bootstyle='dark')
+        publi_label.grid(column=0, row=3, padx=30, pady=5, sticky='w')
+        yearedit_label = ttk.Label(frame_datos, text='Año de Edicion:', bootstyle='dark')
+        yearedit_label.grid(column=0, row=4, padx=30, pady=5, sticky='w')
+        cantidad_label = ttk.Label(frame_datos, text='Cantidad:', bootstyle='dark')
         cantidad_label.grid(column=0, row=5, padx=30, pady=5, sticky='w')
-        codigo_label = ttk.Label(frame_cinco, text='Codigo:', bootstyle='dark')
+        codigo_label = ttk.Label(frame_datos, text='Codigo:', bootstyle='dark')
         codigo_label.grid(column=0, row=6, padx=30, pady=[5,10], sticky='w')
         
-        ttk.Label(frame_cinco, text='DATOS DEL USUARIO:', bootstyle='danger').grid(column=0, row=7, 
+        ttk.Label(frame_datos, text='DATOS DEL USUARIO:', bootstyle='danger').grid(column=0, row=7, 
                 padx=30, pady=10, sticky='w', columnspan=2)
         
-        n_label = ttk.Label(frame_cinco, text='Nombre:', bootstyle='dark')
-        n_label.grid(column=0, row=8, padx=30, pady=[10,5], sticky='w')
-        g_label = ttk.Label(frame_cinco, text='Grado:', bootstyle='dark')
-        g_label.grid(column=0, row=9, padx=30, pady=5, sticky='w')
-        s_label = ttk.Label(frame_cinco, text='Seccion:', bootstyle='dark')
-        s_label.grid(column=0, row=10, padx=30, pady=5, sticky='w')
-        ni_label = ttk.Label(frame_cinco, text='Nivel:', bootstyle='dark')
-        ni_label.grid(column=0, row=11, padx=30, pady=[5,10], sticky='w')
+        name_label = ttk.Label(frame_datos, text='Nombre:', bootstyle='dark')
+        name_label.grid(column=0, row=8, padx=30, pady=[10,5], sticky='w')
+        grade_label = ttk.Label(frame_datos, text='Grado:', bootstyle='dark')
+        grade_label.grid(column=0, row=9, padx=30, pady=5, sticky='w')
+        section_label = ttk.Label(frame_datos, text='Seccion:', bootstyle='dark')
+        section_label.grid(column=0, row=10, padx=30, pady=5, sticky='w')
+        level_label = ttk.Label(frame_datos, text='Nivel:', bootstyle='dark')
+        level_label.grid(column=0, row=11, padx=30, pady=[5,10], sticky='w')
         #! ENTRADAS
-        titulo_label = ttk.Label(frame_cinco, textvariable=self.titulo, wraplength=160, bootstyle='primary')
+        titulo_label = ttk.Label(frame_datos, textvariable=self.titulo, wraplength=160, bootstyle='primary')
         titulo_label.grid(column=1, row=1, padx=5, pady=[10,5], sticky='w')
-        autor_label = ttk.Label(frame_cinco, textvariable=self.autor, wraplength=160, bootstyle='primary')
+        autor_label = ttk.Label(frame_datos, textvariable=self.autor, wraplength=160, bootstyle='primary')
         autor_label.grid(column=1, row=2, padx=5, pady=5, sticky='w')
-        editorial_label = ttk.Label(frame_cinco, textvariable=self.editorial, wraplength=160, bootstyle='primary')
+        editorial_label = ttk.Label(frame_datos, textvariable=self.editorial, wraplength=160, bootstyle='primary')
         editorial_label.grid(column=1, row=3, padx=5, pady=5, sticky='w')
-        aedicion_label = ttk.Label(frame_cinco, textvariable=self.aedicion, wraplength=160, bootstyle='primary')
+        aedicion_label = ttk.Label(frame_datos, textvariable=self.aedicion, wraplength=160, bootstyle='primary')
         aedicion_label.grid(column=1, row=4, padx=5, pady=5, sticky='w')
-        cantidad_entry = ttk.Spinbox(frame_cinco, textvariable=self.cantidad, from_=0, to=100,width=5, bootstyle='primary')
+        cantidad_entry = ttk.Spinbox(frame_datos, textvariable=self.cantidad, from_=0, to=100,width=5, bootstyle='primary')
         cantidad_entry.state(["readonly"])
         cantidad_entry.grid(column=1, row=5, padx=5 ,pady=5, sticky='w')
-        codigo_entry = ttk.Entry(frame_cinco, textvariable=self.codigo_libro, width=10, bootstyle='primary')
+        codigo_entry = ttk.Entry(frame_datos, textvariable=self.codigo_libro, width=10, bootstyle='primary')
         codigo_entry.grid(column=1, row=6, padx=5 ,pady=5, sticky='w')
-        nombre_label = ttk.Label(frame_cinco, textvariable=self.usuario, wraplength=160, bootstyle='primary')
+        nombre_label = ttk.Label(frame_datos, textvariable=self.usuario, wraplength=160, bootstyle='primary')
         nombre_label.grid(column=1, row=8, padx=5, pady=[10,5], sticky='w')
-        grado_label = ttk.Label(frame_cinco, textvariable=self.grado, wraplength=160, bootstyle='primary')
+        grado_label = ttk.Label(frame_datos, textvariable=self.grado, wraplength=160, bootstyle='primary')
         grado_label.grid(column=1, row=9, padx=5, pady=5, sticky='w')
-        seccion_label = ttk.Label(frame_cinco, textvariable=self.seccion, wraplength=160, bootstyle='primary')
+        seccion_label = ttk.Label(frame_datos, textvariable=self.seccion, wraplength=160, bootstyle='primary')
         seccion_label.grid(column=1, row=10, padx=5, pady=5, sticky='w')
-        nivel_label = ttk.Label(frame_cinco, textvariable=self.nivel, wraplength=160, bootstyle='primary')
+        nivel_label = ttk.Label(frame_datos, textvariable=self.nivel, wraplength=160, bootstyle='primary')
         nivel_label.grid(column=1, row=11, padx=5, pady=[5,10], sticky='w')
         #! Botones
-        pedido_boton = ttk.Button(frame_cinco, text='Hacer Pedido', width=15, command=self.pedido, bootstyle='primary-outline')
+        pedido_boton = ttk.Button(frame_datos, text='Hacer Pedido', width=15, command=self.pedido, bootstyle='primary-outline')
         pedido_boton.grid(column=0, row=12, padx=30, pady=[5,10], sticky='w')
     
-    def seccion_dos(self, frame_seis):
-        frame_busqueda1 = ttk.Frame(frame_seis)
-        frame_busqueda1.grid(column=0, row=0, padx=5, pady=[1,5], sticky='nsew')
-        l_columna = ("Titulo", "Editorial", "Autor")
-        buscar_palabra = ttk.Combobox(frame_busqueda1, width=15, value=l_columna, 
+    def seccion_dos(self, frame_vista):
+        buscarbook_frame = ttk.Frame(frame_vista)
+        buscarbook_frame.grid(column=0, row=0, padx=5, pady=[1,5], sticky='nsew')
+        colu_list = ("Titulo", "Editorial", "Autor")
+        buscar_palabra = ttk.Combobox(buscarbook_frame, width=15, value=colu_list, 
                                       textvariable=self.nombre_columna, bootstyle='info')
         buscar_palabra.current(0)
         buscar_palabra.state(["readonly"])
         buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nswe')
-        filtro_libroid = ttk.Entry(frame_busqueda1, textvariable=self.palabra, width=40, bootstyle='info')
-        filtro_libroid.grid(column=1, row=0, padx=5 ,pady=5, sticky='nswe')
-        buscar_boton = ttk.Button(frame_busqueda1, text='Buscar', width=10, 
-                                  command=self.buscador1, bootstyle='info')
-        buscar_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nswe')      
+        palabra_entry = ttk.Entry(buscarbook_frame, textvariable=self.palabra, width=40, bootstyle='info')
+        palabra_entry.grid(column=1, row=0, padx=5 ,pady=5, sticky='nswe')
+        buscarlibro_boton = ttk.Button(buscarbook_frame, text='Buscar', width=10, 
+                                  command=self.buscar_libro, bootstyle='info')
+        buscarlibro_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nswe')      
         #! TABLA
-        frame_tabla1 = ttk.LabelFrame(frame_seis, text='Tabla Libros', bootstyle='info')
-        frame_tabla1.grid(column=0, row=1, padx=5, pady=[1,5] ,sticky='nsew')
-        frame_tabla1.columnconfigure(1 , weight=10)
-        frame_tabla1.rowconfigure(0 , weight=10)
-        self.tabla_libro = ttk.Treeview(frame_tabla1, bootstyle='info')
+        tablalibros_frame = ttk.LabelFrame(frame_vista, text='Tabla de Libros', bootstyle='info')
+        tablalibros_frame.grid(column=0, row=1, padx=5, pady=[1,5] ,sticky='nsew')
+        tablalibros_frame.columnconfigure(1 , weight=10)
+        tablalibros_frame.rowconfigure(0 , weight=10)
+        self.tabla_libro = ttk.Treeview(tablalibros_frame, bootstyle='info')
         self.tabla_libro.grid(column=1, row=0, sticky='nsew',padx=5, pady=5)
         #! SCROLLBARS
-        ladox1 = ttk.Scrollbar(frame_tabla1, orient='horizontal', command=self.tabla_libro.xview, bootstyle='info-round')
+        ladox1 = ttk.Scrollbar(tablalibros_frame, orient='horizontal', command=self.tabla_libro.xview, bootstyle='info-round')
         ladox1.grid(column=1, row=1, sticky='ew', padx=5)
-        ladoy1 = ttk.Scrollbar(frame_tabla1, orient='vertical', command=self.tabla_libro.yview, bootstyle='info-round')
+        ladoy1 = ttk.Scrollbar(tablalibros_frame, orient='vertical', command=self.tabla_libro.yview, bootstyle='info-round')
         ladoy1.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla_libro.configure(xscrollcommand=ladox1.set, yscrollcommand=ladoy1.set)
         #! COLUMNAS
@@ -128,33 +128,33 @@ class VentanaPedidos():
         self.tabla_libro.heading('#5', text='Año Edicion', anchor='center')
         self.tabla_libro.heading('#6', text='Condicion Libro', anchor='center')
         self.tabla_libro.heading('#7', text='Cantidad', anchor='center')
-        self.tabla_libro.bind("<<TreeviewSelect>>", self.obtener_fila1)
+        self.tabla_libro.bind("<<TreeviewSelect>>", self.obtener_libro)
         
-        frame_busqueda2 = ttk.Frame(frame_seis)
-        frame_busqueda2.grid(column=0, row=2, padx=5, pady=[1,5], sticky='nsew')
-        l_columna2 = ("Usuario", "Codigo")
-        buscar_palabra = ttk.Combobox(frame_busqueda2, width=15, value=l_columna2, 
+        buscaralumno_frame = ttk.Frame(frame_vista)
+        buscaralumno_frame.grid(column=0, row=2, padx=5, pady=[1,5], sticky='nsew')
+        col_list = ("Alumno", "Codigo")
+        buscar_palabra = ttk.Combobox(buscaralumno_frame, width=15, value=col_list, 
                                       textvariable=self.nombre_columna2, bootstyle='info')
         buscar_palabra.current(0)
         buscar_palabra.state(["readonly"])
         buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nsew')
-        filtro_libroid = ttk.Entry(frame_busqueda2, textvariable=self.palabra2, width=40, bootstyle='info')
-        filtro_libroid.grid(column=1, row=0, padx=5 ,pady=5, sticky='nsew')
-        buscar2_boton = ttk.Button(frame_busqueda2, text='Buscar', width=10, 
-                                   command=self.buscador2, bootstyle='info')
-        buscar2_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nswe')
+        palabra_entry = ttk.Entry(buscaralumno_frame, textvariable=self.palabra2, width=40, bootstyle='info')
+        palabra_entry.grid(column=1, row=0, padx=5 ,pady=5, sticky='nsew')
+        buscaralumno_boton = ttk.Button(buscaralumno_frame, text='Buscar', width=10, 
+                                   command=self.buscar_alumno, bootstyle='info')
+        buscaralumno_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nswe')
 
-        frame_tabla2 = ttk.LabelFrame(frame_seis, text='Tabla Alumnos', bootstyle='info')
-        frame_tabla2.grid(column=0, row=3, padx=5, pady=[1,5] ,sticky='nsew')
-        frame_tabla2.columnconfigure(1 , weight=10)
-        frame_tabla2.rowconfigure(0 , weight=10)
+        tablaalumnos_frame = ttk.LabelFrame(frame_vista, text='Tabla Alumnos', bootstyle='info')
+        tablaalumnos_frame.grid(column=0, row=3, padx=5, pady=[1,5] ,sticky='nsew')
+        tablaalumnos_frame.columnconfigure(1 , weight=10)
+        tablaalumnos_frame.rowconfigure(0 , weight=10)
         
-        self.tabla_alumno = ttk.Treeview(frame_tabla2, bootstyle='info')
+        self.tabla_alumno = ttk.Treeview(tablaalumnos_frame, bootstyle='info')
         self.tabla_alumno.grid(column=1, row=0, sticky='nsew',padx=5, pady=5)
         #! SCROLLBARS
-        ladox2 = ttk.Scrollbar(frame_tabla2, orient='horizontal', command=self.tabla_alumno.xview, bootstyle='info-round')
+        ladox2 = ttk.Scrollbar(tablaalumnos_frame, orient='horizontal', command=self.tabla_alumno.xview, bootstyle='info-round')
         ladox2.grid(column=1, row=1, sticky='ew', padx=5)
-        ladoy2 = ttk.Scrollbar(frame_tabla2, orient='vertical', command=self.tabla_alumno.yview, bootstyle='info-round')
+        ladoy2 = ttk.Scrollbar(tablaalumnos_frame, orient='vertical', command=self.tabla_alumno.yview, bootstyle='info-round')
         ladoy2.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla_alumno.configure(xscrollcommand=ladox2.set, yscrollcommand=ladoy2.set)
         #! COLUMNAS
@@ -170,17 +170,17 @@ class VentanaPedidos():
         self.tabla_alumno.heading('#2', text='Usuario', anchor='center')
         self.tabla_alumno.heading('#3', text='Grado', anchor='center')
         self.tabla_alumno.heading('#4', text='Seccion', anchor='center')
-        self.tabla_alumno.bind("<<TreeviewSelect>>", self.obtener_fila2)
+        self.tabla_alumno.bind("<<TreeviewSelect>>", self.obtener_alumno)
     
-    def buscador1(self):
-        self.limpiar_campos()
+    def buscar_libro(self):
+        self.limpiar_campos1()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         self.temp_palabra.set(palabra)
         self.temp_columna.set(columna)
         if palabra != '':
             # l_datos = self.bd.buscar_libromal(columna, palabra)
-            l_datos = self.bd.buscar_libros(columna, palabra)
+            l_datos = self.bd.search_libros(columna, palabra)
             # print(l2_datos)
             self.tabla_libro.delete(*self.tabla_libro.get_children())
             i = -1
@@ -192,12 +192,12 @@ class VentanaPedidos():
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
 
     
-    def buscador2(self):
+    def buscar_alumno(self):
         self.limpiar_campos2()
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
         if palabra != '':        
-            l_datos = self.bd.buscar_usuarios(columna, palabra)
+            l_datos = self.bd.search_alumnos(columna, palabra)
             self.tabla_alumno.delete(*self.tabla_alumno.get_children())
             i = -1
             for fila in l_datos:
@@ -206,7 +206,7 @@ class VentanaPedidos():
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
-    def obtener_fila1(self, event):
+    def obtener_libro(self, event):
         item_selec = self.tabla_libro.focus()
         diccionario_fila = self.tabla_libro.item(item_selec)
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
@@ -215,9 +215,9 @@ class VentanaPedidos():
             self.editorial.set(diccionario_fila['values'][3])
             self.aedicion.set(diccionario_fila['values'][4])
         else:
-            self.limpiar_campos()
+            self.limpiar_campos1()
             
-    def obtener_fila2(self, event):
+    def obtener_alumno(self, event):
         item_selec = self.tabla_alumno.focus()
         diccionario_fila = self.tabla_alumno.item(item_selec)
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
@@ -249,9 +249,9 @@ class VentanaPedidos():
             elif cantidad_restante < 0:
                 messagebox.showerror('Información', 'Cantidad excedida al total')
             else:
-                self.bd.agregar_libro(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
+                self.bd.append_libro(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
                 self.bd.update_libro_cantidad(libroid, cantidad_restante)
-                self.limpiar_campos()
+                self.limpiar_campos1()
                 self.limpiar_campos2()
                 palabra = self.temp_palabra.get()
                 columna = self.temp_columna.get()
@@ -265,7 +265,7 @@ class VentanaPedidos():
         else:
             messagebox.showerror('Información', 'Falta Rellenar')
     
-    def limpiar_campos(self):
+    def limpiar_campos1(self):
         self.titulo.set('')
         self.autor.set('')
         self.editorial.set('')

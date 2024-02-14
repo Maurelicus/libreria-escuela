@@ -25,22 +25,22 @@ class Nomina():
             usuarios = []
             for fila in filas_procesadas:
                 fila_bd = []
-                usuario = fila[10] + ", " + fila[8] + " " + fila[9]
-                final_usuario = usuario.replace("'", "-")
-                usuarios.append(final_usuario)
-                usuarioid = 'u'+fila[7]
+                alumno = fila[10] + ", " + fila[8] + " " + fila[9]
+                final_alumno = alumno.replace("'", "-")
+                usuarios.append(final_alumno)
+                alumnoid = 'u'+fila[7]
                 sexo = fila[11]
                 grado = fila[2].strip()
-                tipo = "alumno"
+                tipo = "Alumno"
                 seccion = fila[3].strip()
-                fila_bd.append(usuarioid)
-                fila_bd.append(final_usuario)
+                fila_bd.append(alumnoid)
+                fila_bd.append(final_alumno)
                 fila_bd.append(sexo)
                 fila_bd.append(nivel)
                 fila_bd.append(grado)
                 fila_bd.append(seccion)
                 filas_bd.append(fila_bd)
-                self.bd.agregar_usuario(usuarioid, final_usuario, sexo, nivel, grado, seccion, tipo)
+                self.bd.agregar_alumno(alumnoid, final_alumno, sexo, nivel, grado, seccion, tipo)
             # print(filas_bd)
 nomina1 = Nomina()
 nomina1.agregar_nomina()

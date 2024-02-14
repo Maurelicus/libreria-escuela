@@ -4,7 +4,7 @@ class Comunicacion():
     
     def __init__(self):
         self.bd = sqlite3.connect("data/BDprueba3.db")
-    #! VENTANA 1
+    #! LIBROS
     def update_libros(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
         query = '''
@@ -37,7 +37,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def agregar_libro(self, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
+    def append_libro(self, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
         cursor = self.bd.cursor()
         query = '''
         INSERT INTO libros (Remitente, AñoRecepcion, NivelEducativo, Titulo, Autor, Editorial, AñoEdicion, CondicionLibro, Cantidad)
@@ -57,7 +57,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
     
-    def buscar_libros(self, columna, palabra):
+    def search_libros(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
@@ -79,7 +79,7 @@ class Comunicacion():
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
-    #! VENTANA 2
+    #! LAMINAS
     def show_laminas(self):
         cursor = self.bd.cursor()
         query = '''
@@ -120,7 +120,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
         
-    def agregar_lamina(self, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
+    def append_lamina(self, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
         cursor = self.bd.cursor()
         query = '''
         INSERT INTO laminas (Codigo, Remitente, AñoRecepcion, NivelEducativo, Titulo, CondicionLamina, Cantidad)
@@ -152,18 +152,18 @@ class Comunicacion():
         return l_filas
     #! PEDIDO
     
-    def buscar_usuarios(self, columna, palabra):
+    def search_alumnos(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
-            UsuarioId AS [Codigo],
+            AlumnoId AS [Codigo],
             Nivel,
-            Usuario,
+            Alumno,
             Grado,
             Seccion,
             Sexo
         FROM 
-            usuarios
+            alumnos
         WHERE 
             {} LIKE '%{}%'
         '''.format(columna,palabra)
@@ -174,12 +174,12 @@ class Comunicacion():
         except sqlite3.OperationalError:
             print("incorrecto")
     
-    def agregar_libro(self, codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad):
+    def append_libro(self, codigo, libroid, alumnoid, fecha, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO pedido_libro (Codigo, LibroId, UsuarioId, FechaSalida, Situacion, Observacion, Cantidad)
+        INSERT INTO pedido_libro_alumno (Codigo, LibroId, AlumnoId, FechaSalida, Situacion, Observacion, Cantidad)
         VALUES('{}','{}','{}','{}','{}','{}','{}')
-        '''.format(codigo, libroid, usuarioid, fecha, situacion, observacion, cantidad)
+        '''.format(codigo, libroid, alumnoid, fecha, situacion, observacion, cantidad)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
@@ -200,7 +200,7 @@ class Comunicacion():
         cursor = self.bd.cursor()
         query = '''
         SELECT
-            alu.Usuario,
+            alu.Alumno,
             lib.Titulo,
             pl.Observacion,
             pl.FechaSalida,
@@ -210,17 +210,17 @@ class Comunicacion():
             pl.PedidoId,
             pl.Codigo,
             pl.LibroId,
-            pl.UsuarioId
+            pl.AlumnoId
         FROM
-            pedido_libro AS pl
+            pedido_libro_alumno AS pl
         INNER JOIN
             libros AS lib
         ON
             pl.LibroId = lib.LibroId
         INNER JOIN
-            usuarios AS alu
+            alumnos AS alu
         ON
-            alu.UsuarioId = pl.UsuarioId
+            alu.AlumnoId = pl.AlumnoId
         ORDER BY
             pl.Situacion
         '''
@@ -232,7 +232,7 @@ class Comunicacion():
         cursor = self.bd.cursor()
         query = '''
         SELECT
-            alu.Usuario AS [Usuario],
+            alu.Alumno AS [Alumno],
             lib.Titulo AS [Libro],
             pl.Observacion,
             pl.FechaSalida AS [Fecha],
@@ -241,15 +241,15 @@ class Comunicacion():
             pl.Cantidad,
             pl.PedidoId
         FROM
-            pedido_libro AS pl
+            pedido_libro_alumno AS pl
         INNER JOIN
             libros AS lib
         ON
             pl.LibroId = lib.LibroId
         INNER JOIN
-            usuarios AS alu
+            alumnos AS alu
         ON
-            alu.UsuarioId = pl.UsuarioId
+            alu.AlumnoId = pl.AlumnoId
         WHERE 
             {} LIKE '%{}%'
         '''.format(columna,palabra)
@@ -263,10 +263,10 @@ class Comunicacion():
         SELECT
             pl.LibroId,
             lib.Cantidad,
-            pl.UsuarioId,
+            pl.AlumnoId,
             pl.FechaSalida
         FROM
-            pedido_libro AS pl
+            pedido_libro_alumno AS pl
         INNER JOIN
             libros AS lib
         ON
@@ -278,12 +278,12 @@ class Comunicacion():
         idlibro = cursor.fetchall()
         return idlibro
         
-    def agregar_pedido(self, codigo, libroid, usuarioid, fecha_s, fecha_e, situacion, observacion, cantidad):
+    def agregar_pedido(self, codigo, libroid, alumnoid, fecha_s, fecha_e, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO pedido_libro (Codigo, LibroId, UsuarioId, FechaSalida, FechaEntrada, Situacion, Observacion, Cantidad)
+        INSERT INTO pedido_libro_alumno (Codigo, LibroId, UsuarioId, FechaSalida, FechaEntrada, Situacion, Observacion, Cantidad)
         VALUES('{}','{}','{}','{}','{}','{}','{}','{}')
-        '''.format(codigo, libroid, usuarioid, fecha_s, fecha_e, situacion, observacion, cantidad)
+        '''.format(codigo, libroid, alumnoid, fecha_s, fecha_e, situacion, observacion, cantidad)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
@@ -291,7 +291,7 @@ class Comunicacion():
     def update_pedido(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
-        UPDATE pedido_libro
+        UPDATE pedido_libro_alumno
         SET FechaEntrada = '{}', Situacion = '{}', Observacion = '{}', Cantidad = '{}'
         WHERE PedidoId = '{}'
         '''.format(fecha_devolucion, situacion, observacion, cantidad, pedidoid)
@@ -299,40 +299,50 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
 
-    def agregar_usuario(self, usuarioid, usuario, sexo, nivel, grado, seccion, tipo):
+    def agregar_alumno(self, alumnoid, alumno, sexo, nivel, grado, seccion, tipo):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO "usuarios" VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}")
-        '''.format(usuarioid, usuario, sexo, nivel, grado, seccion, tipo)
+        INSERT INTO "alumnos" VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}")
+        '''.format(alumnoid, alumno, sexo, nivel, grado, seccion, tipo)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
         
-    def show_usuarios(self):
+    def show_alumnos(self):
         cursor = self.bd.cursor()
         query = '''
         SELECT
-            UsuarioId,
-            Usuario,
+            AlumnoId AS [Codigo],
+            Alumno,
             Sexo,
             Nivel,
             Grado,
             Seccion,
             Tipo
         FROM 
-            Usuarios
+            Alumnos
         '''
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
     
-    def update_usuario(self, usuario, sexo, nivel, grado, seccion, usuarioid):
+    def update_alumno(self, alumno, sexo, nivel, grado, seccion, usuarioid):
         cursor = self.bd.cursor()
         query = '''
-        UPDATE Usuarios
-        SET Usuario = '{}', Sexo = '{}', Nivel = '{}', Grado = '{}', Seccion = '{}'
-        WHERE UsuarioId = '{}'
-        '''.format(usuario, sexo, nivel, grado, seccion, usuarioid)
+        UPDATE Alumnos
+        SET Alumno = '{}', Sexo = '{}', Nivel = '{}', Grado = '{}', Seccion = '{}'
+        WHERE AlumnoId = '{}'
+        '''.format(alumno, sexo, nivel, grado, seccion, usuarioid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def delete_alumno(self, Alumnoid):
+        cursor = self.bd.cursor()
+        query = '''
+        DELETE FROM alumnos
+        WHERE AlumnoId = '{}'        
+        '''.format(Alumnoid)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()

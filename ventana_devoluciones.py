@@ -58,7 +58,7 @@ class VentanaDevoluciones():
         frame_busqueda = ttk.Frame(frame_dos)
         frame_busqueda.grid(column=0, row=0, padx=5, pady=[1,5], sticky='nsew')
         
-        l_columna = ('Usuario', 'Libro', 'Fecha', 'Situacion',)
+        l_columna = ('Alumno', 'Libro', 'Fecha', 'Situacion',)
         columna_box = ttk.Combobox(frame_busqueda, width=15, value=l_columna, 
                                    textvariable=self.nombre_columna, bootstyle='success')
         columna_box.current(0)

@@ -7,7 +7,7 @@ import pandas as pd
 import openpyxl
 
 from conexion_sqlite import Comunicacion
-from informes import Informe
+from informes import Informes
 
 class VentanaRetiro():
     def __init__(self):
@@ -25,7 +25,7 @@ class VentanaRetiro():
         self.bd = Comunicacion()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
-        self.informe = Informe()
+        self.informe = Informes()
         
     def seccion_uno(self, frame_uno):
         #! TEXTO
@@ -224,7 +224,7 @@ class VentanaRetiro():
         if remitente and niveleducativo and titulo and condicionlibro != '' and cantidad > 0:
             question_box = messagebox.askquestion('Información', '¿Desea agregar la fila?')
             if question_box == 'yes':
-                self.bd.agregar_libro(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
+                self.bd.append_libro(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
                 self.tabla.insert('',"end",text=c_filas+1, values=datos)
                 messagebox.showinfo('Información', 'Fila agregada')
                 self.limpiar_campos()
@@ -247,7 +247,7 @@ class VentanaRetiro():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscar_libros(columna, palabra)
+            l_datos = self.bd.search_libros(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -258,5 +258,5 @@ class VentanaRetiro():
     
     def guardar_datos(self):
         self.limpiar_campos()
-        self.informe.guardar_datos()
+        self.informe.save_libros()
         messagebox.showinfo('Informacion', 'Datos guardados')
