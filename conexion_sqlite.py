@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprueba.db")
+        self.bd = sqlite3.connect("data/BDprincipalv1.db")
     #! LIBROS
     def update_libros(self, idlibro, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo):
         cursor = self.bd.cursor()
