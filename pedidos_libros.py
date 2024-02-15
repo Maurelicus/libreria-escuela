@@ -249,7 +249,7 @@ class PedidosLibros():
             elif cantidad_restante < 0:
                 messagebox.showerror('Información', 'Cantidad excedida al total')
             else:
-                self.bd.append_libro(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
+                self.bd.append_pedido(codigo, libroid, usuarioid, hoy, situacion, observacion, cantidad_pedida)
                 self.bd.update_libro_cantidad(libroid, cantidad_restante)
                 self.limpiar_campos1()
                 self.limpiar_campos2()

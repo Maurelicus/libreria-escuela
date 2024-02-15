@@ -20,12 +20,14 @@ class VentanaLibros():
         self.año_edicion = tk.StringVar()
         self.condicion_libro = tk.StringVar()
         self.cantidad = tk.IntVar()
+        self.categoria = tk.StringVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         self.informe = Informes()
+        self.cat_dic = {}
         
     def seccion_uno(self, frame_datos):
         #! TEXTO
@@ -46,7 +48,9 @@ class VentanaLibros():
         condicionlibro_label = ttk.Label(frame_datos, text='Condicion', bootstyle='dark')
         condicionlibro_label.grid(column=0, row=7, padx=30, pady=5, sticky='we')
         cantidad_label = ttk.Label(frame_datos, text='Cantidad', bootstyle='dark')
-        cantidad_label.grid(column=0, row=8, padx=30, pady=[5,10], sticky='we')
+        cantidad_label.grid(column=0, row=8, padx=30, pady=5, sticky='we')
+        categoria_label = ttk.Label(frame_datos, text='Categoria', bootstyle='dark')
+        categoria_label.grid(column=0, row=9, padx=30, pady=[5,10], sticky='we')
         #! ENTRADAS
         reminente_entry = ttk.Entry(frame_datos, textvariable=self.remitente, width=10, bootstyle='primary')
         reminente_entry.grid(column=1, row=0, padx=5 ,pady=[10,5], sticky='w')
@@ -73,13 +77,28 @@ class VentanaLibros():
         cantidad_entry = ttk.Spinbox(frame_datos, textvariable=self.cantidad, from_=0, to=100, width=5, bootstyle='primary')
         cantidad_entry.state(["readonly"])
         cantidad_entry.grid(column=1, row=8, padx=5 ,pady=[5,10], sticky='w')
+        cat_list = ["Literatura", "Historia y Geografia","Economia",
+                    "Ciencia, Tecnologia y Ambiente","Matematica","Fisica",
+                    "Quimica","Gastronomia","Educacion Civica","Computacion",
+                    "Idioma","Diccionario","Ciencias de la comunicacion","Tutoria",
+                    "Recreacion","Arte y Cultura","Religion","Educacion Fisica",
+                    "Otros"]
+        a = 1
+        for categ in cat_list:
+            self.cat_dic[categ] = a
+            a = a+1
+        # print(self.cat_dic)
+        categoria_combobox = ttk.Combobox(frame_datos, textvariable=self.categoria,value=cat_list, width=20, bootstyle='primary')
+        categoria_combobox.grid(column=1, row=9, padx=5 ,pady=5, sticky='w')
+        categoria_combobox.current(0)
+        categoria_combobox.state(["readonly"])
         #! Botones
-        update_boton = ttk.Button(frame_datos, text='Actualizar Libro', width=15, command=self.actualizar_libro, bootstyle='primary-outline')
-        update_boton.grid(column=0, row=9, padx=30, pady=10, sticky='w')
+        update_boton = ttk.Button(frame_datos, text='Modificar Libro', width=15, command=self.actualizar_libro, bootstyle='primary-outline')
+        update_boton.grid(column=0, row=10, padx=30, pady=10, sticky='w')
         clear_boton = ttk.Button(frame_datos, text='Limpiar Campos', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
-        clear_boton.grid(column=1, row=9, padx=5, pady=10, sticky='w')
+        clear_boton.grid(column=1, row=10, padx=5, pady=10, sticky='w')
         add_boton = ttk.Button(frame_datos, text='Añadir Libro', width=15, command=self.agregar_libro, bootstyle='primary-outline')
-        add_boton.grid(column=0, row=10, padx=30, pady=10, sticky='w')
+        add_boton.grid(column=0, row=11, padx=30, pady=10, sticky='w')
     
     def seccion_dos(self, frame_vista):
         busqueda_frame = ttk.Frame(frame_vista)
@@ -87,7 +106,7 @@ class VentanaLibros():
         
         col_list = ("Autor", "Titulo", "Editorial", "Año de recepcion",
                      "Año de edicion", "Remitente", "Nivel educativo", 
-                     "AñoEdicion", "Condicion del libro", "Cantidad")
+                     "Condicion del libro", "Cantidad", "Categoria")
         buscarpalabra_combobox = ttk.Combobox(busqueda_frame, width=15, value=col_list, 
                                       textvariable=self.nombre_columna, bootstyle='success')
         buscarpalabra_combobox.current(0)
@@ -163,18 +182,27 @@ class VentanaLibros():
             self.año_edicion.set(diccionario_fila['values'][6])
             self.condicion_libro.set(diccionario_fila['values'][7])
             self.cantidad.set(diccionario_fila['values'][8])
+            self.categoria.set(diccionario_fila['values'][10])
         else:
             self.limpiar_campos()
             
     def mostrar_libros(self):
         self.limpiar_campos()
         l_datos = self.bd.show_libros()
+        # print(l_datos)
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
             i = i+1
-            self.tabla.insert('', i,text=i+1, values=fila[0:11])
-            
+            # print(fila)
+            if fila[10] == 'Literatura':
+                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[10])
+            elif fila[10] == None:
+                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Falta')
+            else:
+                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[10])
+        self.tabla.tag_configure('Literatura', background='#E6E6FA')
+        self.tabla.tag_configure('Falta', background='#f79fbe')
     def limpiar_campos(self):
         self.remitente.set('')
         self.año_recepcion.set('')
@@ -185,17 +213,18 @@ class VentanaLibros():
         self.año_edicion.set('')
         self.condicion_libro.set('')
         self.cantidad.set(0)
+        self.categoria.set('')
     
     def actualizar_libro(self):
         item_l = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_l)
         if len(diccionario_fila['values']) != 0:
-            id = diccionario_fila['values'][9]
+            idlibro = diccionario_fila['values'][9]
             l_datos = self.bd.show_libros()
             
             for fila in l_datos:
                 id_bd = fila[9]
-                if id_bd == id and id_bd != None:
+                if id_bd == idlibro and id_bd != None:
                     remitente = self.remitente.get()
                     añorecepcion = self.año_recepcion.get()
                     niveleducativo = self.nivel_educativo.get()
@@ -205,9 +234,11 @@ class VentanaLibros():
                     añoedicion = self.año_edicion.get()
                     condicionlibro = self.condicion_libro.get()
                     cantidad = self.cantidad.get()
+                    categoria = self.categoria.get()
                     confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
-                    if remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
-                        self.bd.update_libros(id, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad)
+                    if categoria and remitente and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
+                        categoriaid = self.cat_dic[categoria]
+                        self.bd.update_libros(idlibro, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad, categoriaid)
                         messagebox.showinfo('Información', 'Fila modificada')
                         self.mostrar_libros()
         else:
@@ -223,14 +254,16 @@ class VentanaLibros():
         añoedicion = self.año_edicion.get()
         condicionlibro = self.condicion_libro.get()
         cantidad = self.cantidad.get()
+        categoria = self.categoria.get()
         c_filas = len(self.tabla.get_children())
-        datos = (remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
+        datos = (remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad, categoria)
 
-        if remitente and niveleducativo and titulo and condicionlibro != '' and cantidad > 0:
+        if categoria and remitente and niveleducativo and titulo and condicionlibro != '' and cantidad > 0:
             question_box = messagebox.askquestion('Información', '¿Desea agregar la fila?')
             if question_box == 'yes':
-                self.bd.append_libro(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
-                self.tabla.insert('',"end",text=c_filas+1, values=datos)
+                categoriaid = self.cat_dic[categoria]
+                self.bd.append_libro(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad, categoriaid)
+                self.tabla.insert('',"end",text=c_filas+1, values=datos, tags=categoria)
                 messagebox.showinfo('Información', 'Fila agregada')
                 self.limpiar_campos()
         else:
@@ -259,13 +292,21 @@ class VentanaLibros():
             columna = "AñoEdicion"
         elif columna == "Condicion del libro":
             columna = "CondicionLibro"
+            
         if palabra != '':
             l_datos = self.bd.search_libros(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
                 i = i+1
-                self.tabla.insert('', i,text=i+1, values=fila[0:11])
+                if fila[10] == 'Literatura':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[10])
+                elif fila[10] == None:
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Falta')
+                else:
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[10])
+            self.tabla.tag_configure('Literatura', background='#E6E6FA')
+            self.tabla.tag_configure('Falta', background='#f79fbe')
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     

@@ -3,15 +3,15 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprueba3.db")
+        self.bd = sqlite3.connect("data/BDprueba.db")
     #! LIBROS
-    def update_libros(self, id, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
+    def update_libros(self, idlibro, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo):
         cursor = self.bd.cursor()
         query = '''
         UPDATE libros
-        SET Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', Autor = '{}', Editorial = '{}', AñoEdicion = '{}', CondicionLibro = '{}', Cantidad = '{}'
+        SET Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', Autor = '{}', Editorial = '{}', AñoEdicion = '{}', CondicionLibro = '{}', Cantidad = '{}', Tipo = '{}'
         WHERE LibroId = '{}'
-        '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, id)
+        '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo, idlibro)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
@@ -20,29 +20,34 @@ class Comunicacion():
         cursor = self.bd.cursor()
         query = '''
         SELECT 
-            Remitente,
-            AñoRecepcion,
-            NivelEducativo,
-            Titulo,
-            Autor,
-            Editorial,
-            AñoEdicion,
-            CondicionLibro,
-            Cantidad,
-            LibroId
+            li.Remitente,
+            li.AñoRecepcion,
+            li.NivelEducativo,
+            li.Titulo,
+            li.Autor,
+            li.Editorial,
+            li.AñoEdicion,
+            li.CondicionLibro,
+            li.Cantidad,
+            li.LibroId,
+			ca.Categoria
         FROM 
-            libros
+            libros AS li
+		LEFT OUTER JOIN
+			categorias AS ca
+		ON
+			li.Tipo = ca.TipoId
         '''
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
     
-    def append_libro(self, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad):
+    def append_libro(self, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO libros (Remitente, AñoRecepcion, NivelEducativo, Titulo, Autor, Editorial, AñoEdicion, CondicionLibro, Cantidad)
-        VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}')
-        '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad)
+        INSERT INTO libros (Remitente, AñoRecepcion, NivelEducativo, Titulo, Autor, Editorial, AñoEdicion, CondicionLibro, Cantidad, Tipo)
+        VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')
+        '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
@@ -61,18 +66,23 @@ class Comunicacion():
         cursor = self.bd.cursor()
         query = '''
         SELECT 
-            Remitente,
-            AñoRecepcion,
-            NivelEducativo,
-            Titulo,
-            Autor,
-            Editorial,
-            AñoEdicion,
-            CondicionLibro,
-            Cantidad,
-            LibroId
+            li.Remitente AS [Remitente],
+            li.AñoRecepcion AS [AñoRecepcion],
+            li.NivelEducativo AS [NivelEducativo],
+            li.Titulo AS [Titulo],
+            li.Autor AS [Autor],
+            li.Editorial AS [Editorial],
+            li.AñoEdicion AS [AñoEdicion],
+            li.CondicionLibro AS [CondicionLibro],
+            li.Cantidad AS [Cantidad],
+            li.LibroId,
+			ca.Categoria AS [Categoria]
         FROM 
-            libros
+            libros AS li
+		LEFT OUTER JOIN
+			categorias AS ca
+		ON
+			li.Tipo = ca.TipoId
         WHERE 
             {} LIKE '%{}%'
         '''.format(columna,palabra)
@@ -84,16 +94,21 @@ class Comunicacion():
         cursor = self.bd.cursor()
         query = '''
         SELECT
-            Codigo,
-            Remitente,
-            AñoRecepcion,
-            NivelEducativo,
-            Titulo,
-            CondicionLamina,
-            Cantidad,
-            LaminasId
+            la.Remitente,
+            la.AñoRecepcion,
+            la.NivelEducativo,
+            la.Titulo,
+            la.CondicionLamina,
+            la.Codigo,
+            la.Cantidad,
+            la.LaminasId,
+            ca.Categoria
         FROM 
-            laminas
+            laminas AS la
+        LEFT OUTER JOIN
+            categorias AS ca
+        ON
+            la.TipoId = ca.TipoId
         '''
         cursor.execute(query)
         l_filas = cursor.fetchall()
@@ -109,41 +124,46 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
     
-    def update_lamina(self, id, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
+    def update_lamina(self, idlamina, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad, tipo):
         cursor = self.bd.cursor()
         query = '''
         UPDATE laminas
-        SET Codigo = '{}', Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', CondicionLamina = '{}', Cantidad = '{}'
+        SET Codigo = '{}', Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', CondicionLamina = '{}', Cantidad = '{}', TipoId = '{}'
         WHERE LaminasId = '{}'
-        '''.format(codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad, id)
+        '''.format(codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad, tipo, idlamina)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
         
-    def append_lamina(self, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad):
+    def append_lamina(self, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad, tipo):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO laminas (Codigo, Remitente, AñoRecepcion, NivelEducativo, Titulo, CondicionLamina, Cantidad)
-        VALUES('{}','{}','{}','{}','{}','{}','{}')
-        '''.format(codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad)
+        INSERT INTO laminas (Codigo, Remitente, AñoRecepcion, NivelEducativo, Titulo, CondicionLamina, Cantidad, TipoId)
+        VALUES('{}','{}','{}','{}','{}','{}','{}','{}')
+        '''.format(codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad, tipo)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
         
-    def buscar_laminas(self, columna, palabra):
+    def search_laminas(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
-            Codigo,
-            Remitente,
-            AñoRecepcion,
-            NivelEducativo,
-            Titulo,
-            CondicionLamina,
-            Cantidad,
-            LaminasId
+            la.Remitente AS [Remitente],
+            la.AñoRecepcion AS [AñoRecepcion],
+            la.NivelEducativo AS [NivelEducativo],
+            la.Titulo AS [Titulo],
+            la.CondicionLamina AS [CondicionLamina],
+            la.Codigo AS [Codigo],
+            la.Cantidad AS [Cantidad],
+            la.LaminasId,
+            ca.Categoria AS [Categoria]
         FROM 
-            laminas
+            laminas AS la
+        LEFT OUTER JOIN
+            categorias AS ca
+        ON
+            la.TipoId = ca.TipoId
         WHERE 
             {} LIKE '%{}%'
         '''.format(columna,palabra)
@@ -174,7 +194,7 @@ class Comunicacion():
         except sqlite3.OperationalError:
             print("incorrecto")
     
-    def append_libro(self, codigo, libroid, alumnoid, fecha, situacion, observacion, cantidad):
+    def append_pedido(self, codigo, libroid, alumnoid, fecha, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
         INSERT INTO pedido_libro_alumno (Codigo, LibroId, AlumnoId, FechaSalida, Situacion, Observacion, Cantidad)
@@ -346,4 +366,16 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
+        
+    def show_categorias(self):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT
+            Categoria
+        FROM
+            categorias
+        '''
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
         
