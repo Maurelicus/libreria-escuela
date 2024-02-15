@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprincipalv1.db")
+        self.bd = sqlite3.connect("data/BDprueba.db")
     #! LIBROS
     def update_libros(self, idlibro, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo):
         cursor = self.bd.cursor()
@@ -170,18 +170,70 @@ class Comunicacion():
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
-    #! PEDIDO
+    #! ALUMNO
+    def show_alumnos(self):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT
+            Alumno,
+            Sexo,
+            Nivel,
+            Grado,
+            Seccion,
+            Codigo,
+            AlumnoId,
+            Tipo
+        FROM 
+            alumnos
+        '''
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
     
+    def append_alumno(self, codigo, alumno, sexo, nivel, grado, seccion, tipo):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO alumnos (Codigo, Alumno, Sexo, Nivel, Grado, Seccion, Tipo) 
+        VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}")
+        '''.format(codigo, alumno, sexo, nivel, grado, seccion, tipo)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    
+    def update_alumno(self, idalumno, codigo, alumno, sexo, nivel, grado, seccion):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE Alumnos
+        SET Codigo = '{}', Alumno = '{}', Sexo = '{}', Nivel = '{}', Grado = '{}', Seccion = '{}'
+        WHERE AlumnoId = '{}'
+        '''.format(codigo, alumno, sexo, nivel, grado, seccion, idalumno)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def delete_alumno(self, Alumnoid):
+        cursor = self.bd.cursor()
+        query = '''
+        DELETE FROM alumnos
+        WHERE AlumnoId = '{}'        
+        '''.format(Alumnoid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
     def search_alumnos(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
-            AlumnoId AS [Codigo],
-            Nivel,
             Alumno,
+            Sexo,
+            Nivel,
             Grado,
             Seccion,
-            Sexo
+            Codigo,
+            AlumnoId,
+            Tipo
         FROM 
             alumnos
         WHERE 
@@ -194,6 +246,7 @@ class Comunicacion():
         except sqlite3.OperationalError:
             print("incorrecto")
     
+    #! PEDIDO
     def append_pedido(self, codigo, libroid, alumnoid, fecha, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
@@ -319,54 +372,6 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
 
-    def agregar_alumno(self, alumnoid, alumno, sexo, nivel, grado, seccion, tipo):
-        cursor = self.bd.cursor()
-        query = '''
-        INSERT INTO "alumnos" VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}")
-        '''.format(alumnoid, alumno, sexo, nivel, grado, seccion, tipo)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
-        
-    def show_alumnos(self):
-        cursor = self.bd.cursor()
-        query = '''
-        SELECT
-            AlumnoId AS [Codigo],
-            Alumno,
-            Sexo,
-            Nivel,
-            Grado,
-            Seccion,
-            Tipo
-        FROM 
-            Alumnos
-        '''
-        cursor.execute(query)
-        l_filas = cursor.fetchall()
-        return l_filas
-    
-    def update_alumno(self, alumno, sexo, nivel, grado, seccion, usuarioid):
-        cursor = self.bd.cursor()
-        query = '''
-        UPDATE Alumnos
-        SET Alumno = '{}', Sexo = '{}', Nivel = '{}', Grado = '{}', Seccion = '{}'
-        WHERE AlumnoId = '{}'
-        '''.format(alumno, sexo, nivel, grado, seccion, usuarioid)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
-        
-    def delete_alumno(self, Alumnoid):
-        cursor = self.bd.cursor()
-        query = '''
-        DELETE FROM alumnos
-        WHERE AlumnoId = '{}'        
-        '''.format(Alumnoid)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
-        
     def show_categorias(self):
         cursor = self.bd.cursor()
         query = '''

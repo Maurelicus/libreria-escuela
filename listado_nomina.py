@@ -28,19 +28,19 @@ class Nomina():
                 alumno = fila[10] + ", " + fila[8] + " " + fila[9]
                 final_alumno = alumno.replace("'", "-")
                 usuarios.append(final_alumno)
-                alumnoid = 'u'+fila[7]
+                codigo = 'u'+fila[7]
                 sexo = fila[11]
                 grado = fila[2].strip()
                 tipo = "Alumno"
                 seccion = fila[3].strip()
-                fila_bd.append(alumnoid)
+                fila_bd.append(codigo)
                 fila_bd.append(final_alumno)
                 fila_bd.append(sexo)
                 fila_bd.append(nivel)
                 fila_bd.append(grado)
                 fila_bd.append(seccion)
                 filas_bd.append(fila_bd)
-                self.bd.agregar_alumno(alumnoid, final_alumno, sexo, nivel, grado, seccion, tipo)
+                self.bd.append_alumno(codigo, final_alumno, sexo, nivel, grado, seccion, tipo)
             # print(filas_bd)
 nomina1 = Nomina()
 nomina1.agregar_nomina()

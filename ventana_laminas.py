@@ -193,6 +193,7 @@ class VentanaLaminas():
         diccionario_fila = self.tabla.item(item_l)
         if len(diccionario_fila['values']) != 0:
             idlamina = diccionario_fila['values'][7]
+            codigo_l = diccionario_fila['values'][5]
             l_datos = self.bd.show_laminas()
             
             for fila in l_datos:
@@ -207,11 +208,25 @@ class VentanaLaminas():
                     cantidad = self.cantidad.get()
                     categoria = self.categoria.get()
                     confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
-                    if categoria and remitente and niveleducativo and titulo and codigo and cantidad != '' and confirmar_box == True:
-                        categoriaid = self.cat_dic[categoria]
-                        self.bd.update_lamina(idlamina, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad, categoriaid)
-                        messagebox.showinfo('Información', 'Fila modificada')
-                        self.mostrar_laminas()
+                    
+                    l_datos = self.bd.show_laminas()
+                    codigos = []
+                    for fila in l_datos:
+                        codigos.append(fila[5])
+                    if str(codigo_l) == str(codigo):
+                        if categoria and remitente and niveleducativo and titulo and codigo and cantidad != '' and confirmar_box == True:
+                            categoriaid = self.cat_dic[categoria]
+                            self.bd.update_lamina(idlamina, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad, categoriaid)
+                            messagebox.showinfo('Información', 'Fila modificada')
+                            self.mostrar_laminas()
+                    elif codigo in codigos:
+                        messagebox.showerror('ERROR', 'Codigo Existente')
+                    elif codigo not in codigos:
+                        if categoria and remitente and niveleducativo and titulo and codigo and cantidad != '' and confirmar_box == True:
+                            categoriaid = self.cat_dic[categoria]
+                            self.bd.update_lamina(idlamina, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad, categoriaid)
+                            messagebox.showinfo('Información', 'Fila modificada')
+                            self.mostrar_laminas()
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
             
