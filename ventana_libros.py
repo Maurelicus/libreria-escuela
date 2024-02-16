@@ -185,7 +185,7 @@ class VentanaLibros():
         self.tabla.tag_configure('CTA', background='#ffffba')
         self.tabla.tag_configure('Matematica', background='#1b85b8')
         self.tabla.tag_configure('Fisica', background='#559e83')
-        self.tabla.tag_configure('Biologia', background='#ae5a41')
+        self.tabla.tag_configure('Biologia', background='#fbf')
         self.tabla.tag_configure('Quimica', background='#c3cb71')
         self.tabla.tag_configure('EC', background='#dbdcff')
         self.tabla.tag_configure('AyC', background='#f8c583')
