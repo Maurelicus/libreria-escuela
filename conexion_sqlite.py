@@ -3,34 +3,23 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprincipal.db")
+        self.bd = sqlite3.connect("data/BDprueba.db")
     #! LIBROS
-    def update_libros(self, idlibro, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo):
-        cursor = self.bd.cursor()
-        query = '''
-        UPDATE libros
-        SET Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', Autor = '{}', Editorial = '{}', AñoEdicion = '{}', CondicionLibro = '{}', Cantidad = '{}', Tipo = '{}'
-        WHERE LibroId = '{}'
-        '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo, idlibro)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
-    
     def show_libros(self):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
-            li.Remitente,
-            li.AñoRecepcion,
-            li.NivelEducativo,
             li.Titulo,
             li.Autor,
             li.Editorial,
             li.AñoEdicion,
-            li.CondicionLibro,
+			ca.Categoria,
             li.Cantidad,
-            li.LibroId,
-			ca.Categoria
+            li.Remitente,
+            li.NivelEducativo,
+            li.CondicionLibro,
+            li.AñoRecepcion,
+            li.LibroId
         FROM 
             libros AS li
 		LEFT OUTER JOIN
@@ -41,6 +30,17 @@ class Comunicacion():
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
+    
+    def update_libros(self, idlibro, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE libros
+        SET Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', Autor = '{}', Editorial = '{}', AñoEdicion = '{}', CondicionLibro = '{}', Cantidad = '{}', Tipo = '{}'
+        WHERE LibroId = '{}'
+        '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo, idlibro)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
     
     def append_libro(self, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo):
         cursor = self.bd.cursor()
@@ -66,17 +66,17 @@ class Comunicacion():
         cursor = self.bd.cursor()
         query = '''
         SELECT 
-            li.Remitente AS [Remitente],
-            li.AñoRecepcion AS [AñoRecepcion],
-            li.NivelEducativo AS [NivelEducativo],
             li.Titulo AS [Titulo],
             li.Autor AS [Autor],
             li.Editorial AS [Editorial],
             li.AñoEdicion AS [AñoEdicion],
-            li.CondicionLibro AS [CondicionLibro],
+			ca.Categoria AS [Categoria],
             li.Cantidad AS [Cantidad],
-            li.LibroId,
-			ca.Categoria AS [Categoria]
+            li.Remitente AS [Remitente],
+            li.NivelEducativo AS [NivelEducativo],
+            li.CondicionLibro AS [CondicionLibro],
+            li.AñoRecepcion AS [AñoRecepcion],
+            li.LibroId
         FROM 
             libros AS li
 		LEFT OUTER JOIN
@@ -94,15 +94,15 @@ class Comunicacion():
         cursor = self.bd.cursor()
         query = '''
         SELECT
-            la.Remitente,
-            la.AñoRecepcion,
-            la.NivelEducativo,
             la.Titulo,
-            la.CondicionLamina,
+            ca.Categoria,
             la.Codigo,
             la.Cantidad,
-            la.LaminasId,
-            ca.Categoria
+            la.Remitente,
+            la.CondicionLamina,
+            la.NivelEducativo,
+            la.AñoRecepcion,
+            la.LaminasId
         FROM 
             laminas AS la
         LEFT OUTER JOIN
@@ -114,15 +114,6 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def delete_lamina(self, id):
-        cursor = self.bd.cursor()
-        query = '''
-        DELETE FROM laminas
-        WHERE LaminasId = '{}'        
-        '''.format(id)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
     
     def update_lamina(self, idlamina, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad, tipo):
         cursor = self.bd.cursor()
@@ -144,20 +135,29 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
+    def delete_lamina(self, id):
+        cursor = self.bd.cursor()
+        query = '''
+        DELETE FROM laminas
+        WHERE LaminasId = '{}'        
+        '''.format(id)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
         
     def search_laminas(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
-            la.Remitente AS [Remitente],
-            la.AñoRecepcion AS [AñoRecepcion],
-            la.NivelEducativo AS [NivelEducativo],
             la.Titulo AS [Titulo],
-            la.CondicionLamina AS [CondicionLamina],
+            ca.Categoria AS [Categoria],
             la.Codigo AS [Codigo],
             la.Cantidad AS [Cantidad],
-            la.LaminasId,
-            ca.Categoria AS [Categoria]
+            la.Remitente AS [Remitente],
+            la.CondicionLamina AS [CondicionLamina],
+            la.NivelEducativo AS [NivelEducativo],
+            la.AñoRecepcion AS [AñoRecepcion],
+            la.LaminasId
         FROM 
             laminas AS la
         LEFT OUTER JOIN

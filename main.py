@@ -16,7 +16,7 @@ def ingresar():
         root.withdraw()
         ven_pri = ttk.Toplevel()
         ven_pri.title('Biblioteca Colegio')
-        ven_pri.minsize(width=1200, height=650)
+        ven_pri.minsize(width=1300, height=700)
         # 1440x900
         ven_pri.geometry('1000x600')
         ven_pri.columnconfigure(0, weight=1)
@@ -28,8 +28,8 @@ def ingresar():
 def cerrar_aplicacion():
     if messagebox.askokcancel("Cerrar Aplicación", "¿Seguro que quieres salir?"):
         root.destroy()
-
-root = ttk.Window(themename= 'morph')
+# journal-minty-united-morph
+root = ttk.Window(themename= 'minty')
 root.title('Biblioteca Colegio Administrador')
 root.maxsize(width=640, height=426)
 root.minsize(width=640, height=426)
