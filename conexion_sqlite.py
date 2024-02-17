@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprincipal.db")
+        self.bd = sqlite3.connect("data/BDprueba.db")
     #! LIBROS
     def show_libros(self):
         cursor = self.bd.cursor()
@@ -26,7 +26,15 @@ class Comunicacion():
 			categorias AS ca
 		ON
 			li.Tipo = ca.TipoId
+        ORDER BY
+            li.NivelEducativo DESC
         '''
+        """ 
+            li.Tipo,
+            li.Titulo ASC,
+            li.Cantidad DESC,
+            li.Editorial
+        """
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
@@ -181,25 +189,14 @@ class Comunicacion():
             Grado,
             Seccion,
             Codigo,
-            AlumnoId,
-            Tipo
+            Tipo,
+            AlumnoId
         FROM 
             alumnos
         '''
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
-    
-    def append_alumno(self, codigo, alumno, sexo, nivel, grado, seccion, tipo):
-        cursor = self.bd.cursor()
-        query = '''
-        INSERT INTO alumnos (Codigo, Alumno, Sexo, Nivel, Grado, Seccion, Tipo) 
-        VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}")
-        '''.format(codigo, alumno, sexo, nivel, grado, seccion, tipo)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
-        
     
     def update_alumno(self, idalumno, codigo, alumno, sexo, nivel, grado, seccion):
         cursor = self.bd.cursor()
@@ -208,6 +205,16 @@ class Comunicacion():
         SET Codigo = '{}', Alumno = '{}', Sexo = '{}', Nivel = '{}', Grado = '{}', Seccion = '{}'
         WHERE AlumnoId = '{}'
         '''.format(codigo, alumno, sexo, nivel, grado, seccion, idalumno)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+
+    def append_alumno(self, codigo, alumno, sexo, nivel, grado, seccion, tipo):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO alumnos (Codigo, Alumno, Sexo, Nivel, Grado, Seccion, Tipo) 
+        VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}")
+        '''.format(codigo, alumno, sexo, nivel, grado, seccion, tipo)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()

@@ -137,20 +137,6 @@ class VentanaAlumnos():
         
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_alumno)
         self.tabla.bind("<Double-1>", self.eliminar_alumno)
-        
-    def obtener_alumno(self, event):
-        item_selec = self.tabla.focus()
-        diccionario_alumno = self.tabla.item(item_selec)
-        if 'values' in diccionario_alumno and len(diccionario_alumno['values']) >= 2:
-            self.alumno.set(diccionario_alumno['values'][0])
-            self.sexo.set(diccionario_alumno['values'][1])
-            self.nivel.set(diccionario_alumno['values'][2])
-            self.grado.set(diccionario_alumno['values'][3])
-            self.seccion.set(diccionario_alumno['values'][4])
-            self.codigo.set(diccionario_alumno['values'][5])
-                
-        else:
-            self.limpiar_campos()            
 
     def mostrar_tabla(self):
         self.limpiar_campos()
@@ -159,8 +145,22 @@ class VentanaAlumnos():
         i = -1
         for fila in l_datos:
             i = i+1
-            self.tabla.insert('', i,text=i+1, values=fila[0:8])
+            self.tabla.insert('', i,text=i+1, values=fila[0:8], tags=fila[6])
             
+        
+    def obtener_alumno(self, event):
+        item_selec = self.tabla.focus()
+        diccionario_alumno = self.tabla.item(item_selec)
+        if 'values' in diccionario_alumno and len(diccionario_alumno['values']) != 0:
+            self.alumno.set(diccionario_alumno['values'][0])
+            self.sexo.set(diccionario_alumno['values'][1])
+            self.nivel.set(diccionario_alumno['values'][2])
+            self.grado.set(diccionario_alumno['values'][3])
+            self.seccion.set(diccionario_alumno['values'][4])
+            self.codigo.set(diccionario_alumno['values'][5])
+                
+        else:
+            self.limpiar_campos()
             
     def limpiar_campos(self):
         self.codigo.set('')
@@ -171,47 +171,63 @@ class VentanaAlumnos():
         self.seccion.set('')
 
     def actualizar_alumno(self):
+        #? ALUMNOID EN EL 7
         item_l = self.tabla.focus()
         diccionario_alumno = self.tabla.item(item_l)
-        if len(diccionario_alumno['values']) != 0:
-            idalumno = diccionario_alumno['values'][6]
-            codigo_a = diccionario_alumno['values'][5]
-            l_datos = self.bd.show_alumnos()
-            
-            for fila in l_datos:
-                id_bd = fila[6]
-                if id_bd == idalumno and id_bd != None:
-                    codigo = self.codigo.get()
+        if len(diccionario_alumno['values']) >= 7:
+            tabla_alumnos = self.bd.show_alumnos()
+            lista_codigos = []
+            for fila in tabla_alumnos:
+                lista_codigos.append(fila[5])
+                
+            idalumno_tabla = diccionario_alumno['values'][7]
+            for fila in tabla_alumnos:
+                alumnoid_bd = fila[7]
+                if alumnoid_bd == idalumno_tabla and idalumno_tabla != '':
                     alumno = self.alumno.get()
                     sexo = self.sexo.get()
                     nivel = self.nivel.get()
                     grado = self.grado.get()
                     seccion = self.seccion.get()
-                    confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
-                    # alumnoid = 'q'+str(alumnoid)
+                    codigo = self.codigo.get()
+                    n_codigo = 'n'+str(codigo)
                     
-                    l_datos = self.bd.show_alumnos()
-                    listado_codigos = []
-                    for fila in l_datos:
-                        listado_codigos.append(fila[5])
-                    if str(codigo_a) == str(codigo):
-                        # print(1)
-                        # print(codigo)
-                        if codigo and alumno and sexo and nivel and grado and seccion != '' and confirmar_box == True:
-                            self.bd.update_alumno(idalumno, codigo, alumno, sexo, nivel, grado, seccion)
+                    confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
+                    if codigo and alumno and sexo and nivel and grado and seccion != '' and confirmar_box == True:
+                        codigo_alumno = diccionario_alumno['values'][5]
+                        # cuando no modifico el codigo
+                        if str(codigo_alumno) == str(codigo):
+                            self.bd.update_alumno(idalumno_tabla, codigo, alumno, sexo, nivel, grado, seccion)
                             messagebox.showinfo('Información', 'Fila modificada')
                             self.mostrar_tabla()
-                    elif codigo in listado_codigos:
-                        # print(2)
-                        # print(codigo)
-                        messagebox.showerror('ERROR', 'Codigo Existente')
-                    elif codigo not in listado_codigos:
-                        # print(3)
-                        # print(codigo)
-                        if codigo and alumno and sexo and nivel and grado and seccion != '' and confirmar_box == True:
-                            self.bd.update_alumno(idalumno, codigo, alumno, sexo, nivel, grado, seccion)
-                            messagebox.showinfo('Información', 'Fila modificada')
-                            self.mostrar_tabla()
+                        # cuando modifico el codigo
+                        elif codigo not in lista_codigos:
+                            # print(codigo)
+                            indicador = 'u'
+                            indicador2 = 'n'
+                            if indicador in codigo and indicador2 not in codigo:
+                                self.bd.update_alumno(idalumno_tabla, codigo, alumno, sexo, nivel, grado, seccion)
+                                messagebox.showinfo('Información', 'Fila modificada')
+                                self.mostrar_tabla()
+                            elif indicador2 in codigo and indicador not in codigo:
+                                self.bd.update_alumno(idalumno_tabla, codigo, alumno, sexo, nivel, grado, seccion)
+                                messagebox.showinfo('Información', 'Fila modificada')
+                                self.mostrar_tabla()
+                            elif indicador2 not in codigo and indicador not in codigo:
+                                self.bd.update_alumno(idalumno_tabla, n_codigo, alumno, sexo, nivel, grado, seccion)
+                                messagebox.showinfo('Información', 'Fila modificada')
+                                self.mostrar_tabla()
+                            elif indicador2 in codigo and indicador in codigo:
+                                self.bd.update_alumno(idalumno_tabla,codigo, alumno, sexo, nivel, grado, seccion)
+                                messagebox.showinfo('Información', 'Fila modificada')
+                                self.mostrar_tabla()
+                        elif codigo in lista_codigos:
+                            messagebox.showerror('ERROR', 'Codigo Existente')
+                    else:
+                        messagebox.showerror('ERROR', 'Falta Rellenar')
+        elif len(diccionario_alumno['values']) == 0:
+            # print(len(diccionario_lamina['values']))
+            messagebox.showerror('ERROR', 'Selecciona una lamina')
 
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
@@ -225,28 +241,8 @@ class VentanaAlumnos():
         if question_box == 'yes':
             self.tabla.delete(l_item)
             self.limpiar_campos()
-            self.bd.delete_alumno(diccionario_fila['values'][6])
+            self.bd.delete_alumno(diccionario_fila['values'][7])
             messagebox.showinfo('Información', 'Fila Eliminada')
-    
-    def buscar(self):
-        self.limpiar_campos()
-        palabra = self.palabra.get()
-        columna = self.nombre_columna.get()
-        
-        if palabra != '':
-            l_datos = self.bd.search_alumnos(columna, palabra)
-            self.tabla.delete(*self.tabla.get_children())
-            i = -1
-            for fila in l_datos:
-                i = i+1
-                self.tabla.insert('', i,text=i+1, values=fila[0:8])
-        else:
-            messagebox.showerror('ERROR', 'No se agrego una busqueda')
-    
-    def guardar_datos(self):
-        self.limpiar_campos()
-        self.informe.save_libros()
-        messagebox.showinfo('Informacion', 'Datos guardados')
     
     def agregar_alumno(self):
         # print('falta')
@@ -279,3 +275,23 @@ class VentanaAlumnos():
                     self.limpiar_campos()
             else:
                 messagebox.showerror('ERROR', 'Falta Rellenar datos')
+                
+    def buscar(self):
+        self.limpiar_campos()
+        palabra = self.palabra.get()
+        columna = self.nombre_columna.get()
+        
+        if palabra != '':
+            l_datos = self.bd.search_alumnos(columna, palabra)
+            self.tabla.delete(*self.tabla.get_children())
+            i = -1
+            for fila in l_datos:
+                i = i+1
+                self.tabla.insert('', i,text=i+1, values=fila[0:8])
+        else:
+            messagebox.showerror('ERROR', 'No se agrego una busqueda')
+            
+    def guardar_datos(self):
+        self.limpiar_campos()
+        self.informe.save_libros()
+        messagebox.showinfo('Informacion', 'Datos guardados')

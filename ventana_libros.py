@@ -106,11 +106,13 @@ class VentanaLibros():
         añorecepcion_entry.grid(column=1, row=12, padx=5 ,pady=5, sticky='w')
         #! Botones
         update_boton = ttk.Button(frame_datos, text='Modificar Libro', width=15, command=self.actualizar_libro, bootstyle='primary-outline')
-        update_boton.grid(column=0, row=13, padx=30, pady=10, sticky='w')
+        update_boton.grid(column=0, row=13, padx=20, pady=10, sticky='w')
         clear_boton = ttk.Button(frame_datos, text='Limpiar Campos', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
         clear_boton.grid(column=1, row=13, padx=5, pady=10, sticky='w')
         add_boton = ttk.Button(frame_datos, text='Añadir Libro', width=15, command=self.agregar_libro, bootstyle='primary-outline')
-        add_boton.grid(column=0, row=14, padx=30, pady=10, sticky='w')
+        add_boton.grid(column=0, row=14, padx=20, pady=10, sticky='w')
+        baja_boton = ttk.Button(frame_datos, text='Dar de Baja', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
+        baja_boton.grid(column=1, row=14, padx=5, pady=10, sticky='w')
     
     def seccion_dos(self, frame_vista):
         busqueda_frame = ttk.Frame(frame_vista)
@@ -183,10 +185,10 @@ class VentanaLibros():
         self.tabla.tag_configure('Literatura', background='#d4ffea')
         self.tabla.tag_configure('HyG', background='#bae1ff')
         self.tabla.tag_configure('CTA', background='#ffffba')
-        self.tabla.tag_configure('Matematica', background='#1b85b8')
-        self.tabla.tag_configure('Fisica', background='#559e83')
+        self.tabla.tag_configure('Matematica', background='#d5dbdb')
+        self.tabla.tag_configure('Fisica', background='#55EADB')
         self.tabla.tag_configure('Biologia', background='#fbf')
-        self.tabla.tag_configure('Quimica', background='#c3cb71')
+        self.tabla.tag_configure('Quimica', background='#ffe39f')
         self.tabla.tag_configure('EC', background='#dbdcff')
         self.tabla.tag_configure('AyC', background='#f8c583')
         self.tabla.tag_configure('Agregar', background='#608c83')
@@ -252,7 +254,7 @@ class VentanaLibros():
         #? LIBROID ES 10
         item_l = self.tabla.focus()
         diccionario_libro = self.tabla.item(item_l)
-        if len(diccionario_libro['values']) != 0:
+        if len(diccionario_libro['values']) >= 6:
             idlibro = diccionario_libro['values'][10]
             l_datos = self.bd.show_libros()
             
@@ -276,6 +278,11 @@ class VentanaLibros():
                         self.bd.update_libros(idlibro, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad, categoriaid)
                         messagebox.showinfo('Información', 'Fila modificada')
                         self.mostrar_libros()
+                    else:
+                        messagebox.showerror('ERROR', 'Falta Rellenar')
+        elif len(diccionario_libro['values']) == 0:
+            print(len(diccionario_libro['values']))
+            messagebox.showerror('ERROR', 'Selecciona un libro')
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
 
@@ -304,6 +311,8 @@ class VentanaLibros():
                 self.mostrar_libros()
                 messagebox.showinfo('Información', 'Fila agregada')
                 self.limpiar_campos()
+            elif question_box == 'yes' and cantidad == 0:
+                messagebox.showerror('ERROR', 'La Cantidad es 0')
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
     

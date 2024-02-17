@@ -78,6 +78,7 @@ class VentanaLaminas():
         codigo_entry = ttk.Entry(frame_datos, textvariable=self.codigo, width=10, bootstyle='primary')
         codigo_entry.grid(column=1, row=4, padx=5 ,pady=5, sticky='w')
         cantidad_entry = ttk.Spinbox(frame_datos, textvariable=self.cantidad, from_=0, to=100, width=5, bootstyle='primary')
+        cantidad_entry.state(["readonly"])
         cantidad_entry.grid(column=1, row=5, padx=5 ,pady=5, sticky='w')
         
         reminente_entry = ttk.Entry(frame_datos, textvariable=self.remitente, width=10, bootstyle='primary')
@@ -92,17 +93,17 @@ class VentanaLaminas():
         niveleducativo_combobox.grid(column=1, row=9, padx=5 ,pady=5, sticky='w')
         añorecepcion_entry = ttk.Entry(frame_datos, textvariable=self.año_recepcion, width=7, bootstyle='primary')
         añorecepcion_entry.grid(column=1, row=10, padx=5, pady=5, sticky='w')
-
         
-
         #! Botones
         update_boton = ttk.Button(frame_datos, text='Modificar Lamina', width=15, command=self.actualizar_lamina, bootstyle='primary-outline')
-        update_boton.grid(column=0, row=11, padx=30, pady=10, sticky='w')
+        update_boton.grid(column=0, row=11, padx=20, pady=10, sticky='w')
         clear_boton = ttk.Button(frame_datos, text='Limpiar campos', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
         clear_boton.grid(column=1, row=11, padx=5, pady=10, sticky='w')
         add_boton = ttk.Button(frame_datos, text='Añadir Lamina', width=15, command=self.agregar_lamina, bootstyle='primary-outline')
-        add_boton.grid(column=0, row=12, padx=30, pady=10, sticky='w')
-    
+        add_boton.grid(column=0, row=12, padx=20, pady=10, sticky='w')
+        baja_boton = ttk.Button(frame_datos, text='Dar de Baja', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
+        baja_boton.grid(column=1, row=12, padx=5, pady=10, sticky='w')
+
     def seccion_dos(self, frame_vista):
         busqueda_frame = ttk.Frame(frame_vista)
         busqueda_frame.grid(column=0, row=0, padx=5, pady=1, sticky='nsew')
@@ -163,7 +164,7 @@ class VentanaLaminas():
         self.tabla.tag_configure('Literatura', background='#d4ffea')
         self.tabla.tag_configure('HyG', background='#bae1ff')
         self.tabla.tag_configure('CTA', background='#ffffba')
-        self.tabla.tag_configure('Matematica', background='#1b85b8')
+        self.tabla.tag_configure('Matematica', background='#d5dbdb')
         self.tabla.tag_configure('Fisica', background='#559e83')
         self.tabla.tag_configure('Biologia', background='#ae5a41')
         self.tabla.tag_configure('Quimica', background='#c3cb71')
@@ -225,46 +226,47 @@ class VentanaLaminas():
     def actualizar_lamina(self):
         #? LAMINAID ES 8
         item_l = self.tabla.focus()
-        diccionario_fila = self.tabla.item(item_l)
-        if len(diccionario_fila['values']) != 0:
-            idlamina = diccionario_fila['values'][8]
-            codigo_l = diccionario_fila['values'][2]
-            l_datos = self.bd.show_laminas()
-            
-            for fila in l_datos:
-                id_bd = fila[8]
-                if id_bd == idlamina and id_bd != None:
-                    codigo = self.codigo.get()
-                    remitente = self.remitente.get()
-                    añorecepcion = self.año_recepcion.get()
-                    niveleducativo = self.nivel_educativo.get()
+        diccionario_lamina = self.tabla.item(item_l)
+        if len(diccionario_lamina['values']) >= 6:
+            tabla_laminas = self.bd.show_laminas()
+            lista_codigos = []
+            for fila in tabla_laminas:
+                lista_codigos.append(fila[2])
+                
+            # print(codigo_lamina)
+            idlamina_tabla = diccionario_lamina['values'][8]
+            for fila in tabla_laminas:
+                laminasid_bd = fila[8]
+                # print(laminasid_bd)
+                if laminasid_bd == idlamina_tabla and idlamina_tabla != '':
                     titulo = self.titulo.get()
-                    condicionlamina = self.condicion_lamina.get()
-                    cantidad = self.cantidad.get()
                     categoria = self.categoria.get()
+                    codigo = self.codigo.get()
+                    cantidad = self.cantidad.get()
+                    remitente = self.remitente.get()
+                    condicionlamina = self.condicion_lamina.get()
+                    niveleducativo = self.nivel_educativo.get()
+                    añorecepcion = self.año_recepcion.get()
                     
                     confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                     #! FALLO
-                    l_datos = self.bd.show_laminas()
-                    codigos = []
-                    for fila in l_datos:
-                        codigos.append(fila[5])
-                    if str(codigo_l) == str(codigo):
-                        if categoria and niveleducativo and titulo and codigo and cantidad != '' and confirmar_box == True:
+                    if categoria and niveleducativo and titulo and cantidad and condicionlamina and codigo != '' and confirmar_box == True:
+                        codigo_lamina = diccionario_lamina['values'][2]
+                        if (str(codigo_lamina) == str(codigo)) or (codigo not in lista_codigos):
                             categoriaid = self.cat_dic[categoria]
-                            self.bd.update_lamina(idlamina, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad, categoriaid)
+                            self.bd.update_lamina(idlamina_tabla, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad, categoriaid)
                             messagebox.showinfo('Información', 'Fila modificada')
                             self.mostrar_laminas()
-                    elif codigo in codigos:
-                        messagebox.showerror('ERROR', 'Codigo Existente')
-                    elif codigo not in codigos:
-                        if categoria and remitente and niveleducativo and titulo and codigo and cantidad != '' and confirmar_box == True:
-                            categoriaid = self.cat_dic[categoria]
-                            self.bd.update_lamina(idlamina, codigo, remitente, añorecepcion, niveleducativo, titulo, condicionlamina, cantidad, categoriaid)
-                            messagebox.showinfo('Información', 'Fila modificada')
-                            self.mostrar_laminas()
+                        elif codigo in lista_codigos:
+                            messagebox.showerror('ERROR', 'Codigo Existente')
+                    else:
+                        messagebox.showerror('ERROR', 'Falta Rellenar')
+        elif len(diccionario_lamina['values']) == 0:
+            # print(len(diccionario_lamina['values']))
+            messagebox.showerror('ERROR', 'Selecciona una lamina')
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
+
             
     def agregar_lamina(self):
         titulo = self.titulo.get()
@@ -276,19 +278,16 @@ class VentanaLaminas():
         niveleducativo = self.nivel_educativo.get()
         añorecepcion = self.año_recepcion.get()
 
-        l_datos = self.bd.show_laminas()
-        codigos = []
-        for fila in l_datos:
-            codigos.append(fila[5])
-        palabra = codigo
-        
-        if palabra in codigos:
-            messagebox.showerror('ERROR', 'Codigo Existente')
-        else:
-            c_filas = len(self.tabla.get_children())
-            datos = (remitente, añorecepcion, niveleducativo, titulo, condicionlamina, codigo, cantidad, categoria)
+        if categoria and codigo and niveleducativo and titulo and condicionlamina and cantidad != '':
+            tabla_laminas = self.bd.show_laminas()
+            lista_codigos = []
+            for fila in tabla_laminas:
+                lista_codigos.append(fila[2])
+            
+            if codigo not in lista_codigos:
+                c_filas = len(self.tabla.get_children())
+                datos = (remitente, añorecepcion, niveleducativo, titulo, condicionlamina, codigo, cantidad, categoria)
 
-            if categoria and codigo  and niveleducativo and titulo and condicionlamina and cantidad != '':
                 question_box = messagebox.askquestion('Información', '¿Desea agregar la fila?')
                 if question_box == 'yes' and cantidad > 0:
                     categoriaid = self.cat_dic[categoria]
@@ -297,10 +296,15 @@ class VentanaLaminas():
                     self.mostrar_laminas()
                     messagebox.showinfo('Información', 'Fila agregada')
                     self.limpiar_campos()
-            else:
-                messagebox.showerror('ERROR', 'Falta Rellenar datos')
-                
-    
+                elif question_box == 'yes' and cantidad == 0:
+                    messagebox.showerror('ERROR', 'La Cantidad es 0')
+            elif codigo in lista_codigos:
+                messagebox.showerror('ERROR', 'Codigo Existente')
+        else:
+            messagebox.showerror('ERROR', 'Falta Rellenar datos')
+            
+                    
+        
     def eliminar_lamina(self, event):
         self.limpiar_campos()
         l_item = self.tabla.selection()[0]
