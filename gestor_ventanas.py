@@ -4,11 +4,12 @@ import ttkbootstrap as ttk
 
 import ventana_libros as veli
 import ventana_laminas as vela
+import ventana_alumnos as veal
 import pedidos_libros as peli
 import pedidos_laminas as pela
-import ventana_devoluciones as vede
+import devoluciones_libros as deli
+import devoluciones_laminas as dela
 import ventana_retiro as vere
-import ventana_alumnos as veal
 
 class Ventana(ttk.Frame):
     def __init__(self, master):
@@ -16,11 +17,12 @@ class Ventana(ttk.Frame):
         
         self.venlib = veli.VentanaLibros()
         self.venlam = vela.VentanaLaminas()
+        self.venalu = veal.VentanaAlumnos()
         self.pedlib = peli.PedidosLibros()
         self.pedlam = pela.PedidosLaminas()
-        self.vendev = vede.VentanaDevoluciones()
+        self.devlib = deli.DevolucionesLibros()
+        self.devlam = dela.DevolucionesLaminas()
         self.venret = vere.VentanaRetiro()
-        self.venalu = veal.VentanaAlumnos()
         self.mytabcontrol = ttk.Notebook(self.master, bootstyle='primary')
         self.libro_tab = ttk.Frame(self.mytabcontrol)
         self.libro_tab.columnconfigure(0, weight=1, minsize=370)
@@ -47,10 +49,15 @@ class Ventana(ttk.Frame):
         self.pedidola_tab.columnconfigure(1, weight=10)
         self.pedidola_tab.rowconfigure(0, weight=1)
         
-        self.devolu_tab = ttk.Frame(self.mytabcontrol)
-        self.devolu_tab.columnconfigure(0, weight=1, minsize=340)
-        self.devolu_tab.columnconfigure(1, weight=10)
-        self.devolu_tab.rowconfigure(0, weight=1)
+        self.devoli_tab = ttk.Frame(self.mytabcontrol)
+        self.devoli_tab.columnconfigure(0, weight=1, minsize=340)
+        self.devoli_tab.columnconfigure(1, weight=10)
+        self.devoli_tab.rowconfigure(0, weight=1)
+
+        self.devola_tab = ttk.Frame(self.mytabcontrol)
+        self.devola_tab.columnconfigure(0, weight=1, minsize=340)
+        self.devola_tab.columnconfigure(1, weight=10)
+        self.devola_tab.rowconfigure(0, weight=1)
         
         self.baja_tab = ttk.Frame(self.mytabcontrol)
         self.baja_tab.columnconfigure(0, weight=1, minsize=340)
@@ -63,7 +70,8 @@ class Ventana(ttk.Frame):
         self.mytabcontrol.add(self.alumno_tab, text ='Alumnos')
         self.mytabcontrol.add(self.pedidoli_tab, text ='Pedidos de Libros')
         self.mytabcontrol.add(self.pedidola_tab, text ='Pedidos de Laminas')
-        self.mytabcontrol.add(self.devolu_tab, text ='Devoluciones')
+        self.mytabcontrol.add(self.devoli_tab, text ='Devoluciones Libros')
+        self.mytabcontrol.add(self.devola_tab, text ='Devoluciones Laminas')
         self.mytabcontrol.add(self.baja_tab, text ='Dados de Baja')
         
         self.mytabcontrol.grid(column=0, row=0, padx=10, pady=10, sticky='nswe')
@@ -131,16 +139,27 @@ class Ventana(ttk.Frame):
         pela2p_frame.rowconfigure(2, weight=0)
         pela2p_frame.rowconfigure(3, weight=10)
         
-        devol1p_frame = ttk.LabelFrame(self.devolu_tab, text='Funciones', bootstyle='dark')
-        devol1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='ns')
-        devol1p_frame.columnconfigure(0, weight=1, minsize=139)
-        devol1p_frame.columnconfigure(1, weight=1, minsize=185)
+        devoli1p_frame = ttk.LabelFrame(self.devoli_tab, text='Funciones', bootstyle='dark')
+        devoli1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='ns')
+        devoli1p_frame.columnconfigure(0, weight=1, minsize=139)
+        devoli1p_frame.columnconfigure(1, weight=1, minsize=185)
         
-        devol2p_frame = ttk.LabelFrame(self.devolu_tab, text='Visualizacion', bootstyle='dark')
-        devol2p_frame.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
-        devol2p_frame.columnconfigure(0, weight=1)
-        devol2p_frame.rowconfigure(0, weight=0)
-        devol2p_frame.rowconfigure(1, weight=10)      
+        devoli2p_frame = ttk.LabelFrame(self.devoli_tab, text='Visualizacion', bootstyle='dark')
+        devoli2p_frame.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
+        devoli2p_frame.columnconfigure(0, weight=1)
+        devoli2p_frame.rowconfigure(0, weight=0)
+        devoli2p_frame.rowconfigure(1, weight=10)      
+        
+        devola1p_frame = ttk.LabelFrame(self.devola_tab, text='Funciones', bootstyle='dark')
+        devola1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='ns')
+        devola1p_frame.columnconfigure(0, weight=1, minsize=139)
+        devola1p_frame.columnconfigure(1, weight=1, minsize=185)
+        
+        devola2p_frame = ttk.LabelFrame(self.devola_tab, text='Visualizacion', bootstyle='dark')
+        devola2p_frame.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
+        devola2p_frame.columnconfigure(0, weight=1)
+        devola2p_frame.rowconfigure(0, weight=0)
+        devola2p_frame.rowconfigure(1, weight=10)      
         
         baja1p_frame = ttk.LabelFrame(self.baja_tab, text='Funciones', bootstyle='dark')
         baja1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='ns')
@@ -157,14 +176,16 @@ class Ventana(ttk.Frame):
         self.venlib.seccion_dos(libro2p_frame)
         self.venlam.seccion_uno(lamina1p_frame)
         self.venlam.seccion_dos(lamina2p_frame)
+        self.venalu.seccion_uno(alumno1p_frame)
+        self.venalu.seccion_dos(alumno2p_frame)
         self.pedlib.seccion_uno(peli1p_frame)
         self.pedlib.seccion_dos(peli2p_frame)
         self.pedlam.seccion_uno(pela1p_frame)
         self.pedlam.seccion_dos(pela2p_frame)
-        self.vendev.seccion_uno(devol1p_frame)
-        self.vendev.seccion_dos(devol2p_frame)
+        self.devlib.seccion_uno(devoli1p_frame)
+        self.devlib.seccion_dos(devoli2p_frame)
+        self.devlam.seccion_uno(devola1p_frame)
+        self.devlam.seccion_dos(devola2p_frame)
         self.venret.seccion_uno(baja1p_frame)
         self.venret.seccion_dos(baja2p_frame)
-        self.venalu.seccion_uno(alumno1p_frame)
-        self.venalu.seccion_dos(alumno2p_frame)
         

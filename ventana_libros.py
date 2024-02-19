@@ -127,8 +127,8 @@ class VentanaLibros():
         buscarpalabra_combobox.state(["readonly"])
         buscarpalabra_combobox.pack(side='left', padx=4)
         
-        palaba_entry = ttk.Entry(busqueda_frame, textvariable=self.palabra, width=40, bootstyle='success')
-        palaba_entry.pack(side='left', padx=4)
+        palabra_entry = ttk.Entry(busqueda_frame, textvariable=self.palabra, width=40, bootstyle='success')
+        palabra_entry.pack(side='left', padx=4)
 
         serch_boton = ttk.Button(busqueda_frame, text='Buscar', width=10, 
                                 command=self.buscar, bootstyle='success')

@@ -224,7 +224,7 @@ class VentanaRetiro():
         if remitente and niveleducativo and titulo and condicionlibro != '' and cantidad > 0:
             question_box = messagebox.askquestion('Información', '¿Desea agregar la fila?')
             if question_box == 'yes':
-                self.bd.append_pedido(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
+                self.bd.append_pedido_libro(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad)
                 self.tabla.insert('',"end",text=c_filas+1, values=datos)
                 messagebox.showinfo('Información', 'Fila agregada')
                 self.limpiar_campos()
