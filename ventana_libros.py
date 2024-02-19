@@ -37,7 +37,7 @@ class VentanaLibros():
             "Fisica","Biologia","Quimica","Economia","Educacion Civica",
             "Computacion","Idioma","Gastronomia","Comunicacion","Tutoria",
             "Recreacion","Arte y Cultura","Religion","Educacion Fisica",
-            "Diccionario","Falta","Otros"
+            "Diccionario","Manual","Otros","Falta","Baja"
             ]
         a = 1
         for categ in cat_list:
@@ -189,6 +189,9 @@ class VentanaLibros():
         self.tabla.tag_configure('Fisica', background='#55EADB')
         self.tabla.tag_configure('Biologia', background='#fbf')
         self.tabla.tag_configure('Quimica', background='#ffe39f')
+        self.tabla.tag_configure('Economia', background='#B4B567')
+        self.tabla.tag_configure('Manual', background='#9FFCFD')
+        self.tabla.tag_configure('Idioma', background='#F8FDAA')
         self.tabla.tag_configure('EC', background='#dbdcff')
         self.tabla.tag_configure('AyC', background='#f8c583')
         self.tabla.tag_configure('Agregar', background='#608c83')
