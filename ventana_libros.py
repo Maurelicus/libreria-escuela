@@ -220,7 +220,7 @@ class VentanaLibros():
         
     def mostrar_libros(self):
         self.limpiar_campos()
-        l_datos = self.bd.show_laminas()
+        l_datos = self.bd.show_libros()
         # print(l_datos)
         self.tabla.delete(*self.tabla.get_children())
         i = -1
@@ -279,7 +279,7 @@ class VentanaLibros():
         diccionario_libro = self.tabla.item(item_l)
         if len(diccionario_libro['values']) >= 6:
             idlibro = diccionario_libro['values'][10]
-            l_datos = self.bd.show_laminas()
+            l_datos = self.bd.show_libros()
             
             for fila in l_datos:
                 id_bd = fila[10]

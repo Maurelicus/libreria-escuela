@@ -5,7 +5,7 @@ class Comunicacion():
     def __init__(self):
         self.bd = sqlite3.connect("data/BDprueba.db")
     #! LIBROS
-    def show_laminas(self):
+    def show_libros(self):
         cursor = self.bd.cursor()
         query = '''
         SELECT 
