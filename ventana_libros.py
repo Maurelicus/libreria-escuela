@@ -36,8 +36,8 @@ class VentanaLibros():
             "Literatura", "Historia y Geografia","C.T.A","Matematica",
             "Fisica","Biologia","Quimica","Economia","Educacion Civica",
             "Computacion","Idioma","Gastronomia","Comunicacion","Tutoria",
-            "Recreacion","Arte y Cultura","Religion","Educacion Fisica",
-            "Diccionario","Manual","Otros","Falta","Baja"
+            "Recreacion","Arte y Musica","Religion","Educacion Fisica",
+            "Diccionario","Manual","Otros","Falta"
             ]
         a = 1
         for categ in cat_list:
@@ -111,7 +111,7 @@ class VentanaLibros():
         clear_boton.grid(column=1, row=13, padx=5, pady=10, sticky='w')
         add_boton = ttk.Button(frame_datos, text='Añadir Libro', width=15, command=self.agregar_libro, bootstyle='primary-outline')
         add_boton.grid(column=0, row=14, padx=20, pady=10, sticky='w')
-        baja_boton = ttk.Button(frame_datos, text='Dar de Baja', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
+        baja_boton = ttk.Button(frame_datos, text='Dar de Baja', width=15, command=self.dar_baja, bootstyle='primary-outline')
         baja_boton.grid(column=1, row=14, padx=5, pady=10, sticky='w')
     
     def seccion_dos(self, frame_vista):
@@ -181,46 +181,66 @@ class VentanaLibros():
         self.tabla.heading('#8', text='Nivel Educativo', anchor='center')
         self.tabla.heading('#9', text='Condicion', anchor='center')
         self.tabla.heading('#10', text='Año Recepcion', anchor='center')
+        # White to Light Purple Color Palette
+        self.tabla.tag_configure('Literatura', background='#e6e1f9')
+        self.tabla.tag_configure('Matematica', background='#d5cdf3')
+        self.tabla.tag_configure('Fisica', background='#cdc2f5')
+        self.tabla.tag_configure('Biologia', background='#c6b7fe')
+        self.tabla.tag_configure('Quimica', background='#bba8ff')
         
-        self.tabla.tag_configure('Literatura', background='#d4ffea')
-        self.tabla.tag_configure('HyG', background='#bae1ff')
-        self.tabla.tag_configure('CTA', background='#ffffba')
-        self.tabla.tag_configure('Matematica', background='#d5dbdb')
-        self.tabla.tag_configure('Fisica', background='#55EADB')
-        self.tabla.tag_configure('Biologia', background='#fbf')
-        self.tabla.tag_configure('Quimica', background='#ffe39f')
-        self.tabla.tag_configure('Economia', background='#B4B567')
-        self.tabla.tag_configure('Manual', background='#9FFCFD')
-        self.tabla.tag_configure('Idioma', background='#F8FDAA')
-        self.tabla.tag_configure('EC', background='#dbdcff')
-        self.tabla.tag_configure('AyC', background='#f8c583')
-        self.tabla.tag_configure('Agregar', background='#608c83')
-        self.tabla.tag_configure('Falta', background='#ffb3ba')
+        # pastel blue owo Color Palette
+        self.tabla.tag_configure('HyG', background='#bbeaff')
+        self.tabla.tag_configure('CTA', background='#a9e5ff')
+        self.tabla.tag_configure('Economia', background='#98ddfc')
+        self.tabla.tag_configure('EduCiv', background='#84d9ff')
+        self.tabla.tag_configure('Computacion', background='#72d3fe')
+        
+        # shades of sea green 2 Color Palette
+        self.tabla.tag_configure('Idioma', background='#c9f9de')
+        self.tabla.tag_configure('Gastronomia', background='#b8f8d4')
+        self.tabla.tag_configure('Comunicacion', background='#a6f6c9')
+        self.tabla.tag_configure('Tutoria', background='#94f4be')
+        self.tabla.tag_configure('Recreacion', background='#83f3b4')
+
+        # OrangeCream1 Color Palette
+        self.tabla.tag_configure('AyM', background='#ffedc9')
+        self.tabla.tag_configure('Religion', background='#ffe7b6')
+        self.tabla.tag_configure('EduFis', background='#ffd276')
+        self.tabla.tag_configure('Diccionario', background='#ffbf3c')
+        self.tabla.tag_configure('Manual', background='#fffd8d')
+        # self.tabla.tag_configure('Manual', background='#f9b428')
+        # kawaii pastel Color Palette
+        self.tabla.tag_configure('Otros', background='#f2e2ff')
+        self.tabla.tag_configure('Falta', background='#fdaaaa')
+        self.tabla.tag_configure('Baja', background='#ddfffc')
+        self.tabla.tag_configure('Repuesto', background='#d0d3d4')
         
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_libro)
         self.tabla.bind("<Double-1>", self.eliminar_libro)
         
     def mostrar_libros(self):
         self.limpiar_campos()
-        l_datos = self.bd.show_libros()
+        l_datos = self.bd.show_laminas()
         # print(l_datos)
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
             i = i+1
-            # print(fila)
-            if fila[4] == 'Historia y Geografia':
-                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
-            elif fila[4] == 'C.T.A':
-                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='CTA')
-            elif fila[4] == 'Educacion Civica':
-                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EC')
-            elif fila[4] == 'Arte y Cultura':
-                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='AyC')
-            elif fila[4] == None:
-                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
-            else:
-                self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
+            if fila[4] != 'Baja':
+                if fila[4] == 'Historia y Geografia':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
+                elif fila[4] == 'C.T.A':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='CTA')
+                elif fila[4] == 'Educacion Civica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduCiv')
+                elif fila[4] == 'Educacion Fisica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduFis')
+                elif fila[4] == 'Arte y Musica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='AyM')
+                elif fila[4] == None:
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
+                else:
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
 
     def obtener_libro(self, event):
         item_selec = self.tabla.focus()
@@ -259,7 +279,7 @@ class VentanaLibros():
         diccionario_libro = self.tabla.item(item_l)
         if len(diccionario_libro['values']) >= 6:
             idlibro = diccionario_libro['values'][10]
-            l_datos = self.bd.show_libros()
+            l_datos = self.bd.show_laminas()
             
             for fila in l_datos:
                 id_bd = fila[10]
@@ -349,18 +369,21 @@ class VentanaLibros():
             i = -1
             for fila in l_datos:
                 i = i+1
-                if fila[4] == 'Historia y Geografia':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
-                elif fila[4] == 'C.T.A':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='CTA')
-                elif fila[4] == 'Educacion Civica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EC')
-                elif fila[4] == 'Arte y Cultura':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='AyC')
-                elif fila[4] == None:
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
-                else:
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
+                if fila[4] != 'Baja':
+                    if fila[4] == 'Historia y Geografia':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
+                    elif fila[4] == 'C.T.A':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='CTA')
+                    elif fila[4] == 'Educacion Civica':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduCiv')
+                    elif fila[4] == 'Educacion Fisica':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduFis')
+                    elif fila[4] == 'Arte y Musica':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='AyM')
+                    elif fila[4] == None:
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
+                    else:
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
                 
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
@@ -369,3 +392,38 @@ class VentanaLibros():
         self.limpiar_campos()
         self.informe.save_libros()
         messagebox.showinfo('Informacion', 'Datos guardados')
+    
+    def dar_baja(self):
+        # self.limpiar_campos()
+        l_item = self.tabla.focus()
+        diccionario_libro = self.tabla.item(l_item)
+        cantidad_baja = self.cantidad.get()
+        condicion = self.condicion_libro.get()
+        if 'values' in diccionario_libro and len(diccionario_libro['values']) != 0:
+            titulo = diccionario_libro['values'][0]
+            autor = diccionario_libro['values'][1]
+            editorial = diccionario_libro['values'][2]
+            a_edicion = diccionario_libro['values'][3]
+            categoria = 23
+            cantidad_total = diccionario_libro['values'][5]
+            remitente = diccionario_libro['values'][6]
+            n_educativo = diccionario_libro['values'][7]
+            a_recepcion = diccionario_libro['values'][9]
+            libroid = diccionario_libro['values'][10]
+            question_box = messagebox.askquestion('Información', '¿Desea dar de baja la fila seleccionada?')
+            if question_box == 'yes' and cantidad_total > cantidad_baja and cantidad_baja > 0:
+                self.bd.append_libro(remitente,a_recepcion,n_educativo,titulo,autor,editorial,a_edicion,condicion,cantidad_baja,categoria)
+                cantidad_nueva = cantidad_total-cantidad_baja
+                self.bd.update_libro_cantidad(libroid,cantidad_nueva)
+                messagebox.showinfo('Información', 'Fila dada de baja')
+                self.mostrar_libros()
+            elif cantidad_total == cantidad_baja and question_box == 'yes' and cantidad_baja > 0:
+                self.bd.update_libros(libroid,remitente,a_recepcion,n_educativo,titulo,autor,editorial,a_edicion,condicion,cantidad_baja,categoria)
+                messagebox.showinfo('Información', 'Fila dada de baja')
+                self.mostrar_libros()
+            elif cantidad_total < cantidad_baja and question_box == 'yes':
+                messagebox.showerror('Información', 'Cantidad erronea')
+            else:
+                messagebox.showerror('Información', 'Proceso erroneo')
+        else:
+            messagebox.showerror('ERROR', 'Selecciona un libro')

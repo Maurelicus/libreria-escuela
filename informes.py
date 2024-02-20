@@ -9,7 +9,7 @@ class Informes():
     def __init__(self):
         self.bd = Comunicacion()
     def save_libros(self):
-        datos = self.bd.show_libros()
+        datos = self.bd.show_laminas()
         i = -1
         remitente,cantidad,niveleducativo,condicionlibro = [],[],[],[]
         autor,editorial,añoedicion,titulo,añorecepcion= [],[],[],[],[]

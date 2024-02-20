@@ -32,8 +32,8 @@ class VentanaLaminas():
             "Literatura", "Historia y Geografia","C.T.A","Matematica",
             "Fisica","Biologia","Quimica","Economia","Educacion Civica",
             "Computacion","Idioma","Gastronomia","Comunicacion","Tutoria",
-            "Recreacion","Arte y Cultura","Religion","Educacion Fisica",
-            "Diccionario","Falta","Otros"
+            "Recreacion","Arte y Musica","Religion","Educacion Fisica",
+            "Diccionario","Manual","Otros","Falta","Baja"
             ]
         a = 1
         for categ in cat_list:
@@ -160,20 +160,41 @@ class VentanaLaminas():
         self.tabla.heading('#6', text='Condicion', anchor='center')
         self.tabla.heading('#7', text='Nivel educativo', anchor='center')
         self.tabla.heading('#8', text='Año recepcion', anchor='center')
-        
-        self.tabla.tag_configure('Literatura', background='#d4ffea')
-        self.tabla.tag_configure('HyG', background='#bae1ff')
-        self.tabla.tag_configure('CTA', background='#ffffba')
-        self.tabla.tag_configure('Matematica', background='#d5dbdb')
-        self.tabla.tag_configure('Fisica', background='#559e83')
-        self.tabla.tag_configure('Biologia', background='#ae5a41')
-        self.tabla.tag_configure('Quimica', background='#c3cb71')
-        self.tabla.tag_configure('EC', background='#dbdcff')
-        self.tabla.tag_configure('AyC', background='#f8c583')
-        self.tabla.tag_configure('Agregar', background='#608c83')
-        self.tabla.tag_configure('Falta', background='#ffb3ba')
 
+        # White to Light Purple Color Palette
+        self.tabla.tag_configure('Literatura', background='#e6e1f9')
+        self.tabla.tag_configure('Matematica', background='#d5cdf3')
+        self.tabla.tag_configure('Fisica', background='#cdc2f5')
+        self.tabla.tag_configure('Biologia', background='#c6b7fe')
+        self.tabla.tag_configure('Quimica', background='#bba8ff')
         
+        # pastel blue owo Color Palette
+        self.tabla.tag_configure('HyG', background='#bbeaff')
+        self.tabla.tag_configure('CTA', background='#a9e5ff')
+        self.tabla.tag_configure('Economia', background='#98ddfc')
+        self.tabla.tag_configure('EduCiv', background='#84d9ff')
+        self.tabla.tag_configure('Computacion', background='#72d3fe')
+        
+        # shades of sea green 2 Color Palette
+        self.tabla.tag_configure('Idioma', background='#c9f9de')
+        self.tabla.tag_configure('Gastronomia', background='#b8f8d4')
+        self.tabla.tag_configure('Comunicacion', background='#a6f6c9')
+        self.tabla.tag_configure('Tutoria', background='#94f4be')
+        self.tabla.tag_configure('Recreacion', background='#83f3b4')
+
+        # OrangeCream1 Color Palette
+        self.tabla.tag_configure('AyM', background='#ffedc9')
+        self.tabla.tag_configure('Religion', background='#ffe7b6')
+        self.tabla.tag_configure('EduFis', background='#ffd276')
+        self.tabla.tag_configure('Diccionario', background='#ffbf3c')
+        self.tabla.tag_configure('Manual', background='#fffd8d')
+        # self.tabla.tag_configure('Manual', background='#f9b428')
+        # kawaii pastel Color Palette
+        self.tabla.tag_configure('Otros', background='#f2e2ff')
+        self.tabla.tag_configure('Falta', background='#fdaaaa')
+        self.tabla.tag_configure('Baja', background='#ddfffc')
+
+
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_lamina)
         self.tabla.bind("<Double-1>", self.eliminar_lamina)
 
@@ -189,9 +210,11 @@ class VentanaLaminas():
             elif fila[1] == 'C.T.A':
                 self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='CTA')
             elif fila[1] == 'Educacion Civica':
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EC')
-            elif fila[1] == 'Arte y Cultura':
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='AyC')
+                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduCiv')
+            elif fila[1] == 'Educacion Fisica':
+                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduFis')
+            elif fila[1] == 'Arte y Musica':
+                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='AyM')
             elif fila[1] == None:
                 self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
             else:
@@ -340,9 +363,11 @@ class VentanaLaminas():
                 elif fila[1] == 'C.T.A':
                     self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='CTA')
                 elif fila[1] == 'Educacion Civica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EC')
-                elif fila[1] == 'Arte y Cultura':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='AyC')
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduCiv')
+                elif fila[1] == 'Educacion Fisica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduFis')
+                elif fila[1] == 'Arte y Musica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='AyM')
                 elif fila[1] == None:
                     self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
                 else:
