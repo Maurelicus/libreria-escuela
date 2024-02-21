@@ -49,11 +49,6 @@ class Nomina():
         """ 
         cursor = self.basedatos.cursor()
         query = '''
-        drop table libros;
-        '''
-        cursor.execute(query)
-
-        query = '''
         CREATE TABLE "libros" (
             "LibroId"	INTEGER NOT NULL,
             "Titulo"	NVARCHAR(160) NOT NULL,
@@ -97,9 +92,7 @@ class Nomina():
             arecepcion = fila[9]
             cantidad = fila[10]
             self.bd.append_libro(remitente, arecepcion, niveleducativo, final_titulo, final_autor, final_editorial ,aedicion, condicion, cantidad, tipoid)
-        """ 
-        """
-            
+
 nomina1 = Nomina()
 # nomina1.agregar_nomina()
 nomina1.agregar_tlibros()

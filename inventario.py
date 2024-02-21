@@ -41,8 +41,8 @@ class NotebookInventario(ttk.Frame):
         
         self.mytabcontrol.add(self.libro_tab, text ='Libros')
         self.mytabcontrol.add(self.lamina_tab, text ='Laminas')
-        self.mytabcontrol.add(self.bajalibro_tab, text ='Dados de Baja')
-        self.mytabcontrol.add(self.bajalamina_tab, text ='Dados de Baja')
+        self.mytabcontrol.add(self.bajalibro_tab, text ='Libros dados de baja')
+        self.mytabcontrol.add(self.bajalamina_tab, text ='Laminas dados de baja')
         
         self.mytabcontrol.grid(column=0, row=0, padx=10, pady=10, sticky='nswe')
         

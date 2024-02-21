@@ -195,7 +195,7 @@ class DevolucionesLibros():
             libroid = diccionario_pedido['values'][9]
             alumnoid = diccionario_pedido['values'][10]
             tipo = diccionario_pedido['values'][11]
-            info_libro = self.bd.info_pedidolibro(id_pedido)
+            info_libro = self.bd.info_pedidolib(id_pedido)
             id_libro = info_libro[0][0]
             cantidad_libro = info_libro[0][1]
             # alumnoid = info_libro[0][2]
@@ -205,7 +205,7 @@ class DevolucionesLibros():
                 pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                 if cantidad_total > cantidad_devuelta and situacion == 'devuelto' and observacion != '' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.append_pedido_libro(codigo, libroid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
+                    self.bd.append_pedidolib(codigo, libroid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
                     cantidad_nueva = cantidad_libro + cantidad_devuelta
                     self.bd.update_libro_cantidad(libroid, cantidad_nueva)
                     cantidad_faltante = cantidad_total - cantidad_devuelta

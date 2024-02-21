@@ -220,9 +220,8 @@ class VentanaLibros():
         
     def mostrar_libros(self):
         self.limpiar_campos()
-        l_datos = self.bd.show_libros()
-        # print(l_datos)
         self.tabla.delete(*self.tabla.get_children())
+        l_datos = self.bd.show_libros()
         i = -1
         for fila in l_datos:
             i = i+1
@@ -245,7 +244,6 @@ class VentanaLibros():
     def obtener_libro(self, event):
         item_selec = self.tabla.focus()
         diccionario_fila = self.tabla.item(item_selec)
-        # print(diccionario_fila)
         if 'values' in diccionario_fila and len(diccionario_fila['values']) != 0:
             self.titulo.set(diccionario_fila['values'][0])
             self.autor.set(diccionario_fila['values'][1])
@@ -280,7 +278,6 @@ class VentanaLibros():
         if len(diccionario_libro['values']) >= 6:
             idlibro = diccionario_libro['values'][10]
             l_datos = self.bd.show_libros()
-            
             for fila in l_datos:
                 id_bd = fila[10]
                 if id_bd == idlibro and id_bd != None:
@@ -294,9 +291,8 @@ class VentanaLibros():
                     niveleducativo = self.nivel_educativo.get()
                     condicionlibro = self.condicion_libro.get()
                     añorecepcion = self.año_recepcion.get()
-                    
-                    confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
-                    if categoria and niveleducativo and titulo and condicionlibro and cantidad != '' and confirmar_box == True:
+                    question_box = messagebox.askquestion('Información', 'Desea actualizar el libro seleccionado')
+                    if categoria and niveleducativo and titulo and condicionlibro and cantidad != 0 and question_box == 'yes':
                         categoriaid = self.cat_dic[categoria]
                         self.bd.update_libros(idlibro, remitente, añorecepcion, niveleducativo, titulo, autor, editorial, añoedicion, condicionlibro, cantidad, categoriaid)
                         messagebox.showinfo('Información', 'Fila modificada')
@@ -321,16 +317,12 @@ class VentanaLibros():
         condicionlibro = self.condicion_libro.get()
         añorecepcion = self.año_recepcion.get()
         
-        c_filas = len(self.tabla.get_children())
-        datos = (titulo, autor, editorial ,añoedicion,categoria,cantidad,remitente,niveleducativo, condicionlibro,añorecepcion,)
-
         if categoria and niveleducativo and titulo and condicionlibro and cantidad != '':
             question_box = messagebox.askquestion('Información', '¿Desea agregar la fila?')
             if question_box == 'yes' and cantidad > 0:
                 categoriaid = self.cat_dic[categoria]
                 self.bd.append_libro(remitente, añorecepcion, niveleducativo, titulo, autor, editorial ,añoedicion, condicionlibro, cantidad, categoriaid)
                 #? NO OBTIENE EL ID EN LA TABLA POSIBLE ERROR
-                # self.tabla.insert('',"end",text=c_filas+1, values=datos, tags=categoria)
                 self.mostrar_libros()
                 messagebox.showinfo('Información', 'Fila agregada')
                 self.limpiar_campos()
@@ -384,7 +376,6 @@ class VentanaLibros():
                         self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
                     else:
                         self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
-                
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
@@ -410,7 +401,7 @@ class VentanaLibros():
             n_educativo = diccionario_libro['values'][7]
             a_recepcion = diccionario_libro['values'][9]
             libroid = diccionario_libro['values'][10]
-            question_box = messagebox.askquestion('Información', '¿Desea dar de baja la fila seleccionada?')
+            question_box = messagebox.askquestion('Información', '¿Desea dar de baja el libro seleccionado?')
             if question_box == 'yes' and cantidad_total > cantidad_baja and cantidad_baja > 0:
                 self.bd.append_libro(remitente,a_recepcion,n_educativo,titulo,autor,editorial,a_edicion,condicion,cantidad_baja,categoria)
                 cantidad_nueva = cantidad_total-cantidad_baja

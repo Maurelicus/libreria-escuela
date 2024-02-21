@@ -33,7 +33,7 @@ class VentanaLaminas():
             "Fisica","Biologia","Quimica","Economia","Educacion Civica",
             "Computacion","Idioma","Gastronomia","Comunicacion","Tutoria",
             "Recreacion","Arte y Musica","Religion","Educacion Fisica",
-            "Diccionario","Manual","Otros","Falta","Baja"
+            "Diccionario","Manual","Otros","Falta"
             ]
         a = 1
         for categ in cat_list:
@@ -101,7 +101,7 @@ class VentanaLaminas():
         clear_boton.grid(column=1, row=11, padx=5, pady=10, sticky='w')
         add_boton = ttk.Button(frame_datos, text='Añadir Lamina', width=15, command=self.agregar_lamina, bootstyle='primary-outline')
         add_boton.grid(column=0, row=12, padx=20, pady=10, sticky='w')
-        baja_boton = ttk.Button(frame_datos, text='Dar de Baja', width=15, command=self.limpiar_campos, bootstyle='primary-outline')
+        baja_boton = ttk.Button(frame_datos, text='Dar de Baja', width=15, command=self.dar_baja, bootstyle='primary-outline')
         baja_boton.grid(column=1, row=12, padx=5, pady=10, sticky='w')
 
     def seccion_dos(self, frame_vista):
@@ -193,6 +193,7 @@ class VentanaLaminas():
         self.tabla.tag_configure('Otros', background='#f2e2ff')
         self.tabla.tag_configure('Falta', background='#fdaaaa')
         self.tabla.tag_configure('Baja', background='#ddfffc')
+        self.tabla.tag_configure('Repuesto', background='#d0d3d4')
 
 
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_lamina)
@@ -205,20 +206,21 @@ class VentanaLaminas():
         i = -1
         for fila in l_datos:
             i = i+1
-            if fila[1] == 'Historia y Geografia':
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='HyG')
-            elif fila[1] == 'C.T.A':
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='CTA')
-            elif fila[1] == 'Educacion Civica':
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduCiv')
-            elif fila[1] == 'Educacion Fisica':
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduFis')
-            elif fila[1] == 'Arte y Musica':
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='AyM')
-            elif fila[1] == None:
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
-            else:
-                self.tabla.insert('', i,text=i+1, values=fila[0:9], tags=fila[1])
+            if fila[1] != 'Baja':
+                if fila[1] == 'Historia y Geografia':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='HyG')
+                elif fila[1] == 'C.T.A':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='CTA')
+                elif fila[1] == 'Educacion Civica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduCiv')
+                elif fila[1] == 'Educacion Fisica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduFis')
+                elif fila[1] == 'Arte y Musica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='AyM')
+                elif fila[1] == None:
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
+                else:
+                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags=fila[1])
         
     def obtener_lamina(self, event):
         item_selec = self.tabla.focus()
@@ -358,20 +360,21 @@ class VentanaLaminas():
             i = -1
             for fila in l_datos:
                 i = i+1
-                if fila[1] == 'Historia y Geografia':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='HyG')
-                elif fila[1] == 'C.T.A':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='CTA')
-                elif fila[1] == 'Educacion Civica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduCiv')
-                elif fila[1] == 'Educacion Fisica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduFis')
-                elif fila[1] == 'Arte y Musica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='AyM')
-                elif fila[1] == None:
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
-                else:
-                    self.tabla.insert('', i,text=i+1, values=fila[0:9], tags=fila[1])
+                if fila[1] != 'Baja':
+                    if fila[1] == 'Historia y Geografia':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='HyG')
+                    elif fila[1] == 'C.T.A':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='CTA')
+                    elif fila[1] == 'Educacion Civica':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduCiv')
+                    elif fila[1] == 'Educacion Fisica':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='EduFis')
+                    elif fila[1] == 'Arte y Musica':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='AyM')
+                    elif fila[1] == None:
+                        self.tabla.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
+                    else:
+                        self.tabla.insert('', i,text=i+1, values=fila[0:9], tags=fila[1])
 
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
@@ -380,3 +383,40 @@ class VentanaLaminas():
         self.limpiar_campos()
         self.informe.save_laminas()
         messagebox.showinfo('Informacion', 'Datos guardados')
+    
+    def dar_baja(self):
+        l_item = self.tabla.focus()
+        diccionario_lamina = self.tabla.item(l_item)
+        cantidad_baja = self.cantidad.get()
+        condicion = self.condicion_lamina.get()
+        if 'values' in diccionario_lamina and len(diccionario_lamina['values']) != 0:
+            question_box = messagebox.askquestion('Información', '¿Desea dar de baja la lamina seleccionada?')
+            if question_box == 'yes' and cantidad_baja != 0 and condicion != '':
+                titulo = diccionario_lamina['values'][0]
+                categoria = 23
+                codigo = diccionario_lamina['values'][2]
+                cantidad_t = diccionario_lamina['values'][3]
+                remitente = diccionario_lamina['values'][4]
+                nivel_edu = diccionario_lamina['values'][6]
+                a_recepcion = diccionario_lamina['values'][7]
+                laminaid = diccionario_lamina['values'][8]
+                if cantidad_t > cantidad_baja and cantidad_baja > 0:
+                    self.bd.append_lamina(codigo,remitente,a_recepcion,nivel_edu,titulo,condicion,cantidad_baja,categoria)
+                    cantidad_nueva = cantidad_t - cantidad_baja
+                    self.bd.update_lamina_cantidad(laminaid,cantidad_nueva)
+                    messagebox.showinfo('Información', 'Lamina dada de baja')
+                    self.mostrar_laminas()
+                elif cantidad_t == cantidad_baja and cantidad_baja > 0:
+                    self.bd.update_lamina(laminaid,codigo,remitente,a_recepcion,nivel_edu,titulo,condicion,cantidad_baja,categoria)
+                    messagebox.showinfo('Información', 'Lamina dada de baja')
+                    self.mostrar_laminas()
+                elif cantidad_t < cantidad_baja and cantidad_baja > 0:
+                    messagebox.showerror('ERROR', 'Cantidad erronea')
+                else:
+                    messagebox.showerror('ERROR', 'Proceso erroneo')
+            else:
+                messagebox.showerror('ERROR', 'Cantidad erronea')
+        else:
+            messagebox.showerror('ERROR', 'Selecciona una lamina')
+
+        

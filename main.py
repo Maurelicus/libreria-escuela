@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 
 from inventario import NotebookInventario
 from alumno import NotebookAlumno
+from profesor import NotebookProfesor
 
 
 def ingresar_inventario():
@@ -24,7 +25,7 @@ def ingresar_inventario():
         ven_inventario.rowconfigure(0, weight=1)
         ven_inventario.protocol("WM_DELETE_WINDOW", cerrar_inventario)
         NotebookInventario(ven_inventario)
-        # app.mainloop()        
+        
 def ingresar_alumno():
 
     def cerrar_alumno():
@@ -42,8 +43,24 @@ def ingresar_alumno():
         ven_alumno.rowconfigure(0, weight=1)
         ven_alumno.protocol("WM_DELETE_WINDOW", cerrar_alumno)
         NotebookAlumno(ven_alumno)
-        # app.mainloop()        
-    
+
+def ingresar_profesor():
+
+    def cerrar_profesor():
+        root.deiconify()  # Muestra la ventana principal
+        ven_profesor.destroy()
+        
+    if __name__ == "__main__":
+        root.withdraw()
+        ven_profesor = ttk.Toplevel()
+        ven_profesor.title('Biblioteca Colegio')
+        ven_profesor.minsize(width=1300, height=700)
+        # 1440x900
+        ven_profesor.geometry('1000x600')
+        ven_profesor.columnconfigure(0, weight=1)
+        ven_profesor.rowconfigure(0, weight=1)
+        ven_profesor.protocol("WM_DELETE_WINDOW", cerrar_profesor)
+        NotebookProfesor(ven_profesor)
 
 def cerrar_aplicacion():
     if messagebox.askokcancel("Cerrar Aplicación", "¿Seguro que quieres salir?"):
@@ -91,10 +108,10 @@ alumno_button = ttk.Button(root, text='Alumno', command = ingresar_alumno,
 alumno_button.bind("<Return>", ingresar_alumno)
 inbutton_window = my_canvas.create_window(90,360,anchor='nw', window=alumno_button)
 
-alumno_button = ttk.Button(root, text='Profesor', command = ingresar_alumno, 
+profesor_button = ttk.Button(root, text='Profesor', command = ingresar_profesor, 
                              bootstyle='info-outline')
-alumno_button.bind("<Return>", ingresar_alumno)
-inbutton_window = my_canvas.create_window(490,360,anchor='nw', window=alumno_button)
+profesor_button.bind("<Return>", ingresar_profesor)
+inbutton_window = my_canvas.create_window(490,360,anchor='nw', window=profesor_button)
 
 
 

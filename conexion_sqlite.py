@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprincipal.db")
+        self.bd = sqlite3.connect("data/BDprueba.db")
     #! LIBROS
     def show_libros(self):
         cursor = self.bd.cursor()
@@ -188,7 +188,19 @@ class Comunicacion():
         '''.format(columna,palabra)
         cursor.execute(query)
         l_filas = cursor.fetchall()
-        return l_filas
+        return 
+    
+    def update_lamina_cantidad(self, laminaid, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE laminas
+        SET Cantidad = '{}'
+        WHERE LaminasId = '{}'
+        '''.format(cantidad, laminaid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+
     #! ALUMNO
     def show_alumnos(self):
         cursor = self.bd.cursor()
@@ -238,7 +250,6 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
-        
         
     def search_alumnos(self, columna, palabra):
         cursor = self.bd.cursor()
@@ -296,6 +307,7 @@ class Comunicacion():
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
+    
     def buscar_pedidoslib(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
@@ -329,7 +341,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def append_pedido_libro(self, codigo, libroid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
+    def append_pedidolib(self, codigo, libroid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
         cursor = self.bd.cursor()
         query = '''
         INSERT INTO pedido_libro_alumno (Codigo, LibroId, AlumnoId, FechaSalida,FechaEntrada, Situacion, Observacion, Cantidad, Tipo)
@@ -350,7 +362,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
         
-    def info_pedidolibro(self, pedidoid):
+    def info_pedidolib(self, pedidoid):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -438,7 +450,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def info_pedidolamina(self, pedidoid):
+    def info_pedidolam(self, pedidoid):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -456,7 +468,6 @@ class Comunicacion():
         idlibro = cursor.fetchall()
         return idlibro
     
-    
     def update_pedidolam(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
@@ -468,7 +479,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
         
-    def append_pedido_lamina(self, laminaid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
+    def append_pedidolam(self, laminaid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
         cursor = self.bd.cursor()
         query = '''
         INSERT INTO pedido_lamina_alumno (LaminaId, AlumnoId, FechaSalida,FechaEntrada, Situacion, Observacion, Cantidad, Tipo)
@@ -477,30 +488,72 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
-    
-
-    def update_lamina_cantidad(self, laminaid, cantidad):
-        cursor = self.bd.cursor()
-        query = '''
-        UPDATE laminas
-        SET Cantidad = '{}'
-        WHERE LaminasId = '{}'
-        '''.format(cantidad, laminaid)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
         
-    #! DEVOLUCIONES
-
-    def show_categorias(self):
+    #! PROFESOR
+    
+    def show_profesores(self):
         cursor = self.bd.cursor()
         query = '''
         SELECT
-            Categoria
-        FROM
-            categorias
+            Profesor,
+            Sexo,
+            Codigo,
+            Tipo
+        FROM 
+            profesores
         '''
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
+    
+    def update_profesor(self, idprofesor, n_codigo, profesor, sexo):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE Alumnos
+        SET Codigo = '{}', Profesor = '{}', Sexo = '{}'
+        WHERE Codigo = '{}'
+        '''.format(n_codigo, profesor, sexo, idprofesor)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+
+    def delete_profesor(self, profesorid):
+        cursor = self.bd.cursor()
+        query = '''
+        DELETE FROM profesores
+        WHERE Codigo = '{}'        
+        '''.format(profesorid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def append_profesor(self, codigo, profesor, sexo, tipo):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO profesores (Codigo, Profesor, Sexo, Tipo) 
+        VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}")
+        '''.format(codigo, profesor, sexo, tipo)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def search_profesores(self, columna, palabra):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT 
+            Profesor,
+            Sexo,
+            Codigo,
+            Tipo
+        FROM 
+            profesores
+        WHERE 
+            {} LIKE '%{}%'
+        '''.format(columna,palabra)
+        try:
+            cursor.execute(query)
+            l_filas = cursor.fetchall()
+            return l_filas
+        except sqlite3.OperationalError:
+            print("incorrecto")
         

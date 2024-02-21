@@ -322,7 +322,7 @@ class PedidosLibros():
             if existentes <= 0:
                 messagebox.showerror('Información', 'No hay existentes')
             elif cantidad_restante >= 0:
-                self.bd.append_pedido_libro(codigo, libroid, usuarioid, hoy, fecha, situacion, observacion, cantidad_pedida, tipo)
+                self.bd.append_pedidolib(codigo, libroid, usuarioid, hoy, fecha, situacion, observacion, cantidad_pedida, tipo)
                 self.bd.update_libro_cantidad(libroid, cantidad_restante)
                 palabra = self.palabra.get()
                 columna = self.nombre_columna.get()

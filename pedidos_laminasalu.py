@@ -284,7 +284,7 @@ class PedidosLaminas():
             if existentes <= 0:
                 messagebox.showerror('Información', 'No hay existentes')
             elif cantidad_restante >=0:
-                self.bd.append_pedido_lamina(laminaid, usuarioid, hoy, fecha,situacion, observacion, cantidad_pedida, tipo)
+                self.bd.append_pedidolam(laminaid, usuarioid, hoy, fecha,situacion, observacion, cantidad_pedida, tipo)
                 self.bd.update_lamina_cantidad(laminaid, cantidad_restante)
                 self.limpiar_campos()
                 palabra = self.palabra.get()

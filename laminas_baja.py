@@ -131,7 +131,7 @@ class BajaLamina():
         if 'values' in diccionario_fila and len(diccionario_fila['values']) != 0:
             self.titulo.set(diccionario_fila['values'][0])
             self.cantidad.set(diccionario_fila['values'][3])
-            self.condicion_libro.set(diccionario_fila['values'][5])
+            self.condicion_lamina.set(diccionario_fila['values'][5])
         else:
             self.limpiar_campos()
         

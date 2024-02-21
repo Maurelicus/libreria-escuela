@@ -2,17 +2,17 @@ import tkinter as tk
 # from tkinter import ttk
 import ttkbootstrap as ttk
 
-import ventana_alumnos as veal
-import pedidos_librosalu as peli
-import pedidos_laminasalu as pela
-import devoluciones_librosalu as deli
-import devoluciones_laminasalu as dela
+import ventana_profesores as veprof
+import pedidos_librosprof as peli
+import pedidos_laminasprof as pela
+import devoluciones_librosprof as deli
+import devoluciones_laminasprof as dela
 
-class NotebookAlumno(ttk.Frame):
+class NotebookProfesor(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
         
-        self.venalu = veal.VentanaAlumnos()
+        self.venprof = veprof.VentanaProfesores()
         self.pedlib = peli.PedidosLibros()
         self.pedlam = pela.PedidosLaminas()
         self.devlib = deli.DevolucionesLibros()
@@ -20,10 +20,10 @@ class NotebookAlumno(ttk.Frame):
         
         self.mytabcontrol = ttk.Notebook(self.master, bootstyle='primary')
         
-        self.alumno_tab = ttk.Frame(self.mytabcontrol)
-        self.alumno_tab.columnconfigure(0, weight=1, minsize=370)
-        self.alumno_tab.columnconfigure(1, weight=10)
-        self.alumno_tab.rowconfigure(0, weight=1)
+        self.profesor_tab = ttk.Frame(self.mytabcontrol)
+        self.profesor_tab.columnconfigure(0, weight=1, minsize=370)
+        self.profesor_tab.columnconfigure(1, weight=10)
+        self.profesor_tab.rowconfigure(0, weight=1)
         
         self.pedidoli_tab = ttk.Frame(self.mytabcontrol) 
         self.pedidoli_tab.columnconfigure(0, weight=1, minsize=340)
@@ -45,7 +45,7 @@ class NotebookAlumno(ttk.Frame):
         self.devola_tab.columnconfigure(1, weight=10)
         self.devola_tab.rowconfigure(0, weight=1)
         
-        self.mytabcontrol.add(self.alumno_tab, text ='Alumnos')
+        self.mytabcontrol.add(self.profesor_tab, text ='Profesores')
         self.mytabcontrol.add(self.pedidoli_tab, text ='Pedidos de Libros')
         self.mytabcontrol.add(self.pedidola_tab, text ='Pedidos de Laminas')
         self.mytabcontrol.add(self.devoli_tab, text ='Devoluciones Libros')
@@ -57,16 +57,16 @@ class NotebookAlumno(ttk.Frame):
         
     def widgets(self):
         #! Funciones label
-        alumno1p_frame = ttk.LabelFrame(self.alumno_tab, text='Información Alumno', bootstyle='dark')
-        alumno1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='nsw')
-        alumno1p_frame.columnconfigure(0, weight=1, minsize=180)
-        alumno1p_frame.columnconfigure(1, weight=1, minsize=180)
+        profesor1p_frame = ttk.LabelFrame(self.profesor_tab, text='Información Profesor', bootstyle='dark')
+        profesor1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='nsw')
+        profesor1p_frame.columnconfigure(0, weight=1, minsize=180)
+        profesor1p_frame.columnconfigure(1, weight=1, minsize=180)
         
-        alumno2p_frame = ttk.LabelFrame(self.alumno_tab, text='Visualizacion', bootstyle='dark')
-        alumno2p_frame.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
-        alumno2p_frame.columnconfigure(0, weight=1)
-        alumno2p_frame.rowconfigure(0, weight=0)
-        alumno2p_frame.rowconfigure(1, weight=10)
+        profesor2p_frame = ttk.LabelFrame(self.profesor_tab, text='Visualizacion', bootstyle='dark')
+        profesor2p_frame.grid(column=1, row=0, padx=5, pady=5, sticky='nsew')
+        profesor2p_frame.columnconfigure(0, weight=1)
+        profesor2p_frame.rowconfigure(0, weight=0)
+        profesor2p_frame.rowconfigure(1, weight=10)
         
         peli1p_frame = ttk.LabelFrame(self.pedidoli_tab, text='Informacion Pedido', bootstyle='dark')
         peli1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='ns')
@@ -116,8 +116,8 @@ class NotebookAlumno(ttk.Frame):
         devola2p_frame.rowconfigure(0, weight=0)
         devola2p_frame.rowconfigure(1, weight=10)              
 
-        self.venalu.seccion_uno(alumno1p_frame)
-        self.venalu.seccion_dos(alumno2p_frame)
+        self.venprof.seccion_uno(profesor1p_frame)
+        self.venprof.seccion_dos(profesor2p_frame)
         self.pedlib.seccion_uno(peli1p_frame)
         self.pedlib.seccion_dos(peli2p_frame)
         self.pedlam.seccion_uno(pela1p_frame)
