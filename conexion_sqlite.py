@@ -3,7 +3,7 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprueba.db")
+        self.bd = sqlite3.connect("data/BDprincipal.db")
     #! LIBROS
     def show_libros(self):
         cursor = self.bd.cursor()
@@ -31,7 +31,7 @@ class Comunicacion():
         '''
         """ 
             li.Tipo,
-            li.Titulo ASC,
+            li.Titulo ASC
             li.Cantidad DESC,
             li.Editorial
         """
@@ -188,7 +188,7 @@ class Comunicacion():
         '''.format(columna,palabra)
         cursor.execute(query)
         l_filas = cursor.fetchall()
-        return 
+        return l_filas
     
     def update_lamina_cantidad(self, laminaid, cantidad):
         cursor = self.bd.cursor()

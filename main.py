@@ -114,5 +114,4 @@ profesor_button.bind("<Return>", ingresar_profesor)
 inbutton_window = my_canvas.create_window(490,360,anchor='nw', window=profesor_button)
 
 
-
 root.mainloop()
