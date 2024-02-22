@@ -170,7 +170,7 @@ class BajaLamina():
         diccionario_lamina = self.tabla.item(l_item)
         if 'values' in diccionario_lamina and len(diccionario_lamina['values']) != 0:
             titulo = diccionario_lamina['values'][0]
-            categoria = 24
+            categoria = 25
             codigo = diccionario_lamina['values'][2]
             cantidad_repuesta = diccionario_lamina['values'][3]
             remitente = diccionario_lamina['values'][4]

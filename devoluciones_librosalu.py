@@ -123,7 +123,6 @@ class DevolucionesLibros():
     def obtener_pedido(self, event):
         item_selec = self.tabla.focus()
         diccionario_pedido = self.tabla.item(item_selec)
-        # print(diccionario_fila)
         if 'values' in diccionario_pedido and len(diccionario_pedido['values']) != 0:
             self.material.set(diccionario_pedido['values'][0])
             self.alumno.set(diccionario_pedido['values'][1])
@@ -135,7 +134,7 @@ class DevolucionesLibros():
             
     def mostrar_pedidoslib(self):
         self.limpiar_campos()
-        l_datos = self.bd.show_pedidoslib()
+        l_datos = self.bd.showalu_pedidoslib()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
@@ -144,11 +143,7 @@ class DevolucionesLibros():
                 self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
             elif fila[5] == 'prestado':
                 self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
-            else:
-                messagebox.showerror('ERROR', 'Situacion no devuelta')
 
-                
-        
     def limpiar_campos(self):
         self.alumno.set('')
         self.material.set('')
@@ -161,7 +156,7 @@ class DevolucionesLibros():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscar_pedidoslib(columna, palabra)
+            l_datos = self.bd.buscarpro_pedidoslib(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -170,9 +165,6 @@ class DevolucionesLibros():
                     self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
                 elif fila[5] == 'prestado':
                     self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
-                else:
-                    messagebox.showerror('ERROR', 'Situacion no devuelta')
-
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
             
@@ -205,17 +197,17 @@ class DevolucionesLibros():
                 pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                 if cantidad_total > cantidad_devuelta and situacion == 'devuelto' and observacion != '' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.append_pedidolib(codigo, libroid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
+                    self.bd.appendalu_pedidolib(codigo, libroid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
                     cantidad_nueva = cantidad_libro + cantidad_devuelta
                     self.bd.update_libro_cantidad(libroid, cantidad_nueva)
                     cantidad_faltante = cantidad_total - cantidad_devuelta
-                    self.bd.update_pedidolib(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
+                    self.bd.updatealu_pedidolib(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
                     self.limpiar_campos()
                     messagebox.showinfo('Información', 'Fila modificada')
                     self.mostrar_pedidoslib()
                 elif cantidad_total == cantidad_devuelta and observacion != '' and situacion == 'devuelto' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.update_pedidolib(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
+                    self.bd.updatealu_pedidolib(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
                     cantidad_nueva = cantidad_devuelta + cantidad_libro
                     self.bd.update_libro_cantidad(libroid, cantidad_nueva)
                     self.limpiar_campos()

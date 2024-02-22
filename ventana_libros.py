@@ -33,11 +33,11 @@ class VentanaLibros():
         niv_list = ["Primaria", "Secundaria"]
         con_list = ["A", "B", "C"]
         cat_list = [
-            "Literatura", "Historia y Geografia","C.T.A","Matematica",
-            "Fisica","Biologia","Quimica","Economia","Educacion Civica",
-            "Computacion","Idioma","Gastronomia","Comunicacion","Tutoria",
-            "Recreacion","Arte y Musica","Religion","Educacion Fisica",
-            "Diccionario","Manual","Otros","Falta"
+            "Literatura","Historia y Geografia","C.T.A","Matematica",
+            "Fisica","Biologia","Quimica","Economia","Lenguaje y Comunicacion",
+            "Comprension Lectora","Idioma","P.F.C.C","Computacion",
+            "Gastronomia","Recreacion","Arte y Musica","Religion",
+            "Educacion Fisica","Diccionario","Compendio","Manual","Otros","Falta"
             ]
         a = 1
         for categ in cat_list:
@@ -183,23 +183,23 @@ class VentanaLibros():
         self.tabla.heading('#10', text='Año Recepcion', anchor='center')
         # White to Light Purple Color Palette
         self.tabla.tag_configure('Literatura', background='#e6e1f9')
-        self.tabla.tag_configure('Matematica', background='#d5cdf3')
-        self.tabla.tag_configure('Fisica', background='#cdc2f5')
-        self.tabla.tag_configure('Biologia', background='#c6b7fe')
-        self.tabla.tag_configure('Quimica', background='#bba8ff')
+        self.tabla.tag_configure('HyG', background='#d5cdf3')
+        self.tabla.tag_configure('C.T.A', background='#cdc2f5')
+        self.tabla.tag_configure('Matematica', background='#c6b7fe')
+        self.tabla.tag_configure('Fisica', background='#bba8ff')
         
         # pastel blue owo Color Palette
-        self.tabla.tag_configure('HyG', background='#bbeaff')
-        self.tabla.tag_configure('CTA', background='#a9e5ff')
+        self.tabla.tag_configure('Biologia', background='#bbeaff')
+        self.tabla.tag_configure('Quimica', background='#a9e5ff')
         self.tabla.tag_configure('Economia', background='#98ddfc')
-        self.tabla.tag_configure('EduCiv', background='#84d9ff')
-        self.tabla.tag_configure('Computacion', background='#72d3fe')
+        self.tabla.tag_configure('LyC', background='#84d9ff')
+        self.tabla.tag_configure('ComLectora', background='#72d3fe')
         
         # shades of sea green 2 Color Palette
         self.tabla.tag_configure('Idioma', background='#c9f9de')
-        self.tabla.tag_configure('Gastronomia', background='#b8f8d4')
-        self.tabla.tag_configure('Comunicacion', background='#a6f6c9')
-        self.tabla.tag_configure('Tutoria', background='#94f4be')
+        self.tabla.tag_configure('P.F.C.C', background='#b8f8d4')
+        self.tabla.tag_configure('Computacion', background='#a6f6c9')
+        self.tabla.tag_configure('Gastronomia', background='#94f4be')
         self.tabla.tag_configure('Recreacion', background='#83f3b4')
 
         # OrangeCream1 Color Palette
@@ -207,9 +207,9 @@ class VentanaLibros():
         self.tabla.tag_configure('Religion', background='#ffe7b6')
         self.tabla.tag_configure('EduFis', background='#ffd276')
         self.tabla.tag_configure('Diccionario', background='#ffbf3c')
-        self.tabla.tag_configure('Manual', background='#fffd8d')
-        # self.tabla.tag_configure('Manual', background='#f9b428')
+        self.tabla.tag_configure('Compendio', background='#fffd8d')
         # kawaii pastel Color Palette
+        self.tabla.tag_configure('Manual', background='#f9b428')
         self.tabla.tag_configure('Otros', background='#f2e2ff')
         self.tabla.tag_configure('Falta', background='#fdaaaa')
         self.tabla.tag_configure('Baja', background='#ddfffc')
@@ -228,14 +228,14 @@ class VentanaLibros():
             if fila[4] != 'Baja':
                 if fila[4] == 'Historia y Geografia':
                     self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
-                elif fila[4] == 'C.T.A':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='CTA')
-                elif fila[4] == 'Educacion Civica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduCiv')
-                elif fila[4] == 'Educacion Fisica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduFis')
+                elif fila[4] == 'Lenguaje y Comunicacion':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='LyC')
+                elif fila[4] == 'Comprension Lectora':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='ComLectora')
                 elif fila[4] == 'Arte y Musica':
                     self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='AyM')
+                elif fila[4] == 'Educacion Fisica':
+                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduFis')
                 elif fila[4] == None:
                     self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
                 else:
@@ -364,14 +364,14 @@ class VentanaLibros():
                 if fila[4] != 'Baja':
                     if fila[4] == 'Historia y Geografia':
                         self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
-                    elif fila[4] == 'C.T.A':
-                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='CTA')
-                    elif fila[4] == 'Educacion Civica':
-                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduCiv')
-                    elif fila[4] == 'Educacion Fisica':
-                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduFis')
+                    elif fila[4] == 'Lenguaje y Comunicacion':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='LyC')
+                    elif fila[4] == 'Comprension Lectora':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='ComLectora')
                     elif fila[4] == 'Arte y Musica':
                         self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='AyM')
+                    elif fila[4] == 'Educacion Fisica':
+                        self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduFis')
                     elif fila[4] == None:
                         self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
                     else:
@@ -395,7 +395,7 @@ class VentanaLibros():
             autor = diccionario_libro['values'][1]
             editorial = diccionario_libro['values'][2]
             a_edicion = diccionario_libro['values'][3]
-            categoria = 23
+            categoria = 24
             cantidad_total = diccionario_libro['values'][5]
             remitente = diccionario_libro['values'][6]
             n_educativo = diccionario_libro['values'][7]

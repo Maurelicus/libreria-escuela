@@ -130,19 +130,41 @@ class PedidosLaminas():
         self.tabla_lamina.heading('#6', text='Condicion', anchor='center')
         self.tabla_lamina.heading('#7', text='Nivel educativo', anchor='center')
         self.tabla_lamina.heading('#8', text='Año recepcion', anchor='center')
+
+        # White to Light Purple Color Palette
+        self.tabla_lamina.tag_configure('Literatura', background='#e6e1f9')
+        self.tabla_lamina.tag_configure('HyG', background='#d5cdf3')
+        self.tabla_lamina.tag_configure('C.T.A', background='#cdc2f5')
+        self.tabla_lamina.tag_configure('Matematica', background='#c6b7fe')
+        self.tabla_lamina.tag_configure('Fisica', background='#bba8ff')
         
-        self.tabla_lamina.tag_configure('Literatura', background='#d4ffea')
-        self.tabla_lamina.tag_configure('HyG', background='#bae1ff')
-        self.tabla_lamina.tag_configure('CTA', background='#ffffba')
-        self.tabla_lamina.tag_configure('Matematica', background='#d5dbdb')
-        self.tabla_lamina.tag_configure('Fisica', background='#559e83')
-        self.tabla_lamina.tag_configure('Biologia', background='#ae5a41')
-        self.tabla_lamina.tag_configure('Quimica', background='#c3cb71')
-        self.tabla_lamina.tag_configure('EC', background='#dbdcff')
-        self.tabla_lamina.tag_configure('AyC', background='#f8c583')
-        self.tabla_lamina.tag_configure('Agregar', background='#608c83')
-        self.tabla_lamina.tag_configure('Falta', background='#ffb3ba')
-            
+        # pastel blue owo Color Palette
+        self.tabla_lamina.tag_configure('Biologia', background='#bbeaff')
+        self.tabla_lamina.tag_configure('Quimica', background='#a9e5ff')
+        self.tabla_lamina.tag_configure('Economia', background='#98ddfc')
+        self.tabla_lamina.tag_configure('LyC', background='#84d9ff')
+        self.tabla_lamina.tag_configure('ComLectora', background='#72d3fe')
+        
+        # shades of sea green 2 Color Palette
+        self.tabla_lamina.tag_configure('Idioma', background='#c9f9de')
+        self.tabla_lamina.tag_configure('P.F.C.C', background='#b8f8d4')
+        self.tabla_lamina.tag_configure('Computacion', background='#a6f6c9')
+        self.tabla_lamina.tag_configure('Gastronomia', background='#94f4be')
+        self.tabla_lamina.tag_configure('Recreacion', background='#83f3b4')
+
+        # OrangeCream1 Color Palette
+        self.tabla_lamina.tag_configure('AyM', background='#ffedc9')
+        self.tabla_lamina.tag_configure('Religion', background='#ffe7b6')
+        self.tabla_lamina.tag_configure('EduFis', background='#ffd276')
+        self.tabla_lamina.tag_configure('Diccionario', background='#ffbf3c')
+        self.tabla_lamina.tag_configure('Compendio', background='#fffd8d')
+        # kawaii pastel Color Palette
+        self.tabla_lamina.tag_configure('Manual', background='#f9b428')
+        self.tabla_lamina.tag_configure('Otros', background='#f2e2ff')
+        self.tabla_lamina.tag_configure('Falta', background='#fdaaaa')
+        self.tabla_lamina.tag_configure('Baja', background='#ddfffc')
+        self.tabla_lamina.tag_configure('Repuesto', background='#d0d3d4')
+
         self.tabla_lamina.bind("<<TreeviewSelect>>", self.obtener_lamina)
         #* ALUMNOS
         buscaralumno_frame = ttk.Frame(frame_vista)
@@ -200,11 +222,15 @@ class PedidosLaminas():
         self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
-
+        self.temp_palabra.set(palabra)
+        self.temp_columna.set(columna)
         if columna == "Año de recepcion":
             columna = "AñoRecepcion"
         elif columna == "Nivel educativo":
             columna = "NivelEducativo"
+        elif columna == "Condicion de la Lamina":
+            columna = "CondicionLamina"
+
 
         if palabra != '':
             l_datos = self.bd.search_laminas(columna, palabra)
@@ -212,19 +238,21 @@ class PedidosLaminas():
             i = -1
             for fila in l_datos:
                 i = i+1
-                if fila[1] == 'Historia y Geografia':
-                    self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='HyG')
-                elif fila[1] == 'C.T.A':
-                    self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='CTA')
-                elif fila[1] == 'Educacion Civica':
-                    self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='EC')
-                elif fila[1] == 'Arte y Cultura':
-                    self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='AyC')
-                elif fila[1] == None:
-                    self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
-                else:
-                    self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags=fila[1])
-
+                if fila[1] != 'Baja':
+                    if fila[1] == 'Historia y Geografia':
+                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='HyG')
+                    elif fila[1] == 'Lenguaje y Comunicacion':
+                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='LyC')
+                    elif fila[1] == 'Comprension Lectora':
+                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='ComLectora')
+                    elif fila[1] == 'Arte y Cultura':
+                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='AyM')
+                    elif fila[1] == 'Educacion Fisica':
+                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='EduFis')
+                    elif fila[1] == None:
+                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
+                    else:
+                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags=fila[1])
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
@@ -284,29 +312,13 @@ class PedidosLaminas():
             if existentes <= 0:
                 messagebox.showerror('Información', 'No hay existentes')
             elif cantidad_restante >=0:
-                self.bd.append_pedidolam(laminaid, usuarioid, hoy, fecha,situacion, observacion, cantidad_pedida, tipo)
+                self.bd.appendalu_pedidolam(laminaid, usuarioid, hoy, fecha,situacion, observacion, cantidad_pedida, tipo)
                 self.bd.update_lamina_cantidad(laminaid, cantidad_restante)
-                self.limpiar_campos()
-                palabra = self.palabra.get()
-                columna = self.nombre_columna.get()
-                l_datos = self.bd.search_laminas(columna, palabra)
-                self.tabla_lamina.delete(*self.tabla_lamina.get_children())
-                i = -1
-                for fila in l_datos:
-                    i = i+1
-                    if fila[1] == 'Historia y Geografia':
-                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='HyG')
-                    elif fila[1] == 'C.T.A':
-                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='CTA')
-                    elif fila[1] == 'Educacion Civica':
-                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='EC')
-                    elif fila[1] == 'Arte y Cultura':
-                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='AyC')
-                    elif fila[1] == None:
-                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='Agregar')
-                    else:
-                        self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags=fila[1])
+                self.palabra.set(self.temp_palabra.get())
+                self.columna.set(self.temp_columna.get())
+                self.buscar_lamina()
                 messagebox.showinfo('Información', 'Pedido Existoso')
+                
             elif cantidad_restante < 0:
                 messagebox.showerror('Información', 'Cantidad excedida al total')
         else:

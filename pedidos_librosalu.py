@@ -22,32 +22,13 @@ class PedidosLibros():
         self.cantidad = tk.IntVar()
         self.palabra = tk.StringVar()
         self.palabra2 = tk.StringVar()
-        self.temp_palabra = tk.StringVar()
-        self.temp_columna = tk.StringVar()
-
         self.nombre_columna = tk.StringVar()
         self.nombre_columna2 = tk.StringVar()
+        self.temp_palabra = tk.StringVar()
+        self.temp_columna = tk.StringVar()
         self.bd = Comunicacion()
-        # self.photo1 = ImageTk.PhotoImage(Image.open("reload.png"))
-        # self.photo2 = ImageTk.PhotoImage(Image.open("excel.png"))
 
     def seccion_uno(self, frame_datos):
-        niv_list = ["Primaria", "Secundaria"]
-        con_list = ["A", "B", "C"]
-        cat_list = [
-            "Literatura", "Historia y Geografia","C.T.A","Matematica",
-            "Fisica","Biologia","Quimica","Economia","Educacion Civica",
-            "Computacion","Idioma","Gastronomia","Comunicacion","Tutoria",
-            "Recreacion","Arte y Cultura","Religion","Educacion Fisica",
-            "Diccionario","Falta","Otros"
-            ]
-        a = 1
-        """ 
-        for categ in cat_list:
-            self.cat_dic[categ] = a
-            a = a+1
-        """
-
         #! TEXTO
         ttk.Label(frame_datos, 
             text='DATOS DEL LIBRO:', 
@@ -165,17 +146,39 @@ class PedidosLibros():
         self.tabla_libro.heading('#9', text='Condicion', anchor='center')
         self.tabla_libro.heading('#10', text='Año Recepcion', anchor='center')
         
-        self.tabla_libro.tag_configure('Literatura', background='#d4ffea')
-        self.tabla_libro.tag_configure('HyG', background='#bae1ff')
-        self.tabla_libro.tag_configure('CTA', background='#ffffba')
-        self.tabla_libro.tag_configure('Matematica', background='#d5dbdb')
-        self.tabla_libro.tag_configure('Fisica', background='#55EADB')
-        self.tabla_libro.tag_configure('Biologia', background='#fbf')
-        self.tabla_libro.tag_configure('Quimica', background='#ffe39f')
-        self.tabla_libro.tag_configure('EC', background='#dbdcff')
-        self.tabla_libro.tag_configure('AyC', background='#f8c583')
-        self.tabla_libro.tag_configure('Agregar', background='#608c83')
-        self.tabla_libro.tag_configure('Falta', background='#ffb3ba')
+        # White to Light Purple Color Palette
+        self.tabla_libro.tag_configure('Literatura', background='#e6e1f9')
+        self.tabla_libro.tag_configure('HyG', background='#d5cdf3')
+        self.tabla_libro.tag_configure('C.T.A', background='#cdc2f5')
+        self.tabla_libro.tag_configure('Matematica', background='#c6b7fe')
+        self.tabla_libro.tag_configure('Fisica', background='#bba8ff')
+        
+        # pastel blue owo Color Palette
+        self.tabla_libro.tag_configure('Biologia', background='#bbeaff')
+        self.tabla_libro.tag_configure('Quimica', background='#a9e5ff')
+        self.tabla_libro.tag_configure('Economia', background='#98ddfc')
+        self.tabla_libro.tag_configure('LyC', background='#84d9ff')
+        self.tabla_libro.tag_configure('ComLectora', background='#72d3fe')
+        
+        # shades of sea green 2 Color Palette
+        self.tabla_libro.tag_configure('Idioma', background='#c9f9de')
+        self.tabla_libro.tag_configure('P.F.C.C', background='#b8f8d4')
+        self.tabla_libro.tag_configure('Computacion', background='#a6f6c9')
+        self.tabla_libro.tag_configure('Gastronomia', background='#94f4be')
+        self.tabla_libro.tag_configure('Recreacion', background='#83f3b4')
+
+        # OrangeCream1 Color Palette
+        self.tabla_libro.tag_configure('AyM', background='#ffedc9')
+        self.tabla_libro.tag_configure('Religion', background='#ffe7b6')
+        self.tabla_libro.tag_configure('EduFis', background='#ffd276')
+        self.tabla_libro.tag_configure('Diccionario', background='#ffbf3c')
+        self.tabla_libro.tag_configure('Compendio', background='#fffd8d')
+        # kawaii pastel Color Palette
+        self.tabla_libro.tag_configure('Manual', background='#f9b428')
+        self.tabla_libro.tag_configure('Otros', background='#f2e2ff')
+        self.tabla_libro.tag_configure('Falta', background='#fdaaaa')
+        self.tabla_libro.tag_configure('Baja', background='#ddfffc')
+        self.tabla_libro.tag_configure('Repuesto', background='#d0d3d4')
 
         self.tabla_libro.bind("<<TreeviewSelect>>", self.obtener_libro)
         
@@ -235,6 +238,8 @@ class PedidosLibros():
         self.limpiar_campos()
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
+        self.temp_palabra.set(palabra)
+        self.temp_columna.set(columna)
         if columna == "Nivel educativo":
             columna = "NivelEducativo"
         elif columna == "Año de edicion":
@@ -246,19 +251,21 @@ class PedidosLibros():
             i = -1
             for fila in l_datos:
                 i = i+1
-                if fila[4] == 'Historia y Geografia':
-                    self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
-                elif fila[4] == 'C.T.A':
-                    self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='CTA')
-                elif fila[4] == 'Educacion Civica':
-                    self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='EC')
-                elif fila[4] == 'Arte y Cultura':
-                    self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='AyC')
-                elif fila[4] == None:
-                    self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
-                else:
-                    self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
-                
+                if fila[4] != 'Baja':
+                    if fila[4] == 'Historia y Geografia':
+                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
+                    elif fila[4] == 'Lenguaje y Comunicacion':
+                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='LyC')
+                    elif fila[4] == 'Comprension Lectora':
+                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='ComLectora')
+                    elif fila[4] == 'Arte y Musica':
+                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='AyM')
+                    elif fila[4] == 'Educacion Fisica':
+                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='EduFis')
+                    elif fila[4] == None:
+                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
+                    else:
+                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
 
@@ -274,7 +281,6 @@ class PedidosLibros():
             for fila in l_datos:
                 i = i+1
                 self.tabla_alumno.insert('', i,text=i+1, values=fila[0:7], tags=fila[6])
-
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
@@ -322,29 +328,12 @@ class PedidosLibros():
             if existentes <= 0:
                 messagebox.showerror('Información', 'No hay existentes')
             elif cantidad_restante >= 0:
-                self.bd.append_pedidolib(codigo, libroid, usuarioid, hoy, fecha, situacion, observacion, cantidad_pedida, tipo)
+                self.bd.appendalu_pedidolib(codigo, libroid, usuarioid, hoy, fecha, situacion, observacion, cantidad_pedida, tipo)
                 self.bd.update_libro_cantidad(libroid, cantidad_restante)
-                palabra = self.palabra.get()
-                columna = self.nombre_columna.get()
-                l_datos = self.bd.search_libros(columna, palabra)
-                self.tabla_libro.delete(*self.tabla_libro.get_children())
-                i = -1
-                for fila in l_datos:
-                    i = i+1
-                    if fila[4] == 'Historia y Geografia':
-                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
-                    elif fila[4] == 'C.T.A':
-                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='CTA')
-                    elif fila[4] == 'Educacion Civica':
-                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='EC')
-                    elif fila[4] == 'Arte y Cultura':
-                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='AyC')
-                    elif fila[4] == None:
-                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
-                    else:
-                        self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
+                self.palabra.set(self.temp_palabra.get())
+                self.nombre_columna.set(self.temp_columna.get())
+                self.buscar_libro()
                 messagebox.showinfo('Información', 'Pedido Existoso')
-                self.limpiar_campos()
                 
             elif cantidad_restante < 0:
                 messagebox.showerror('Información', 'Cantidad excedida al total')

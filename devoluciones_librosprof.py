@@ -10,7 +10,7 @@ from ventana_libros import VentanaLibros
 
 class DevolucionesLibros():
     def __init__(self):
-        self.alumno = tk.StringVar()
+        self.profesor = tk.StringVar()
         self.material = tk.StringVar()
         self.situacion = tk.StringVar()
         self.observacion = tk.StringVar()
@@ -37,7 +37,7 @@ class DevolucionesLibros():
         cantidad_label.grid(column=0, row=5, padx=30, pady=[5,10], sticky='w')
 
 
-        a_label = ttk.Label(frame_uno, textvariable=self.alumno, wraplength=160, bootstyle='dark')
+        a_label = ttk.Label(frame_uno, textvariable=self.profesor, wraplength=160, bootstyle='dark')
         a_label.grid(column=1, row=1, padx=5, pady=[10,5], sticky='w')
         ma_label = ttk.Label(frame_uno, textvariable=self.material, wraplength=160, bootstyle='dark')
         ma_label.grid(column=1, row=2, padx=5, pady=5, sticky='w')
@@ -126,7 +126,7 @@ class DevolucionesLibros():
         # print(diccionario_fila)
         if 'values' in diccionario_pedido and len(diccionario_pedido['values']) != 0:
             self.material.set(diccionario_pedido['values'][0])
-            self.alumno.set(diccionario_pedido['values'][1])
+            self.profesor.set(diccionario_pedido['values'][1])
             self.situacion.set(diccionario_pedido['values'][5])
             self.observacion.set(diccionario_pedido['values'][6])
             self.cantidad.set(diccionario_pedido['values'][4])
@@ -135,22 +135,22 @@ class DevolucionesLibros():
             
     def mostrar_pedidoslib(self):
         self.limpiar_campos()
-        l_datos = self.bd.show_pedidoslib()
+        l_datos = self.bd.showpro_pedidoslib()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
             i = i+1
             if fila[5] == 'devuelto':
-                self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
+                self.tabla.insert('', i, text=i+1, values=fila[0:15], tags=fila[8])
             elif fila[5] == 'prestado':
-                self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
+                self.tabla.insert('', i, text=i+1, values=fila[0:15], tags=fila[8])
             else:
                 messagebox.showerror('ERROR', 'Situacion no devuelta')
 
                 
         
     def limpiar_campos(self):
-        self.alumno.set('')
+        self.profesor.set('')
         self.material.set('')
         self.observacion.set('')
         self.situacion.set('')
@@ -161,7 +161,7 @@ class DevolucionesLibros():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscar_pedidoslib(columna, palabra)
+            l_datos = self.bd.buscarpro_pedidoslib(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -205,17 +205,17 @@ class DevolucionesLibros():
                 pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                 if cantidad_total > cantidad_devuelta and situacion == 'devuelto' and observacion != '' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.append_pedidolib(codigo, libroid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
+                    self.bd.appendalu_pedidolib(codigo, libroid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
                     cantidad_nueva = cantidad_libro + cantidad_devuelta
                     self.bd.update_libro_cantidad(libroid, cantidad_nueva)
                     cantidad_faltante = cantidad_total - cantidad_devuelta
-                    self.bd.update_pedidolib(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
+                    self.bd.updatealu_pedidolib(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
                     self.limpiar_campos()
                     messagebox.showinfo('Información', 'Fila modificada')
                     self.mostrar_pedidoslib()
                 elif cantidad_total == cantidad_devuelta and observacion != '' and situacion == 'devuelto' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.update_pedidolib(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
+                    self.bd.updatealu_pedidolib(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
                     cantidad_nueva = cantidad_devuelta + cantidad_libro
                     self.bd.update_libro_cantidad(libroid, cantidad_nueva)
                     self.limpiar_campos()

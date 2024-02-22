@@ -128,7 +128,6 @@ class DevolucionesLaminas():
     def obtener_pedido(self, event):
         item_selec = self.tabla.focus()
         diccionario_pedido = self.tabla.item(item_selec)
-        # print(diccionario_fila)
         if 'values' in diccionario_pedido and len(diccionario_pedido['values']) != 0:
             self.material.set(diccionario_pedido['values'][0])
             self.alumno.set(diccionario_pedido['values'][1])
@@ -150,11 +149,7 @@ class DevolucionesLaminas():
                 self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
             elif fila[5] == 'prestado':
                 self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
-            else:
-                messagebox.showerror('ERROR', 'Situacion no devuelta')
-
                 
-        
     def limpiar_campos(self):
         self.alumno.set('')
         self.material.set('')
@@ -168,7 +163,7 @@ class DevolucionesLaminas():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscar_pedidoslib(columna, palabra)
+            l_datos = self.bd.buscarpro_pedidoslib(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -177,9 +172,6 @@ class DevolucionesLaminas():
                     self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
                 elif fila[5] == 'prestado':
                     self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
-                else:
-                    messagebox.showerror('ERROR', 'Situacion no devuelta')
-
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
             
@@ -209,7 +201,7 @@ class DevolucionesLaminas():
                 pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                 if cantidad_total > cantidad_devuelta and situacion == 'devuelto' and observacion != '' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.append_pedidolam(laminaid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
+                    self.bd.appendalu_pedidolam(laminaid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
                     cantidad_nueva = cantidad_libro + cantidad_devuelta
                     self.bd.update_lamina_cantidad(laminaid, cantidad_nueva)
                     cantidad_faltante = cantidad_total - cantidad_devuelta

@@ -200,7 +200,7 @@ class BajaLibro():
             autor = diccionario_libro['values'][1]
             editorial = diccionario_libro['values'][2]
             a_edicion = diccionario_libro['values'][3]
-            categoria = 24
+            categoria = 25
             cantidad_repuesta = diccionario_libro['values'][5]
             remitente = diccionario_libro['values'][6]
             n_educativo = diccionario_libro['values'][7]
