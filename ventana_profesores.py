@@ -193,7 +193,6 @@ class VentanaProfesores():
                         messagebox.showerror('ERROR', 'Falta Rellenar datos')
                 
         elif len(diccionario_profesor['values']) == 0:
-            # print(len(diccionario_lamina['values']))
             messagebox.showerror('ERROR', 'Selecciona un profesor')
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
