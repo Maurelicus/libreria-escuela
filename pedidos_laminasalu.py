@@ -238,7 +238,7 @@ class PedidosLaminas():
             i = -1
             for fila in l_datos:
                 i = i+1
-                if fila[1] != 'Baja':
+                if fila[1] != 'Baja' and fila[1] != 'Repuesto' and fila[1] != 'Falta':
                     if fila[1] == 'Historia y Geografia':
                         self.tabla_lamina.insert('', i,text=i+1, values=fila[0:9], tags='HyG')
                     elif fila[1] == 'Lenguaje y Comunicacion':
@@ -277,6 +277,10 @@ class PedidosLaminas():
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 2:
             self.titulo.set(diccionario_fila['values'][0])
             self.categoria.set(diccionario_fila['values'][1])
+            if self.categoria.get() == "Persona, Familia, Comunidad y Civismo":
+                self.categoria.set("P.F.C.C")
+            elif self.categoria.get() == "Manual para profesores":
+                self.categoria.set("Manual")
             self.codigo.set(diccionario_fila['values'][2])
         else:
             self.limpiar_campos()
@@ -315,7 +319,7 @@ class PedidosLaminas():
                 self.bd.appendalu_pedidolam(laminaid, usuarioid, hoy, fecha,situacion, observacion, cantidad_pedida, tipo)
                 self.bd.update_lamina_cantidad(laminaid, cantidad_restante)
                 self.palabra.set(self.temp_palabra.get())
-                self.columna.set(self.temp_columna.get())
+                self.nombre_columna.set(self.temp_columna.get())
                 self.buscar_lamina()
                 messagebox.showinfo('Información', 'Pedido Existoso')
                 

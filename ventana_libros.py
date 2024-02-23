@@ -117,7 +117,7 @@ class VentanaLibros():
     def seccion_dos(self, frame_vista):
         busqueda_frame = ttk.Frame(frame_vista)
         busqueda_frame.grid(column=0, row=0, padx=5, pady=1, sticky='nsew')
-        # falta trabajar cantidad y categoria
+
         col_list = ("Autor", "Titulo", "Editorial", "Año de recepcion",
                      "Año de edicion", "Remitente", "Nivel educativo", 
                      "Condicion del libro", "Cantidad")
@@ -250,6 +250,14 @@ class VentanaLibros():
             self.editorial.set(diccionario_fila['values'][2])
             self.año_edicion.set(diccionario_fila['values'][3])
             self.categoria.set(diccionario_fila['values'][4])
+            # print(self.categoria.get())
+            if self.categoria.get() == "Persona, Familia, Comunidad y Civismo":
+                self.categoria.set("P.F.C.C")
+            elif self.categoria.get() == "Manual para profesores":
+                self.categoria.set("Manual")
+            elif self.categoria.get() == "Repuesto":
+                self.categoria.set("Otros")
+            # print(self.categoria.get())
             self.cantidad.set(diccionario_fila['values'][5])
             self.remitente.set(diccionario_fila['values'][6])
             self.nivel_educativo.set(diccionario_fila['values'][7])
@@ -286,6 +294,7 @@ class VentanaLibros():
                     editorial = self.editorial.get()
                     añoedicion = self.año_edicion.get()
                     categoria = self.categoria.get()
+                    
                     cantidad = self.cantidad.get()
                     remitente = self.remitente.get()
                     niveleducativo = self.nivel_educativo.get()
@@ -379,10 +388,6 @@ class VentanaLibros():
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
-    def guardar_libros(self):
-        self.limpiar_campos()
-        self.informe.save_libros()
-        messagebox.showinfo('Informacion', 'Datos guardados')
     
     def dar_baja(self):
         # self.limpiar_campos()
@@ -418,3 +423,9 @@ class VentanaLibros():
                 messagebox.showerror('Información', 'Proceso erroneo')
         else:
             messagebox.showerror('ERROR', 'Selecciona un libro')
+            
+    def guardar_libros(self):
+        self.limpiar_campos()
+        self.informe.save_libros()
+        messagebox.showinfo('Informacion', 'Datos guardados')
+            

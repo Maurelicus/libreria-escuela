@@ -7,10 +7,11 @@ from datetime import date
 
 from conexion_sqlite import Comunicacion
 from ventana_libros import VentanaLibros
+from informes import Informes
 
 class DevolucionesLaminas():
     def __init__(self):
-        self.alumno = tk.StringVar()
+        self.profesor = tk.StringVar()
         self.material = tk.StringVar()
         self.situacion = tk.StringVar()
         self.observacion = tk.StringVar()
@@ -20,14 +21,15 @@ class DevolucionesLaminas():
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
+        self.informe = Informes()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         
         
     def seccion_uno(self, frame_uno):
         #! TEXTO
-        alumno_label = ttk.Label(frame_uno, text='Alumno:', bootstyle='dark')
-        alumno_label.grid(column=0, row=1, padx=30, pady=[10,5], sticky='w')
+        profesor_label = ttk.Label(frame_uno, text='Profesor:', bootstyle='dark')
+        profesor_label.grid(column=0, row=1, padx=30, pady=[10,5], sticky='w')
         material_label = ttk.Label(frame_uno, text='Material:', bootstyle='dark')
         material_label.grid(column=0, row=2, padx=30, pady=5, sticky='w')
         situacion_label = ttk.Label(frame_uno, text='Situacion', bootstyle='dark')
@@ -40,8 +42,8 @@ class DevolucionesLaminas():
         codigo_label.grid(column=0, row=6, padx=30, pady=[5,10], sticky='w')
 
 
-        a_label = ttk.Label(frame_uno, textvariable=self.alumno, wraplength=160, bootstyle='dark')
-        a_label.grid(column=1, row=1, padx=5, pady=[10,5], sticky='w')
+        p_label = ttk.Label(frame_uno, textvariable=self.profesor, wraplength=160, bootstyle='dark')
+        p_label.grid(column=1, row=1, padx=5, pady=[10,5], sticky='w')
         ma_label = ttk.Label(frame_uno, textvariable=self.material, wraplength=160, bootstyle='dark')
         ma_label.grid(column=1, row=2, padx=5, pady=5, sticky='w')
         si_list = ["devuelto", "prestado"]
@@ -64,7 +66,7 @@ class DevolucionesLaminas():
         frame_busqueda = ttk.Frame(frame_dos)
         frame_busqueda.grid(column=0, row=0, padx=5, pady=[1,5], sticky='nsew')
         
-        l_columna = ('Alumno', 'Lamina', 'Fecha', 'Situacion',)
+        l_columna = ('Profesor', 'Lamina', 'Fecha', 'Situacion',)
         columna_box = ttk.Combobox(frame_busqueda, width=15, value=l_columna, 
                                    textvariable=self.nombre_columna, bootstyle='success')
         columna_box.current(0)
@@ -78,7 +80,8 @@ class DevolucionesLaminas():
                                 command=self.buscador, bootstyle='success')
         busc_boton.pack(side='left', padx=4)
         
-        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, bootstyle='success-link')
+        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
+                                command=self.guardar_datos,bootstyle='success-link')
         save_boton.pack(side='left', padx=4)
 
         show_boton = ttk.Button(frame_busqueda, width=20, image=self.photo1,
@@ -100,7 +103,7 @@ class DevolucionesLaminas():
         ladoy.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla.configure(xscrollcommand=ladox.set, yscrollcommand=ladoy.set)
         #! COLUMNAS
-        self.tabla['columns'] = ('Lamina','Alumno','FechaSalida', 'FechaEntrada' ,'Cantidad','Situacion', 'Observacion', 'Codigo')
+        self.tabla['columns'] = ('Lamina','Profesor','FechaSalida', 'FechaEntrada' ,'Cantidad','Situacion', 'Observacion', 'Codigo')
         self.tabla.column('#0', minwidth=50, width=60, anchor='center')
         self.tabla.column('#1', minwidth=150, width=200, anchor='w')
         self.tabla.column('#2', minwidth=150, width=200, anchor='w')
@@ -113,7 +116,7 @@ class DevolucionesLaminas():
             
         self.tabla.heading('#0', text='Nº', anchor='center')
         self.tabla.heading('#1', text='Lamina', anchor='center')
-        self.tabla.heading('#2', text='Alumno', anchor='center')
+        self.tabla.heading('#2', text='Profesor', anchor='center')
         self.tabla.heading('#3', text='Fecha Salida', anchor='center')
         self.tabla.heading('#4', text='Fecha Entrada', anchor='center')
         self.tabla.heading('#5', text='Cantidad', anchor='center')
@@ -131,7 +134,7 @@ class DevolucionesLaminas():
         # print(diccionario_fila)
         if 'values' in diccionario_pedido and len(diccionario_pedido['values']) != 0:
             self.material.set(diccionario_pedido['values'][0])
-            self.alumno.set(diccionario_pedido['values'][1])
+            self.profesor.set(diccionario_pedido['values'][1])
             self.cantidad.set(diccionario_pedido['values'][4])
             self.situacion.set(diccionario_pedido['values'][5])
             self.observacion.set(diccionario_pedido['values'][6])
@@ -141,7 +144,7 @@ class DevolucionesLaminas():
             
     def mostrar_pedidoslam(self):
         self.limpiar_campos()
-        l_datos = self.bd.show_pedidoslam()
+        l_datos = self.bd.showpro_pedidoslam()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
@@ -156,7 +159,7 @@ class DevolucionesLaminas():
                 
         
     def limpiar_campos(self):
-        self.alumno.set('')
+        self.profesor.set('')
         self.material.set('')
         self.observacion.set('')
         self.situacion.set('')
@@ -168,7 +171,7 @@ class DevolucionesLaminas():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscarpro_pedidoslib(columna, palabra)
+            l_datos = self.bd.buscarpro_pedidoslam(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -202,24 +205,24 @@ class DevolucionesLaminas():
             laminaid = diccionario_pedido['values'][9]
             alumnoid = diccionario_pedido['values'][10]
             tipo = diccionario_pedido['values'][11]
-            info_libro = self.bd.info_pedidolam(id_pedido)
+            info_libro = self.bd.infopro_pedidolam(id_pedido)
             cantidad_libro = info_libro[0][0]
             
             if situacion_a != 'devuelto':     
                 pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                 if cantidad_total > cantidad_devuelta and situacion == 'devuelto' and observacion != '' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.appendalu_pedidolam(laminaid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
+                    self.bd.appendpro_pedidolam(laminaid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
                     cantidad_nueva = cantidad_libro + cantidad_devuelta
                     self.bd.update_lamina_cantidad(laminaid, cantidad_nueva)
                     cantidad_faltante = cantidad_total - cantidad_devuelta
-                    self.bd.update_pedidolam(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
+                    self.bd.updatepro_pedidolam(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
                     self.limpiar_campos()
                     messagebox.showinfo('Información', 'Fila modificada')
                     self.mostrar_pedidoslam()
                 elif cantidad_total == cantidad_devuelta and observacion != '' and situacion == 'devuelto' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.update_pedidolam(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
+                    self.bd.updatepro_pedidolam(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
                     cantidad_nueva = cantidad_devuelta + cantidad_libro
                     self.bd.update_lamina_cantidad(laminaid, cantidad_nueva)
                     self.limpiar_campos()
@@ -233,3 +236,8 @@ class DevolucionesLaminas():
                 messagebox.showerror('Información', 'Lamina ya entregado')
         else:
             messagebox.showerror('Información', 'Falta Rellenar')
+    
+    def guardar_datos(self):
+        self.limpiar_campos()
+        self.informe.save_pedidoslaminas()
+        messagebox.showinfo('Informacion', 'Datos guardados')

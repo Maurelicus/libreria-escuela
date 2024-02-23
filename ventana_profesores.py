@@ -31,19 +31,19 @@ class VentanaProfesores():
         codigo_label.grid(column=0, row=1, padx=30, pady=5, sticky='we')
         profesor_label = ttk.Label(frame_datos, text='Profesor', bootstyle='dark')
         profesor_label.grid(column=0, row=2, padx=30, pady=5, sticky='we')
-        correo_label = ttk.Label(frame_datos, text='Correo', bootstyle='dark')
-        correo_label.grid(column=0, row=3, padx=30, pady=5, sticky='we')
         celular_label = ttk.Label(frame_datos, text='Celular', bootstyle='dark')
-        celular_label.grid(column=0, row=4, padx=30, pady=5, sticky='we')
+        celular_label.grid(column=0, row=3, padx=30, pady=5, sticky='we')
+        correo_label = ttk.Label(frame_datos, text='Correo', bootstyle='dark')
+        correo_label.grid(column=0, row=4, padx=30, pady=5, sticky='we')
         #! ENTRADAS
         codigo_entry = ttk.Entry(frame_datos, textvariable=self.codigo, width=20, bootstyle='primary')
         codigo_entry.grid(column=1, row=1, padx=5 ,pady=5, sticky='w')
         profesor_entry = ttk.Entry(frame_datos, textvariable=self.profesor, width=20, bootstyle='primary')
         profesor_entry.grid(column=1, row=2, padx=5 ,pady=5, sticky='w')
-        correo_entry = ttk.Entry(frame_datos, textvariable=self.correo, width=20, bootstyle='primary')
-        correo_entry.grid(column=1, row=3, padx=5 ,pady=5, sticky='w')
         celular_entry = ttk.Entry(frame_datos, textvariable=self.celular, width=20, bootstyle='primary')
-        celular_entry.grid(column=1, row=4, padx=5 ,pady=5, sticky='w')
+        celular_entry.grid(column=1, row=3, padx=5 ,pady=5, sticky='w')
+        correo_entry = ttk.Entry(frame_datos, textvariable=self.correo, width=20, bootstyle='primary')
+        correo_entry.grid(column=1, row=4, padx=5 ,pady=5, sticky='w')
         #! Botones
         update_boton = ttk.Button(frame_datos, text='Modificar Profesor', width=15, 
                                   command=self.actualizar_profesor, bootstyle='primary-outline')
@@ -74,7 +74,7 @@ class VentanaProfesores():
         busc_boton.pack(side='left', padx=4)
 
         save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
-                                bootstyle='success-link')
+                                command=self.guardar_datos,bootstyle='success-link')
         save_boton.pack(side='left', padx=4)
 
         show_boton = ttk.Button(frame_busqueda, image=self.photo1,
@@ -195,7 +195,6 @@ class VentanaProfesores():
         elif len(diccionario_profesor['values']) == 0:
             # print(len(diccionario_lamina['values']))
             messagebox.showerror('ERROR', 'Selecciona un profesor')
-
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
 
@@ -217,7 +216,7 @@ class VentanaProfesores():
         correo = self.correo.get()
         celular = self.celular.get()
         codigo = self.codigo.get()
-        if profesor and correo and celular and codigo != '':
+        if profesor and codigo != '':
             tabla_profesoresbd = self.bd.show_profesores()
             lista_codigos = []
             tipo = 'Profesor'
@@ -269,5 +268,5 @@ class VentanaProfesores():
             
     def guardar_datos(self):
         self.limpiar_campos()
-        self.informe.save_libros()
+        self.informe.save_profesores()
         messagebox.showinfo('Informacion', 'Datos guardados')

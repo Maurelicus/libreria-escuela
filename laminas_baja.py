@@ -61,19 +61,23 @@ class BajaLamina():
         buscar_palabra = ttk.Combobox(busqueda_frame, width=15, value=l_columna, 
                                       textvariable=self.nombre_columna, bootstyle='success')
         buscar_palabra.current(0)
-        buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nsew')
         buscar_palabra.state(["readonly"])
+        buscar_palabra.pack(side='left', padx=4)
+
         palabra_entry = ttk.Entry(busqueda_frame, textvariable=self.palabra, width=40, bootstyle='success')
-        palabra_entry.grid(column=1, row=0, padx=5 ,pady=5, sticky='nsew')
+        palabra_entry.pack(side='left', padx=4)
+
         busc_boton = ttk.Button(busqueda_frame, text='Buscar', width=10,
                                 command=self.buscar, bootstyle='success')
-        busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
+        busc_boton.pack(side='left', padx=4)
+
         save_boton = ttk.Button(busqueda_frame, width=20, image=self.photo2, 
-                                command=self.limpiar_campos, bootstyle='success-link')
-        save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
+                                command=self.guardar_datos, bootstyle='success-link')
+        save_boton.pack(side='left', padx=4)
+
         show_boton = ttk.Button(busqueda_frame, width=20, image=self.photo1,
                                 command=self.mostrar_laminas, bootstyle='success-link')
-        show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='nsew')
+        show_boton.pack(side='right', padx=4)
         #! TABLA
         tabla_frame = ttk.LabelFrame(frame_vista, text='Tabla', bootstyle='primary')
         tabla_frame.grid(column=0, row=1, padx=5, pady=5 ,sticky='nsew')
@@ -187,3 +191,8 @@ class BajaLamina():
                 messagebox.showerror('Información', 'Proceso erroneo')
         else:
             messagebox.showerror('ERROR', 'Selecciona un libro')
+    
+    def guardar_datos(self):
+        self.limpiar_campos()
+        self.informe.save_bajalaminas()
+        messagebox.showinfo('Informacion', 'Datos guardados')

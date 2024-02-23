@@ -251,7 +251,7 @@ class PedidosLibros():
             i = -1
             for fila in l_datos:
                 i = i+1
-                if fila[4] != 'Baja':
+                if fila[4] != 'Repuesto' and fila[4] !=  'Falta' and fila[4] !=  'Baja':
                     if fila[4] == 'Historia y Geografia':
                         self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
                     elif fila[4] == 'Lenguaje y Comunicacion':
@@ -293,6 +293,11 @@ class PedidosLibros():
             self.editorial.set(diccionario_fila['values'][2])
             self.aedicion.set(diccionario_fila['values'][3])
             self.categoria.set(diccionario_fila['values'][4])
+            if self.categoria.get() == "Persona, Familia, Comunidad y Civismo":
+                self.categoria.set("P.F.C.C")
+            elif self.categoria.get() == "Manual para profesores":
+                self.categoria.set("Manual")
+
         else:
             self.limpiar_campos()
             

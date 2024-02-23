@@ -3,8 +3,8 @@ import sqlite3
 class Comunicacion():
     
     def __init__(self):
-        self.bd = sqlite3.connect("data/BDprincipal.db")
-    #! LIBROS
+        self.bd = sqlite3.connect("data/BDprueba.db")
+    #! LIBROS 6
     def show_libros(self):
         cursor = self.bd.cursor()
         query = '''
@@ -108,7 +108,7 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
-    #! LAMINAS
+    #! LAMINAS 6
     def show_laminas(self):
         cursor = self.bd.cursor()
         query = '''
@@ -201,7 +201,7 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
 
-    #! ALUMNO
+    #! ALUMNO 5
     def show_alumnos(self):
         cursor = self.bd.cursor()
         query = '''
@@ -223,7 +223,7 @@ class Comunicacion():
     def update_alumno(self, idalumno, n_codigo, alumno, sexo, nivel, grado, seccion):
         cursor = self.bd.cursor()
         query = '''
-        UPDATE Alumnos
+        UPDATE alumnos
         SET Codigo = '{}', Alumno = '{}', Sexo = '{}', Nivel = '{}', Grado = '{}', Seccion = '{}'
         WHERE Codigo = '{}'
         '''.format(n_codigo, alumno, sexo, nivel, grado, seccion, idalumno)
@@ -273,7 +273,7 @@ class Comunicacion():
             return l_filas
         except sqlite3.OperationalError:
             print("incorrecto")
-#! PROFESOR
+#! PROFESOR 5
     def show_profesores(self):
         cursor = self.bd.cursor()
         query = '''
@@ -341,7 +341,7 @@ class Comunicacion():
             return l_filas
         except sqlite3.OperationalError:
             print("incorrecto")
-    #!  PEDIDO LIBRO
+    #!  PEDIDO ALUMNO-LIBRO
     def showalu_pedidoslib(self):
         cursor = self.bd.cursor()
         query = '''
@@ -375,43 +375,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def showpro_pedidoslib(self):
-        cursor = self.bd.cursor()
-        query = '''
-        SELECT
-            lib.Titulo,
-            pro.Profesor,
-            pl.FechaSalida,
-            pl.FechaEntrada,
-            pl.Cantidad,
-            pl.Nivel,
-            pl.Grado,
-            pl.Seccion,
-            pl.Situacion,
-            pl.Observacion,
-            pl.Codigo,
-            pl.PedidoId,
-            pl.LibroId,
-            pl.ProfesorId,
-            pl.Tipo
-        FROM
-            pedido_libro_profesor AS pl
-        INNER JOIN
-            libros AS lib
-        ON
-            pl.LibroId = lib.LibroId
-        INNER JOIN
-            profesores AS pro
-        ON
-            pro.Codigo = pl.ProfesorId
-        ORDER BY
-            pl.Situacion
-        '''
-        cursor.execute(query)
-        l_filas = cursor.fetchall()
-        return l_filas
-    
-    def buscarpro_pedidoslib(self, columna, palabra):
+    def buscaralu_pedidoslib(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -444,6 +408,16 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
+    def appendalu_pedidolib(self, codigo, libroid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO pedido_libro_alumno (Codigo, LibroId, AlumnoId, FechaSalida,FechaEntrada, Situacion, Observacion, Cantidad, Tipo)
+        VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}')
+        '''.format(codigo, libroid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+    
     def updatealu_pedidolib(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
@@ -455,35 +429,11 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
         
-    def appendalu_pedidolib(self, codigo, libroid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
-        cursor = self.bd.cursor()
-        query = '''
-        INSERT INTO pedido_libro_alumno (Codigo, LibroId, AlumnoId, FechaSalida,FechaEntrada, Situacion, Observacion, Cantidad, Tipo)
-        VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}')
-        '''.format(codigo, libroid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
-        
-    def appendpro_pedidolib(self, codigo, libroid, profesorid, fecha_s,fecha_e,nivel,grado,seccion, situacion, observacion, cantidad, tipo):
-        cursor = self.bd.cursor()
-        query = '''
-        INSERT INTO pedido_libro_profesor (Codigo, LibroId, ProfesorId, FechaSalida,FechaEntrada,Nivel,Grado,Seccion,Situacion,Observacion,Cantidad,Tipo)
-        VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')
-        '''.format(codigo, libroid, profesorid, fecha_s,fecha_e,nivel,grado,seccion, situacion, observacion, cantidad, tipo)
-        cursor.execute(query)
-        self.bd.commit()
-        cursor.close()
-    
-        
-    def info_pedidolib(self, pedidoid):
+    def infoalu_pedidolib(self, pedidoid):
         cursor = self.bd.cursor()
         query = '''
         SELECT
-            pl.LibroId,
-            lib.Cantidad,
-            pl.AlumnoId,
-            pl.FechaSalida
+            lib.Cantidad
         FROM
             pedido_libro_alumno AS pl
         INNER JOIN
@@ -496,9 +446,115 @@ class Comunicacion():
         cursor.execute(query)
         idlibro = cursor.fetchall()
         return idlibro
+    #!  PEDIDO PROFESOR-LIBRO
+    def showpro_pedidoslib(self):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT
+            lib.Titulo,
+            pro.Profesor,
+            pl.FechaSalida,
+            pl.FechaEntrada,
+            pl.Cantidad,
+            pl.Situacion,
+            pl.Observacion,
+            pl.Codigo,
+            pl.PedidoId,
+            pl.LibroId,
+            pl.ProfesorId,
+            pl.Tipo
+        FROM
+            pedido_libro_profesor AS pl
+        INNER JOIN
+            libros AS lib
+        ON
+            pl.LibroId = lib.LibroId
+        INNER JOIN
+            profesores AS pro
+        ON
+            pro.Codigo = pl.ProfesorId
+        ORDER BY
+            pl.Situacion
+        '''
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
+    
+    def buscarpro_pedidoslib(self, columna, palabra):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT
+            lib.Titulo AS [Libro],
+            pro.Profesor AS [Profesor],
+            pl.FechaSalida AS [Fecha],
+            pl.FechaEntrada,
+            pl.Cantidad,
+            pl.Situacion AS [Situacion],
+            pl.Observacion,
+            pl.Codigo,
+            pl.PedidoId,
+            pl.LibroId,
+            pl.ProfesorId,
+            pl.Tipo
+        FROM
+            pedido_libro_profesor AS pl
+        INNER JOIN
+            libros AS lib
+        ON
+            pl.LibroId = lib.LibroId
+        INNER JOIN
+            profesores AS pro
+        ON
+            pro.Codigo = pl.ProfesorId
+        WHERE 
+            {} LIKE '%{}%'
+        '''.format(columna,palabra)
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
+    
+    def appendpro_pedidolib(self, codigo, libroid, profesorid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO pedido_libro_profesor (Codigo, LibroId, ProfesorId, FechaSalida,FechaEntrada,Situacion,Observacion,Cantidad,Tipo)
+        VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}')
+        '''.format(codigo, libroid, profesorid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+    
+    def updatepro_pedidolib(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE pedido_libro_profesor
+        SET FechaEntrada = '{}', Situacion = '{}', Observacion = '{}', Cantidad = '{}'
+        WHERE PedidoId = '{}'
+        '''.format(fecha_devolucion, situacion, observacion, cantidad, pedidoid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
         
-    #!  PEDIDO LAMINA
-    def show_pedidoslam(self):
+    
+    def infopro_pedidolib(self, pedidoid):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT
+            lib.Cantidad
+        FROM
+            pedido_libro_profesor AS pl
+        INNER JOIN
+            libros AS lib
+        ON
+            pl.LibroId = lib.LibroId
+        WHERE 
+            PedidoId = {}
+        '''.format(pedidoid)
+        cursor.execute(query)
+        idlibro = cursor.fetchall()
+        return idlibro
+        
+    #!  PEDIDO ALUMNO-LAMINA
+    def showalu_pedidoslam(self):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -531,7 +587,7 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def buscar_pedidoslam(self, columna, palabra):
+    def buscaralu_pedidoslam(self, columna, palabra):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -564,7 +620,17 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def info_pedidolam(self, pedidoid):
+    def appendalu_pedidolam(self, laminaid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO pedido_lamina_alumno (LaminaId, AlumnoId, FechaSalida,FechaEntrada, Situacion, Observacion, Cantidad, Tipo)
+        VALUES('{}','{}','{}','{}','{}','{}','{}','{}')
+        '''.format(laminaid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def infoalu_pedidolam(self, pedidoid):
         cursor = self.bd.cursor()
         query = '''
         SELECT
@@ -582,7 +648,7 @@ class Comunicacion():
         idlibro = cursor.fetchall()
         return idlibro
     
-    def update_pedidolam(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
+    def updatealu_pedidolam(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
         query = '''
         UPDATE pedido_lamina_alumno
@@ -592,23 +658,109 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
-        
-    def appendalu_pedidolam(self, laminaid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
+    #!  PEDIDO PROFESOR-LAMINA
+    def showpro_pedidoslam(self):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO pedido_lamina_alumno (LaminaId, AlumnoId, FechaSalida,FechaEntrada, Situacion, Observacion, Cantidad, Tipo)
+        SELECT
+            lam.Titulo,
+            pro.Profesor,
+            pl.FechaSalida,
+            pl.FechaEntrada,
+            pl.Cantidad,
+            pl.Situacion,
+            pl.Observacion,
+            lam.Codigo,
+            pl.PedidoId,
+            pl.LaminaId,
+            pl.ProfesorId,
+            pl.Tipo
+        FROM
+            pedido_lamina_profesor AS pl
+        INNER JOIN
+            laminas AS lam
+        ON
+            pl.LaminaId = lam.LaminasId
+        INNER JOIN
+            profesores AS pro
+        ON
+            pro.Codigo = pl.ProfesorId
+        ORDER BY
+            pl.Situacion
+        '''
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
+    
+    def buscarpro_pedidoslam(self, columna, palabra):
+        cursor = self.bd.cursor()
+        query = '''
+        SELECT
+            lam.Titulo AS [Lamina],
+            pro.Profesor AS [Profesor],
+            pl.FechaSalida AS [Fecha],
+            pl.FechaEntrada,
+            pl.Cantidad,
+            pl.Situacion AS [Situacion],
+            pl.Observacion,
+            lam.Codigo,
+            pl.PedidoId,
+            pl.LaminaId,
+            pl.ProfesorId,
+            pl.Tipo
+        FROM
+            pedido_lamina_profesor AS pl
+        INNER JOIN
+            laminas AS lam
+        ON
+            pl.LaminaId = lam.LaminasId
+        INNER JOIN
+            profesores AS pro
+        ON
+            pro.Codigo = pl.ProfesorId
+        WHERE 
+            {} LIKE '%{}%'
+        '''.format(columna,palabra)
+        cursor.execute(query)
+        l_filas = cursor.fetchall()
+        return l_filas
+    
+    def appendpro_pedidolam(self, laminaid, profesorid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo):
+        cursor = self.bd.cursor()
+        query = '''
+        INSERT INTO pedido_lamina_profesor (LaminaId, ProfesorId, FechaSalida,FechaEntrada, Situacion, Observacion, Cantidad, Tipo)
         VALUES('{}','{}','{}','{}','{}','{}','{}','{}')
-        '''.format(laminaid, alumnoid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo)
+        '''.format(laminaid, profesorid, fecha_s,fecha_e, situacion, observacion, cantidad, tipo)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
         
-    def appendpro_pedidolam(self, laminaid, profesorid, fecha_s,fecha_e,nivel,grado,seccion, situacion, observacion, cantidad, tipo):
+    def infopro_pedidolam(self, pedidoid):
         cursor = self.bd.cursor()
         query = '''
-        INSERT INTO pedido_lamina_profesor (LaminaId, ProfesorId, FechaSalida,FechaEntrada,Nivel,Grado,Seccion, Situacion, Observacion, Cantidad, Tipo)
-        VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')
-        '''.format(laminaid, profesorid, fecha_s,fecha_e,nivel,grado,seccion, situacion, observacion, cantidad, tipo)
+        SELECT
+            lam.Cantidad
+        FROM
+            pedido_lamina_profesor AS pl
+        INNER JOIN
+            laminas AS lam
+        ON
+            pl.LaminaId = lam.LaminasId
+        WHERE 
+            PedidoId = {}
+        '''.format(pedidoid)
+        cursor.execute(query)
+        idlibro = cursor.fetchall()
+        return idlibro
+    
+        
+    def updatepro_pedidolam(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
+        cursor = self.bd.cursor()
+        query = '''
+        UPDATE pedido_lamina_profesor
+        SET FechaEntrada = '{}', Situacion = '{}', Observacion = '{}', Cantidad = '{}'
+        WHERE PedidoId = '{}'
+        '''.format(fecha_devolucion, situacion, observacion, cantidad, pedidoid)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()

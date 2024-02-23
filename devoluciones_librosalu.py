@@ -7,6 +7,7 @@ from datetime import date
 
 from conexion_sqlite import Comunicacion
 from ventana_libros import VentanaLibros
+from informes import Informes
 
 class DevolucionesLibros():
     def __init__(self):
@@ -19,6 +20,7 @@ class DevolucionesLibros():
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
+        self.informe = Informes()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         
@@ -73,7 +75,8 @@ class DevolucionesLibros():
                                 command=self.buscador, bootstyle='success')
         busc_boton.pack(side='left', padx=4)
         
-        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, bootstyle='success-link')
+        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
+                                command=self.guardar_datos,bootstyle='success-link')
         save_boton.pack(side='left', padx=4)
 
         show_boton = ttk.Button(frame_busqueda, width=20, image=self.photo1,
@@ -156,7 +159,7 @@ class DevolucionesLibros():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscarpro_pedidoslib(columna, palabra)
+            l_datos = self.bd.buscaralu_pedidoslib(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -187,11 +190,8 @@ class DevolucionesLibros():
             libroid = diccionario_pedido['values'][9]
             alumnoid = diccionario_pedido['values'][10]
             tipo = diccionario_pedido['values'][11]
-            info_libro = self.bd.info_pedidolib(id_pedido)
-            id_libro = info_libro[0][0]
-            cantidad_libro = info_libro[0][1]
-            # alumnoid = info_libro[0][2]
-            fecha_salida = info_libro[0][3]
+            info_libro = self.bd.infoalu_pedidolib(id_pedido)
+            cantidad_libro = info_libro[0][0]
             
             if situacion_a != 'devuelto':     
                 pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
@@ -221,3 +221,9 @@ class DevolucionesLibros():
                 messagebox.showerror('Información', 'Libro ya entregado')
         else:
             messagebox.showerror('Información', 'Falta Rellenar')
+
+    def guardar_datos(self):
+        self.limpiar_campos()
+        self.informe.save_pedidoslibros()
+        messagebox.showinfo('Informacion', 'Datos guardados')
+        

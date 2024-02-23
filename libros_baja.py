@@ -85,7 +85,7 @@ class BajaLibro():
         serch_boton.pack(side='left', padx=4)
 
         save_boton = ttk.Button(busqueda_frame, width=20, image=self.photo2, 
-                                command=self.limpiar_campos, bootstyle='success-link')
+                                command=self.guardar_datos, bootstyle='success-link')
         save_boton.pack(side='left', padx=4)
 
         show_boton = ttk.Button(busqueda_frame, image=self.photo1,
@@ -216,3 +216,10 @@ class BajaLibro():
                 messagebox.showerror('Información', 'Proceso erroneo')
         else:
             messagebox.showerror('ERROR', 'Selecciona un libro')
+
+    def guardar_datos(self):
+        self.limpiar_campos()
+        self.informe.save_bajalibros()
+        messagebox.showinfo('Informacion', 'Datos guardados')
+
+

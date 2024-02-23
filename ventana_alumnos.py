@@ -95,7 +95,7 @@ class VentanaAlumnos():
         busc_boton.pack(side='left', padx=4)
 
         save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
-                                bootstyle='success-link')
+                                command=self.guardar_datos,bootstyle='success-link')
         save_boton.pack(side='left', padx=4)
 
         show_boton = ttk.Button(frame_busqueda, image=self.photo1,
@@ -304,5 +304,5 @@ class VentanaAlumnos():
             
     def guardar_datos(self):
         self.limpiar_campos()
-        self.informe.save_libros()
+        self.informe.save_nomina()
         messagebox.showinfo('Informacion', 'Datos guardados')

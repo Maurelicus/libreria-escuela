@@ -7,6 +7,7 @@ from datetime import date
 
 from conexion_sqlite import Comunicacion
 from ventana_libros import VentanaLibros
+from informes import Informes
 
 class DevolucionesLaminas():
     def __init__(self):
@@ -20,6 +21,7 @@ class DevolucionesLaminas():
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
+        self.informe = Informes()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         
@@ -78,7 +80,8 @@ class DevolucionesLaminas():
                                 command=self.buscador, bootstyle='success')
         busc_boton.pack(side='left', padx=4)
         
-        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, bootstyle='success-link')
+        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
+                                command=self.guardar_datos,bootstyle='success-link')
         save_boton.pack(side='left', padx=4)
 
         show_boton = ttk.Button(frame_busqueda, width=20, image=self.photo1,
@@ -140,7 +143,7 @@ class DevolucionesLaminas():
             
     def mostrar_pedidoslam(self):
         self.limpiar_campos()
-        l_datos = self.bd.show_pedidoslam()
+        l_datos = self.bd.showalu_pedidoslam()
         self.tabla.delete(*self.tabla.get_children())
         i = -1
         for fila in l_datos:
@@ -163,7 +166,7 @@ class DevolucionesLaminas():
         palabra = self.palabra.get()
         columna = self.nombre_columna.get()
         if palabra != '':
-            l_datos = self.bd.buscarpro_pedidoslib(columna, palabra)
+            l_datos = self.bd.buscaralu_pedidoslib(columna, palabra)
             self.tabla.delete(*self.tabla.get_children())
             i = -1
             for fila in l_datos:
@@ -194,7 +197,7 @@ class DevolucionesLaminas():
             laminaid = diccionario_pedido['values'][9]
             alumnoid = diccionario_pedido['values'][10]
             tipo = diccionario_pedido['values'][11]
-            info_libro = self.bd.info_pedidolam(id_pedido)
+            info_libro = self.bd.infoalu_pedidolam(id_pedido)
             cantidad_libro = info_libro[0][0]
             
             if situacion_a != 'devuelto':     
@@ -205,13 +208,13 @@ class DevolucionesLaminas():
                     cantidad_nueva = cantidad_libro + cantidad_devuelta
                     self.bd.update_lamina_cantidad(laminaid, cantidad_nueva)
                     cantidad_faltante = cantidad_total - cantidad_devuelta
-                    self.bd.update_pedidolam(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
+                    self.bd.updatealu_pedidolam(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
                     self.limpiar_campos()
                     messagebox.showinfo('Información', 'Fila modificada')
                     self.mostrar_pedidoslam()
                 elif cantidad_total == cantidad_devuelta and observacion != '' and situacion == 'devuelto' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.update_pedidolam(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
+                    self.bd.updatealu_pedidolam(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
                     cantidad_nueva = cantidad_devuelta + cantidad_libro
                     self.bd.update_lamina_cantidad(laminaid, cantidad_nueva)
                     self.limpiar_campos()
@@ -225,3 +228,9 @@ class DevolucionesLaminas():
                 messagebox.showerror('Información', 'Lamina ya entregado')
         else:
             messagebox.showerror('Información', 'Falta Rellenar')
+
+    def guardar_datos(self):
+        self.limpiar_campos()
+        self.informe.save_pedidoslaminas()
+        messagebox.showinfo('Informacion', 'Datos guardados')
+

@@ -7,6 +7,7 @@ from datetime import date
 
 from conexion_sqlite import Comunicacion
 from ventana_libros import VentanaLibros
+from informes import Informes
 
 class DevolucionesLibros():
     def __init__(self):
@@ -19,13 +20,14 @@ class DevolucionesLibros():
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
+        self.informe = Informes()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         
         
     def seccion_uno(self, frame_uno):
         #! TEXTO
-        alumno_label = ttk.Label(frame_uno, text='Alumno:', bootstyle='dark')
+        alumno_label = ttk.Label(frame_uno, text='Profesor:', bootstyle='dark')
         alumno_label.grid(column=0, row=1, padx=30, pady=[10,5], sticky='w')
         material_label = ttk.Label(frame_uno, text='Material:', bootstyle='dark')
         material_label.grid(column=0, row=2, padx=30, pady=5, sticky='w')
@@ -59,7 +61,7 @@ class DevolucionesLibros():
         frame_busqueda = ttk.Frame(frame_dos)
         frame_busqueda.grid(column=0, row=0, padx=5, pady=[1,5], sticky='nsew')
         
-        l_columna = ('Alumno', 'Libro', 'Fecha', 'Situacion',)
+        l_columna = ('Profesor', 'Libro', 'Fecha', 'Situacion',)
         columna_box = ttk.Combobox(frame_busqueda, width=15, value=l_columna, 
                                    textvariable=self.nombre_columna, bootstyle='success')
         columna_box.current(0)
@@ -73,7 +75,8 @@ class DevolucionesLibros():
                                 command=self.buscador, bootstyle='success')
         busc_boton.pack(side='left', padx=4)
         
-        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, bootstyle='success-link')
+        save_boton = ttk.Button(frame_busqueda, width=20, image=self.photo2, 
+                                command=self.guardar_datos,bootstyle='success-link')
         save_boton.pack(side='left', padx=4)
 
         show_boton = ttk.Button(frame_busqueda, width=20, image=self.photo1,
@@ -95,7 +98,7 @@ class DevolucionesLibros():
         ladoy.grid(column=0, row=0, sticky='ns', pady=5)
         self.tabla.configure(xscrollcommand=ladox.set, yscrollcommand=ladoy.set)
         #! COLUMNAS
-        self.tabla['columns'] = ('Libro','Alumno','FechaSalida', 'FechaEntrada' ,'Cantidad','Situacion', 'Observacion', 'Codigo')
+        self.tabla['columns'] = ('Libro','Profesor','FechaSalida', 'FechaEntrada' ,'Cantidad','Situacion', 'Observacion', 'Codigo')
         self.tabla.column('#0', minwidth=50, width=60, anchor='center')
         self.tabla.column('#1', minwidth=150, width=200, anchor='w')
         self.tabla.column('#2', minwidth=150, width=200, anchor='w')
@@ -108,7 +111,7 @@ class DevolucionesLibros():
             
         self.tabla.heading('#0', text='Nº', anchor='center')
         self.tabla.heading('#1', text='Libro', anchor='center')
-        self.tabla.heading('#2', text='Alumno', anchor='center')
+        self.tabla.heading('#2', text='Profesor', anchor='center')
         self.tabla.heading('#3', text='Fecha Salida', anchor='center')
         self.tabla.heading('#4', text='Fecha Entrada', anchor='center')
         self.tabla.heading('#5', text='Cantidad', anchor='center')
@@ -141,9 +144,9 @@ class DevolucionesLibros():
         for fila in l_datos:
             i = i+1
             if fila[5] == 'devuelto':
-                self.tabla.insert('', i, text=i+1, values=fila[0:15], tags=fila[8])
+                self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
             elif fila[5] == 'prestado':
-                self.tabla.insert('', i, text=i+1, values=fila[0:15], tags=fila[8])
+                self.tabla.insert('', i, text=i+1, values=fila[0:12], tags=fila[5])
             else:
                 messagebox.showerror('ERROR', 'Situacion no devuelta')
 
@@ -193,29 +196,26 @@ class DevolucionesLibros():
             codigo = diccionario_pedido['values'][7]
             id_pedido = diccionario_pedido['values'][8]
             libroid = diccionario_pedido['values'][9]
-            alumnoid = diccionario_pedido['values'][10]
+            profesorid = diccionario_pedido['values'][10]
             tipo = diccionario_pedido['values'][11]
-            info_libro = self.bd.info_pedidolib(id_pedido)
-            id_libro = info_libro[0][0]
-            cantidad_libro = info_libro[0][1]
-            # alumnoid = info_libro[0][2]
-            fecha_salida = info_libro[0][3]
+            info_libro = self.bd.infopro_pedidolib(id_pedido)
+            cantidad_libro = info_libro[0][0]
             
             if situacion_a != 'devuelto':     
                 pregunta_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
                 if cantidad_total > cantidad_devuelta and situacion == 'devuelto' and observacion != '' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.appendalu_pedidolib(codigo, libroid, alumnoid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
+                    self.bd.appendpro_pedidolib(codigo, libroid, profesorid, f_salida, hoy, situacion, observacion, cantidad_devuelta, tipo)
                     cantidad_nueva = cantidad_libro + cantidad_devuelta
                     self.bd.update_libro_cantidad(libroid, cantidad_nueva)
                     cantidad_faltante = cantidad_total - cantidad_devuelta
-                    self.bd.updatealu_pedidolib(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
+                    self.bd.updatepro_pedidolib(id_pedido,f_entrada, situacion_a, observacion_a, cantidad_faltante)
                     self.limpiar_campos()
                     messagebox.showinfo('Información', 'Fila modificada')
                     self.mostrar_pedidoslib()
                 elif cantidad_total == cantidad_devuelta and observacion != '' and situacion == 'devuelto' and pregunta_box == True:
                     hoy = date.today()
-                    self.bd.updatealu_pedidolib(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
+                    self.bd.updatepro_pedidolib(id_pedido, hoy, situacion, observacion, cantidad_devuelta)
                     cantidad_nueva = cantidad_devuelta + cantidad_libro
                     self.bd.update_libro_cantidad(libroid, cantidad_nueva)
                     self.limpiar_campos()
@@ -229,3 +229,9 @@ class DevolucionesLibros():
                 messagebox.showerror('Información', 'Libro ya entregado')
         else:
             messagebox.showerror('Información', 'Falta Rellenar')
+            
+    def guardar_datos(self):
+        self.limpiar_campos()
+        self.informe.save_pedidoslibros()
+        messagebox.showinfo('Informacion', 'Datos guardados')
+        

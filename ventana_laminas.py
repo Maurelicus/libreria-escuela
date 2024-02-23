@@ -31,7 +31,7 @@ class VentanaLaminas():
         cat_list = [
             "Literatura", "Historia y Geografia","C.T.A","Matematica",
             "Fisica","Biologia","Quimica","Economia","Lenguage y Comunicacion",
-            "Comprension Lectora","Idioma","P.F.C.C","Comunicacion",
+            "Comprension Lectora","Idioma","P.F.C.C","Computacion",
             "Gastronomia","Recreacion","Arte y Musica","Religion",
             "Educacion Fisica","Diccionario","Compendio","Manual","Otros","Falta"
             ]
@@ -112,19 +112,23 @@ class VentanaLaminas():
         buscar_palabra = ttk.Combobox(busqueda_frame, width=15, value=l_columna, 
                                       textvariable=self.nombre_columna, bootstyle='success')
         buscar_palabra.current(0)
-        buscar_palabra.grid(column=0, row=0, padx=5, pady=5, sticky='nsew')
         buscar_palabra.state(["readonly"])
+        buscar_palabra.pack(side='left', padx=4)
+        
         palabra_entry = ttk.Entry(busqueda_frame, textvariable=self.palabra, width=40, bootstyle='success')
-        palabra_entry.grid(column=1, row=0, padx=5 ,pady=5, sticky='nsew')
+        palabra_entry.pack(side='left', padx=4)
+        
         busc_boton = ttk.Button(busqueda_frame, text='Buscar', width=10,
                                 command=self.buscar_laminas, bootstyle='success')
-        busc_boton.grid(column=2, row=0, padx=5, pady=5, sticky='nsew')
+        busc_boton.pack(side='left', padx=4)
+        
         save_boton = ttk.Button(busqueda_frame, width=20, image=self.photo2, 
                                 command=self.guardar_laminas, bootstyle='success-link')
-        save_boton.grid(column=3, row=0, padx=5, pady=5, sticky='nsew')
+        save_boton.pack(side='left', padx=4)
+
         show_boton = ttk.Button(busqueda_frame, width=20, image=self.photo1,
                                 command=self.mostrar_laminas, bootstyle='success-link')
-        show_boton.grid(column=4, row=0, padx=5, pady=5, sticky='nsew')
+        show_boton.pack(side='right', padx=4)
         #! TABLA
         tabla_frame = ttk.LabelFrame(frame_vista, text='Tabla', bootstyle='primary')
         tabla_frame.grid(column=0, row=1, padx=5, pady=5 ,sticky='nsew')
@@ -228,6 +232,12 @@ class VentanaLaminas():
         if 'values' in diccionario_fila and len(diccionario_fila['values']) >= 4:
             self.titulo.set(diccionario_fila['values'][0])
             self.categoria.set(diccionario_fila['values'][1])
+            if self.categoria.get() == "Persona, Familia, Comunidad y Civismo":
+                self.categoria.set("P.F.C.C")
+            elif self.categoria.get() == "Manual para profesores":
+                self.categoria.set("Manual")
+            elif self.categoria.get() == "Repuesto":
+                self.categoria.set("Otros")
             self.codigo.set(diccionario_fila['values'][2])
             self.cantidad.set(diccionario_fila['values'][3])
             self.remitente.set(diccionario_fila['values'][4])
@@ -379,10 +389,6 @@ class VentanaLaminas():
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
 
-    def guardar_laminas(self):
-        self.limpiar_campos()
-        self.informe.save_laminas()
-        messagebox.showinfo('Informacion', 'Datos guardados')
     
     def dar_baja(self):
         l_item = self.tabla.focus()
@@ -419,4 +425,8 @@ class VentanaLaminas():
         else:
             messagebox.showerror('ERROR', 'Selecciona una lamina')
 
+    def guardar_laminas(self):
+        self.limpiar_campos()
+        self.informe.save_laminas()
+        messagebox.showinfo('Informacion', 'Datos guardados')
         
