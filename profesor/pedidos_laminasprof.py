@@ -1,32 +1,24 @@
-import tkinter  as tk
 from tkinter import messagebox
-import ttkbootstrap as ttk
-
-from PIL import Image, ImageTk
 from datetime import date
+import ttkbootstrap as ttk
+import tkinter  as tk
 
-from conexion_sqlite import Comunicacion
+from data.conexion_sqlite import Comunicacion
 
 class PedidosLaminas():
     def __init__(self):
         self.titulo = tk.StringVar()
-        self.autor = tk.StringVar()
-        self.editorial = tk.StringVar()
-        self.aedicion = tk.StringVar()
         self.codigo = tk.StringVar()
         self.categoria = tk.StringVar()
         self.usuario = tk.StringVar()
-        self.grado = tk.StringVar()
-        self.seccion = tk.StringVar()
-        self.nivel = tk.StringVar()
+        self.numero = tk.StringVar()
         self.cantidad = tk.IntVar()
         self.palabra = tk.StringVar()
         self.palabra2 = tk.StringVar()
-        self.temp_palabra = tk.StringVar()
-        self.temp_columna = tk.StringVar()
-
         self.nombre_columna = tk.StringVar()
         self.nombre_columna2 = tk.StringVar()
+        self.temp_palabra = tk.StringVar()
+        self.temp_columna = tk.StringVar()
         self.bd = Comunicacion()
 
     def seccion_uno(self, frame_datos):
@@ -40,43 +32,36 @@ class PedidosLaminas():
         title_label.grid(column=0, row=1, padx=30, pady=5, sticky='w')
         category_label = ttk.Label(frame_datos, text='Categoria', bootstyle='dark')
         category_label.grid(column=0, row=2, padx=30, pady=5, sticky='we')
-        codigo_label = ttk.Label(frame_datos, text='Codigo:', bootstyle='dark')
-        codigo_label.grid(column=0, row=3, padx=30, pady=5, sticky='w')
-        cantidad_label = ttk.Label(frame_datos, text='Cantidad:', bootstyle='dark')
-        cantidad_label.grid(column=0, row=4, padx=30, pady=5, sticky='w')
+        code_label = ttk.Label(frame_datos, text='Codigo:', bootstyle='dark')
+        code_label.grid(column=0, row=3, padx=30, pady=5, sticky='w')
+        total_label = ttk.Label(frame_datos, text='Cantidad:', bootstyle='dark')
+        total_label.grid(column=0, row=4, padx=30, pady=5, sticky='w')
         
         ttk.Label(frame_datos, text='DATOS DEL USUARIO:', bootstyle='danger').grid(column=0, row=5, 
                 padx=30, pady=10, sticky='w', columnspan=2)
         
         name_label = ttk.Label(frame_datos, text='Nombre:', bootstyle='dark')
         name_label.grid(column=0, row=6, padx=30, pady=5, sticky='w')
-        grade_label = ttk.Label(frame_datos, text='Grado:', bootstyle='dark')
-        grade_label.grid(column=0, row=7, padx=30, pady=5, sticky='w')
-        section_label = ttk.Label(frame_datos, text='Seccion:', bootstyle='dark')
-        section_label.grid(column=0, row=8, padx=30, pady=5, sticky='w')
-        level_label = ttk.Label(frame_datos, text='Nivel:', bootstyle='dark')
-        level_label.grid(column=0, row=9, padx=30, pady=5, sticky='w')
+        number_label = ttk.Label(frame_datos, text='Numero:', bootstyle='dark')
+        number_label.grid(column=0, row=7, padx=30, pady=5, sticky='w')
         #! ENTRADAS
         titulo_label = ttk.Label(frame_datos, textvariable=self.titulo, wraplength=160, bootstyle='primary')
         titulo_label.grid(column=1, row=1, padx=5, pady=5, sticky='w')
-        category_label = ttk.Label(frame_datos, textvariable=self.categoria, wraplength=160, bootstyle='primary')
-        category_label.grid(column=1, row=2, padx=5, pady=5, sticky='w')
+        categoria_label = ttk.Label(frame_datos, textvariable=self.categoria, wraplength=160, bootstyle='primary')
+        categoria_label.grid(column=1, row=2, padx=5, pady=5, sticky='w')
         codigo_label = ttk.Label(frame_datos, textvariable=self.codigo, width=10, bootstyle='primary')
         codigo_label.grid(column=1, row=3, padx=5 ,pady=5, sticky='w')
         cantidad_entry = ttk.Spinbox(frame_datos, textvariable=self.cantidad, from_=0, to=100, width=5, bootstyle='primary')
         cantidad_entry.state(["readonly"])
         cantidad_entry.grid(column=1, row=4, padx=5 ,pady=5, sticky='w')
+
         nombre_label = ttk.Label(frame_datos, textvariable=self.usuario, wraplength=160, bootstyle='primary')
         nombre_label.grid(column=1, row=6, padx=5, pady=5, sticky='w')
-        grado_label = ttk.Label(frame_datos, textvariable=self.grado, wraplength=160, bootstyle='primary')
-        grado_label.grid(column=1, row=7, padx=5, pady=5, sticky='w')
-        seccion_label = ttk.Label(frame_datos, textvariable=self.seccion, wraplength=160, bootstyle='primary')
-        seccion_label.grid(column=1, row=8, padx=5, pady=5, sticky='w')
-        nivel_label = ttk.Label(frame_datos, textvariable=self.nivel, wraplength=160, bootstyle='primary')
-        nivel_label.grid(column=1, row=9, padx=5, pady=5, sticky='w')
+        numero_label = ttk.Label(frame_datos, textvariable=self.numero, wraplength=160, bootstyle='primary')
+        numero_label.grid(column=1, row=7, padx=5, pady=5, sticky='w')
         #! Botones
         pedido_boton = ttk.Button(frame_datos, text='Hacer Pedido', width=15, command=self.pedido, bootstyle='primary-outline')
-        pedido_boton.grid(column=0, row=10, padx=30, pady=[5,10], sticky='w')
+        pedido_boton.grid(column=0, row=8, padx=30, pady=[5,10], sticky='w')
     
     def seccion_dos(self, frame_vista):
         buscarlamina_frame = ttk.Frame(frame_vista)
@@ -130,7 +115,7 @@ class PedidosLaminas():
         self.tabla_lamina.heading('#6', text='Condicion', anchor='center')
         self.tabla_lamina.heading('#7', text='Nivel educativo', anchor='center')
         self.tabla_lamina.heading('#8', text='Año recepcion', anchor='center')
-
+        
         # White to Light Purple Color Palette
         self.tabla_lamina.tag_configure('Literatura', background='#e6e1f9')
         self.tabla_lamina.tag_configure('HyG', background='#d5cdf3')
@@ -166,57 +151,53 @@ class PedidosLaminas():
         self.tabla_lamina.tag_configure('Repuesto', background='#d0d3d4')
 
         self.tabla_lamina.bind("<<TreeviewSelect>>", self.obtener_lamina)
-        #* ALUMNOS
-        buscaralumno_frame = ttk.Frame(frame_vista)
-        buscaralumno_frame.grid(column=0, row=2, padx=5, pady=[1,5], sticky='nsew')
+        #* PROFESOR
+        buscarprofesor_frame = ttk.Frame(frame_vista)
+        buscarprofesor_frame.grid(column=0, row=2, padx=5, pady=[1,5], sticky='nsew')
 
-        col_list = ("Alumno", "Codigo")
-        buscar_palabra = ttk.Combobox(buscaralumno_frame, width=15, value=col_list, 
+        col_list = ("Profesor", "Codigo")
+        buscar_palabra = ttk.Combobox(buscarprofesor_frame, width=15, value=col_list, 
                                       textvariable=self.nombre_columna2, bootstyle='info')
         buscar_palabra.current(0)
         buscar_palabra.state(["readonly"])
         buscar_palabra.pack(side='left', padx=4)
 
-        palabra_entry = ttk.Entry(buscaralumno_frame, textvariable=self.palabra2, width=40, bootstyle='info')
+        palabra_entry = ttk.Entry(buscarprofesor_frame, textvariable=self.palabra2, width=40, bootstyle='info')
         palabra_entry.pack(side='left', padx=4)
 
-        buscaralumno_boton = ttk.Button(buscaralumno_frame, text='Buscar', width=10, 
-                                   command=self.buscar_alumno, bootstyle='info')
-        buscaralumno_boton.pack(side='left', padx=4)
+        buscarprofesor_boton = ttk.Button(buscarprofesor_frame, text='Buscar', width=10, 
+                                   command=self.buscar_profesor, bootstyle='info')
+        buscarprofesor_boton.pack(side='left', padx=4)
+
+        #! TABLA
+        tablaprofesores_frame = ttk.LabelFrame(frame_vista, text='Tabla Profesores', bootstyle='info')
+        tablaprofesores_frame.grid(column=0, row=3, padx=5, pady=[1,5] ,sticky='nsew')
+        tablaprofesores_frame.columnconfigure(1 , weight=10)
+        tablaprofesores_frame.rowconfigure(0 , weight=10)
         
-        #* TABLA
-        tablaalumnos_frame = ttk.LabelFrame(frame_vista, text='Tabla Alumnos', bootstyle='info')
-        tablaalumnos_frame.grid(column=0, row=3, padx=5, pady=[1,5] ,sticky='nsew')
-        tablaalumnos_frame.columnconfigure(1 , weight=10)
-        tablaalumnos_frame.rowconfigure(0 , weight=10)
-        
-        self.tabla_alumno = ttk.Treeview(tablaalumnos_frame, bootstyle='info')
-        self.tabla_alumno.grid(column=1, row=0, sticky='nsew',padx=5, pady=5)
+        self.tabla_profesor = ttk.Treeview(tablaprofesores_frame, bootstyle='info')
+        self.tabla_profesor.grid(column=1, row=0, sticky='nsew',padx=5, pady=5)
         #! SCROLLBARS
-        ladox2 = ttk.Scrollbar(tablaalumnos_frame, orient='horizontal', command=self.tabla_alumno.xview, bootstyle='info-round')
+        ladox2 = ttk.Scrollbar(tablaprofesores_frame, orient='horizontal', command=self.tabla_profesor.xview, bootstyle='info-round')
         ladox2.grid(column=1, row=1, sticky='ew', padx=5)
-        ladoy2 = ttk.Scrollbar(tablaalumnos_frame, orient='vertical', command=self.tabla_alumno.yview, bootstyle='info-round')
+        ladoy2 = ttk.Scrollbar(tablaprofesores_frame, orient='vertical', command=self.tabla_profesor.yview, bootstyle='info-round')
         ladoy2.grid(column=0, row=0, sticky='ns', pady=5)
-        self.tabla_alumno.configure(xscrollcommand=ladox2.set, yscrollcommand=ladoy2.set)
+        self.tabla_profesor.configure(xscrollcommand=ladox2.set, yscrollcommand=ladoy2.set)
         #! COLUMNAS
-        self.tabla_alumno['columns'] = ('Alumno', 'Sexo', 'Nivel', 'Grado', 'Seccion', 'Codigo')
-        self.tabla_alumno.column('#0', minwidth=60, width=60, anchor='center')
-        self.tabla_alumno.column('#1', minwidth=200, width=250, anchor='w')
-        self.tabla_alumno.column('#2', minwidth=90, width=100, anchor='center')
-        self.tabla_alumno.column('#3', minwidth=100, width=100, anchor='center')
-        self.tabla_alumno.column('#4', minwidth=100, width=100, anchor='center')
-        self.tabla_alumno.column('#5', minwidth=100, width=100, anchor='center')
-        self.tabla_alumno.column('#6', minwidth=100, width=120, anchor='w')
+        self.tabla_profesor['columns'] = ('Profesor', 'Correo', 'Celular', 'Codigo')
+        self.tabla_profesor.column('#0', minwidth=60, width=60, anchor='center')
+        self.tabla_profesor.column('#1', minwidth=200, width=250, anchor='w')
+        self.tabla_profesor.column('#2', minwidth=200, width=250, anchor='w')
+        self.tabla_profesor.column('#3', minwidth=120, width=150, anchor='w')
+        self.tabla_profesor.column('#4', minwidth=100, width=120, anchor='w')
 
-        self.tabla_alumno.heading('#0', text='Nº', anchor='center')
-        self.tabla_alumno.heading('#1', text='Alumno', anchor='center')
-        self.tabla_alumno.heading('#2', text='Sexo', anchor='center')
-        self.tabla_alumno.heading('#3', text='Nivel', anchor='center')
-        self.tabla_alumno.heading('#4', text='Grado', anchor='center')
-        self.tabla_alumno.heading('#5', text='Seccion', anchor='center')
-        self.tabla_alumno.heading('#6', text='Codigo', anchor='center')
+        self.tabla_profesor.heading('#0', text='Nº', anchor='center')
+        self.tabla_profesor.heading('#1', text='Profesor', anchor='center')
+        self.tabla_profesor.heading('#2', text='Correo', anchor='center')
+        self.tabla_profesor.heading('#3', text='Celular', anchor='center')
+        self.tabla_profesor.heading('#4', text='Codigo', anchor='center')
 
-        self.tabla_alumno.bind("<<TreeviewSelect>>", self.obtener_alumno)
+        self.tabla_profesor.bind("<<TreeviewSelect>>", self.obtener_profesor)
 
     def buscar_lamina(self):
         self.limpiar_campos()
@@ -224,13 +205,13 @@ class PedidosLaminas():
         columna = self.nombre_columna.get()
         self.temp_palabra.set(palabra)
         self.temp_columna.set(columna)
+
         if columna == "Año de recepcion":
             columna = "AñoRecepcion"
         elif columna == "Nivel educativo":
             columna = "NivelEducativo"
         elif columna == "Condicion de la Lamina":
             columna = "CondicionLamina"
-
 
         if palabra != '':
             l_datos = self.bd.search_laminas(columna, palabra)
@@ -256,18 +237,17 @@ class PedidosLaminas():
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
-    def buscar_alumno(self):
+    def buscar_profesor(self):
         self.limpiar_campos()
         palabra = self.palabra2.get()
         columna = self.nombre_columna2.get()
         if palabra != '':        
-            l_datos = self.bd.search_alumnos(columna, palabra)
-            self.tabla_alumno.delete(*self.tabla_alumno.get_children())
+            l_datos = self.bd.search_profesores(columna, palabra)
+            self.tabla_profesor.delete(*self.tabla_profesor.get_children())
             i = -1
             for fila in l_datos:
                 i = i+1
-                self.tabla_alumno.insert('', i,text=i+1, values=fila[0:7], tags=fila[6])
-
+                self.tabla_profesor.insert('', i,text=i+1, values=fila[0:5], tags=fila[4])
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
@@ -285,55 +265,55 @@ class PedidosLaminas():
         else:
             self.limpiar_campos()
             
-    def obtener_alumno(self, event):
-        item_selec = self.tabla_alumno.focus()
-        diccionario_fila = self.tabla_alumno.item(item_selec)
+    def obtener_profesor(self, event):
+        item_selec = self.tabla_profesor.focus()
+        diccionario_fila = self.tabla_profesor.item(item_selec)
         if 'values' in diccionario_fila and len(diccionario_fila['values']) != 0:
             self.usuario.set(diccionario_fila['values'][0])
-            self.nivel.set(diccionario_fila['values'][2])
-            self.grado.set(diccionario_fila['values'][3])
-            self.seccion.set(diccionario_fila['values'][4])
+            self.numero.set(diccionario_fila['values'][2])
         else:
             self.limpiar_campos()
     
     def pedido(self):
         lamina_selec = self.tabla_lamina.focus()
-        alumno_selec = self.tabla_alumno.focus()
+        alumno_selec = self.tabla_profesor.focus()
         diccionario_lamina = self.tabla_lamina.item(lamina_selec)
-        diccionario_alumno = self.tabla_alumno.item(alumno_selec)
-        cantidad_pedida = self.cantidad.get()
-        if cantidad_pedida > 0 and len(diccionario_lamina['values']) != 0 and len(diccionario_alumno['values']) != 0:
-            hoy = date.today()
-            situacion = 'prestado'
-            observacion = 'ninguna'
-            tipo = 'lamina'
-            fecha = ''
-            laminaid = diccionario_lamina['values'][8]
-            existentes = diccionario_lamina['values'][3]
-            
-            usuarioid = diccionario_alumno['values'][5]
-            cantidad_restante=existentes-cantidad_pedida
-            if existentes <= 0:
-                messagebox.showerror('Información', 'No hay existentes')
-            elif cantidad_restante >=0:
-                self.bd.appendalu_pedidolam(laminaid, usuarioid, hoy, fecha,situacion, observacion, cantidad_pedida, tipo)
-                self.bd.update_lamina_cantidad(laminaid, cantidad_restante)
-                self.palabra.set(self.temp_palabra.get())
-                self.nombre_columna.set(self.temp_columna.get())
-                self.buscar_lamina()
-                messagebox.showinfo('Información', 'Pedido Existoso')
+        diccionario_profesor = self.tabla_profesor.item(alumno_selec)
+        if len(diccionario_lamina['values']) != 0 and len(diccionario_profesor['values']) != 0:        
+            cantidad_pedida = self.cantidad.get()
+
+            if cantidad_pedida > 0:
+                hoy = date.today()
+                situacion = 'prestado'
+                observacion = 'ninguna'
+                tipo = 'lamina'
+                fecha = ''
+                laminaid = diccionario_lamina['values'][8]
+                existentes = diccionario_lamina['values'][3]
                 
-            elif cantidad_restante < 0:
-                messagebox.showerror('Información', 'Cantidad excedida al total')
+                usuarioid = diccionario_profesor['values'][3]
+                cantidad_restante=existentes-cantidad_pedida
+                if existentes <= 0:
+                    messagebox.showerror('Información', 'No hay existentes')
+                elif cantidad_restante >=0:
+                    self.bd.appendpro_pedidolam(laminaid, usuarioid, hoy, fecha,situacion, observacion, cantidad_pedida, tipo)
+                    self.bd.update_lamina_cantidad(laminaid, cantidad_restante)
+                    self.palabra.set(self.temp_palabra.get())
+                    self.nombre_columna.set(self.temp_columna.get())
+                    self.buscar_lamina()
+                    messagebox.showinfo('Información', 'Pedido Existoso')
+                    
+                elif cantidad_restante < 0:
+                    messagebox.showerror('Información', 'Cantidad excedida al total')
+            else:
+                messagebox.showerror('Información', 'Falta Rellenar')
         else:
-            messagebox.showerror('Información', 'Falta Rellenar')
-    
+            messagebox.showerror('ERROR', 'Selecciona el profesor y el alumno')
+
     def limpiar_campos(self):
         self.titulo.set('')
         self.categoria.set('')
         self.codigo.set('')
         self.cantidad.set(0)
         self.usuario.set('')
-        self.grado.set('')
-        self.seccion.set('')
-        self.nivel.set('')
+        self.numero.set('')

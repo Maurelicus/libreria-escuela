@@ -1,12 +1,10 @@
-import tkinter as tk
-# from tkinter import ttk
 import ttkbootstrap as ttk
 
-import ventana_profesores as veprof
-import pedidos_librosprof as peli
-import pedidos_laminasprof as pela
-import devoluciones_librosprof as deli
-import devoluciones_laminasprof as dela
+import profesor.ventana_profesores as veprof
+import profesor.pedidos_librosprof as peli
+import profesor.pedidos_laminasprof as pela
+import profesor.devoluciones_librosprof as deli
+import profesor.devoluciones_laminasprof as dela
 
 class NotebookProfesor(ttk.Frame):
     def __init__(self, master):

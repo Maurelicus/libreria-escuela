@@ -1,11 +1,10 @@
-import tkinter  as tk
 from tkinter import messagebox
-import ttkbootstrap as ttk
-
 from PIL import Image, ImageTk
+import ttkbootstrap as ttk
+import tkinter  as tk
 
-from conexion_sqlite import Comunicacion
-from informes import Informes
+from data.conexion_sqlite import Comunicacion
+from data.informes import Informes
 
 class VentanaLaminas():
     def __init__(self):

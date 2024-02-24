@@ -1,15 +1,10 @@
-import tkinter  as tk
+from PIL import Image, ImageTk
 from tkinter import messagebox
 import ttkbootstrap as ttk
-from PIL import Image, ImageTk
-from time import strftime
-import pandas as pd
-import openpyxl
-from random import randint
+import tkinter  as tk
 
-
-from conexion_sqlite import Comunicacion
-from informes import Informes
+from data.conexion_sqlite import Comunicacion
+from data.informes import Informes
 
 class VentanaProfesores():
     def __init__(self):
@@ -19,7 +14,6 @@ class VentanaProfesores():
         self.codigo = tk.StringVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
-        self.cont = tk.IntVar()
         self.bd = Comunicacion()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))

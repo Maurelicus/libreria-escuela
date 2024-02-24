@@ -1,13 +1,11 @@
-import tkinter  as tk
-from tkinter import messagebox
-import ttkbootstrap as ttk
-
 from PIL import Image, ImageTk
+from tkinter import messagebox
 from datetime import date
+import ttkbootstrap as ttk
+import tkinter  as tk
 
-from conexion_sqlite import Comunicacion
-from ventana_libros import VentanaLibros
-from informes import Informes
+from data.conexion_sqlite import Comunicacion
+from data.informes import Informes
 
 class DevolucionesLibros():
     def __init__(self):
@@ -15,7 +13,6 @@ class DevolucionesLibros():
         self.material = tk.StringVar()
         self.situacion = tk.StringVar()
         self.observacion = tk.StringVar()
-        self.tipo = tk.StringVar()
         self.cantidad = tk.IntVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()

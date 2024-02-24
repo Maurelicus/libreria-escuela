@@ -1,4 +1,4 @@
-from conexion_sqlite import Comunicacion
+from data.conexion_sqlite import Comunicacion
 import sqlite3
 import csv
 
@@ -11,7 +11,7 @@ class Nomina():
         self.files = []
         self.files.append(self.secundaria)
         self.files.append(self.primaria)
-        self.basedatos = sqlite3.connect("data/BDprueba.db")
+        self.basedatos = sqlite3.connect("data/BDprincipal.db")
 
     def agregar_nomina(self):
         for path in self.files:

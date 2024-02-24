@@ -1,33 +1,24 @@
-import tkinter  as tk
 from tkinter import messagebox
-import ttkbootstrap as ttk
 from PIL import Image, ImageTk
-from time import strftime
-import pandas as pd
-import openpyxl
+import ttkbootstrap as ttk
+import tkinter  as tk
 
-from conexion_sqlite import Comunicacion
-from informes import Informes
+from data.conexion_sqlite import Comunicacion
+from data.informes import Informes
 
 class BajaLibro():
     def __init__(self):
-        self.remitente = tk.StringVar()
-        self.año_recepcion = tk.StringVar()
-        self.nivel_educativo = tk.StringVar()
         self.titulo = tk.StringVar()
         self.autor = tk.StringVar()
         self.editorial = tk.StringVar()
-        self.año_edicion = tk.StringVar()
         self.condicion_libro = tk.StringVar()
         self.cantidad = tk.IntVar()
-        self.categoria = tk.StringVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         self.informe = Informes()
-        self.cat_dic = {}
 
         
     def seccion_uno(self, frame_datos):

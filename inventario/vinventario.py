@@ -1,11 +1,9 @@
-import tkinter as tk
-# from tkinter import ttk
 import ttkbootstrap as ttk
 
-import ventana_libros as veli
-import ventana_laminas as vela
-import libros_baja as vere
-import laminas_baja as laba
+import inventario.ventana_libros as veli
+import inventario.ventana_laminas as vela
+import inventario.libros_baja as vere
+import inventario.laminas_baja as laba
 
 class NotebookInventario(ttk.Frame):
     def __init__(self, master):

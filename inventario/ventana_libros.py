@@ -1,13 +1,10 @@
-import tkinter  as tk
-from tkinter import messagebox
-import ttkbootstrap as ttk
 from PIL import Image, ImageTk
-from time import strftime
-import pandas as pd
-import openpyxl
+from tkinter import messagebox
+import tkinter  as tk
+import ttkbootstrap as ttk
 
-from conexion_sqlite import Comunicacion
-from informes import Informes
+from data.conexion_sqlite import Comunicacion
+from data.informes import Informes
 
 class VentanaLibros():
     def __init__(self):

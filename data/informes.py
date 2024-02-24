@@ -3,7 +3,7 @@ from typing import Any
 import pandas as pd
 import openpyxl
 
-from conexion_sqlite import Comunicacion
+from data.conexion_sqlite import Comunicacion
 
 class Informes():
     def __init__(self):

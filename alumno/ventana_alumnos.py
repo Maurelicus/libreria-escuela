@@ -1,15 +1,10 @@
-import tkinter  as tk
 from tkinter import messagebox
-import ttkbootstrap as ttk
 from PIL import Image, ImageTk
-from time import strftime
-import pandas as pd
-import openpyxl
-from random import randint
+import ttkbootstrap as ttk
+import tkinter  as tk
 
-
-from conexion_sqlite import Comunicacion
-from informes import Informes
+from data.conexion_sqlite import Comunicacion
+from data.informes import Informes
 
 class VentanaAlumnos():
     def __init__(self):
@@ -19,10 +14,8 @@ class VentanaAlumnos():
         self.nivel = tk.StringVar()
         self.grado = tk.StringVar()
         self.seccion = tk.StringVar()
-        self.tipo = tk.StringVar()
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
-        self.cont = tk.IntVar()
         self.bd = Comunicacion()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
@@ -231,7 +224,6 @@ class VentanaAlumnos():
 
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
-
     
     def eliminar_alumno(self, event):
         self.limpiar_campos()

@@ -3,10 +3,9 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from PIL import Image, ImageTk
 
-from inventario import NotebookInventario
-from alumno import NotebookAlumno
-from profesor import NotebookProfesor
-
+from inventario.vinventario import NotebookInventario
+from alumno.valumno import NotebookAlumno
+from profesor.vprofesor import NotebookProfesor
 
 def ingresar_inventario():
 
@@ -65,6 +64,7 @@ def ingresar_profesor():
 def cerrar_aplicacion():
     if messagebox.askokcancel("Cerrar Aplicación", "¿Seguro que quieres salir?"):
         root.destroy()
+        
 # journal-minty-united-morph
 root = ttk.Window(themename= 'minty')
 root.title('Biblioteca Colegio Administrador')
