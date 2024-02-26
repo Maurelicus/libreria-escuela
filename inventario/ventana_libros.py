@@ -224,19 +224,19 @@ class VentanaLibros():
             i = i+1
             if fila[4] != 'Baja':
                 if fila[4] == 'Historia y Geografia':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='HyG')
+                    self.tabla.insert('', i,text=str(i+1), values=fila[0:11], tags='HyG')
                 elif fila[4] == 'Lenguaje y Comunicacion':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='LyC')
+                    self.tabla.insert('', i,text=str(i+1), values=fila[0:11], tags='LyC')
                 elif fila[4] == 'Comprension Lectora':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='ComLectora')
+                    self.tabla.insert('', i,text=str(i+1), values=fila[0:11], tags='ComLectora')
                 elif fila[4] == 'Arte y Musica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='AyM')
+                    self.tabla.insert('', i,text=str(i+1), values=fila[0:11], tags='AyM')
                 elif fila[4] == 'Educacion Fisica':
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='EduFis')
+                    self.tabla.insert('', i,text=str(i+1), values=fila[0:11], tags='EduFis')
                 elif fila[4] == None:
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags='Agregar')
+                    self.tabla.insert('', i,text=str(i+1), values=fila[0:11], tags='Agregar')
                 else:
-                    self.tabla.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
+                    self.tabla.insert('', i,text=str(i+1), values=fila[0:11], tags=fila[4])
 
     def obtener_libro(self, event):
         item_selec = self.tabla.focus()
@@ -255,7 +255,7 @@ class VentanaLibros():
             elif self.categoria.get() == "Repuesto":
                 self.categoria.set("Otros")
             # print(self.categoria.get())
-            self.cantidad.set(diccionario_fila['values'][5])
+            self.cantidad.set(int(diccionario_fila['values'][5]))
             self.remitente.set(diccionario_fila['values'][6])
             self.nivel_educativo.set(diccionario_fila['values'][7])
             self.condicion_libro.set(diccionario_fila['values'][8])

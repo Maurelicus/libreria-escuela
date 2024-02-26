@@ -11,9 +11,12 @@ class Nomina():
         self.files = []
         self.files.append(self.secundaria)
         self.files.append(self.primaria)
-        self.basedatos = sqlite3.connect("data/BDprincipal.db")
 
-    def agregar_nomina(self):
+    def update_nomina(self):
+        self.bd.eliminar_talumno()
+        self.bd.crear_talumno()
+        """
+        """ 
         for path in self.files:
             with open(path, encoding="utf-8") as f:
                 reader = csv.reader(f)
@@ -44,29 +47,8 @@ class Nomina():
                 fila_bd.append(seccion)
                 filas_bd.append(fila_bd)
                 self.bd.append_alumno(codigo, final_alumno, sexo, nivel, grado, seccion, tipo)
-            # print(filas_bd)
+
     def agregar_tlibros(self):
-        """ 
-        cursor = self.basedatos.cursor()
-        query = '''
-        CREATE TABLE "libros" (
-            "LibroId"	INTEGER NOT NULL,
-            "Titulo"	NVARCHAR(160) NOT NULL,
-            "Autor"	NVARCHAR(160),
-            "Editorial"	NVARCHAR(100),
-            "AñoEdicion"	INTEGER,
-            "Tipo"	INTEGER NOT NULL,
-            "Remitente"	NVARCHAR(20),
-            "NivelEducativo"	NVARCHAR(20) NOT NULL,
-            "CondicionLibro"	NVARCHAR(2) NOT NULL,
-            "AñoRecepcion"	INTEGER,
-            "Cantidad"	INTEGER NOT NULL,
-            PRIMARY KEY("LibroId" AUTOINCREMENT),
-            FOREIGN KEY("Tipo") REFERENCES "categorias"("TipoId") ON DELETE NO ACTION ON UPDATE NO ACTION
-        )
-        '''
-        cursor.execute(query)
-        """
 
         with open(self.tlibros, encoding="utf-8") as f:
             reader = csv.reader(f)
@@ -92,7 +74,3 @@ class Nomina():
             arecepcion = fila[9]
             cantidad = fila[10]
             self.bd.append_libro(remitente, arecepcion, niveleducativo, final_titulo, final_autor, final_editorial ,aedicion, condicion, cantidad, tipoid)
-
-nomina1 = Nomina()
-# nomina1.agregar_nomina()
-nomina1.agregar_tlibros()

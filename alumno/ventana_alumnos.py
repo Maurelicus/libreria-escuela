@@ -5,6 +5,7 @@ import tkinter  as tk
 
 from data.conexion_sqlite import Comunicacion
 from data.informes import Informes
+from data.csv_format import Nomina
 
 class VentanaAlumnos():
     def __init__(self):
@@ -17,6 +18,7 @@ class VentanaAlumnos():
         self.palabra = tk.StringVar()
         self.nombre_columna = tk.StringVar()
         self.bd = Comunicacion()
+        self.anomina = Nomina()
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         self.informe = Informes()
@@ -95,6 +97,10 @@ class VentanaAlumnos():
                                 command=self.mostrar_tabla, bootstyle='success-link')
         show_boton.pack(side='right', padx=4)
         
+        update_boton = ttk.Button(frame_busqueda, text='Actualizar', width=10,
+                                command=self.actualizar_nomina, bootstyle='success')
+        update_boton.pack(side='right', padx=4)
+        
         #! TABLA
         frame_tabla = ttk.LabelFrame(frame_vista, text='Tabla', bootstyle='primary')
         frame_tabla.grid(column=0, row=1, padx=5, pady=[1,5] ,sticky='nsew')
@@ -139,7 +145,6 @@ class VentanaAlumnos():
             i = i+1
             self.tabla.insert('', i,text=i+1, values=fila[0:7], tags=fila[6])
             
-        
     def obtener_alumno(self, event):
         item_selec = self.tabla.focus()
         diccionario_alumno = self.tabla.item(item_selec)
@@ -278,6 +283,7 @@ class VentanaAlumnos():
                 messagebox.showerror('ERROR', 'Codigo Existente')
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
+
     def buscar(self):
         self.limpiar_campos()
         palabra = self.palabra.get()
@@ -298,3 +304,6 @@ class VentanaAlumnos():
         self.limpiar_campos()
         self.informe.save_nomina()
         messagebox.showinfo('Informacion', 'Datos guardados')
+    
+    def actualizar_nomina(self):
+        self.anomina.update_nomina()

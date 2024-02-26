@@ -39,13 +39,22 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    def update_libros(self, idlibro, remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo):
+    def update_libros(
+            self, idlibro, remitente, año_recepcion, nivel_educativo, 
+            titulo, autor, editorial, año_edicion, condicion_libro, 
+            cantidad, tipo):
         cursor = self.bd.cursor()
         query = '''
-        UPDATE libros
-        SET Remitente = '{}', AñoRecepcion = '{}', NivelEducativo = '{}', Titulo = '{}', Autor = '{}', Editorial = '{}', AñoEdicion = '{}', CondicionLibro = '{}', Cantidad = '{}', Tipo = '{}'
-        WHERE LibroId = '{}'
-        '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo, idlibro)
+            UPDATE 
+                libros
+            SET 
+                Remitente = '{}', AñoRecepcion = '{}', 
+                NivelEducativo = '{}', Titulo = '{}', Autor = '{}', 
+                Editorial = '{}', AñoEdicion = '{}', 
+                CondicionLibro = '{}', Cantidad = '{}', Tipo = '{}'
+            WHERE 
+                LibroId = '{}'
+            '''.format(remitente, año_recepcion, nivel_educativo, titulo, autor, editorial, año_edicion, condicion_libro, cantidad, tipo, idlibro)
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
@@ -360,11 +369,11 @@ class Comunicacion():
             pl.Tipo
         FROM
             pedido_libro_alumno AS pl
-        INNER JOIN
+        LEFT OUTER JOIN
             libros AS lib
         ON
             pl.LibroId = lib.LibroId
-        INNER JOIN
+        LEFT OUTER JOIN
             alumnos AS alu
         ON
             alu.Codigo = pl.AlumnoId
@@ -572,11 +581,11 @@ class Comunicacion():
             pl.Tipo
         FROM
             pedido_lamina_alumno AS pl
-        INNER JOIN
+        LEFT OUTER JOIN
             laminas AS lam
         ON
             pl.LaminaId = lam.LaminasId
-        INNER JOIN
+        LEFT OUTER JOIN
             alumnos AS alu
         ON
             alu.Codigo = pl.AlumnoId
@@ -752,7 +761,6 @@ class Comunicacion():
         cursor.execute(query)
         idlibro = cursor.fetchall()
         return idlibro
-    
         
     def updatepro_pedidolam(self, pedidoid, fecha_devolucion, situacion, observacion, cantidad):
         cursor = self.bd.cursor()
@@ -761,6 +769,33 @@ class Comunicacion():
         SET FechaEntrada = '{}', Situacion = '{}', Observacion = '{}', Cantidad = '{}'
         WHERE PedidoId = '{}'
         '''.format(fecha_devolucion, situacion, observacion, cantidad, pedidoid)
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+    
+    def eliminar_talumno(self):
+        cursor = self.bd.cursor()
+        query = '''
+            drop table alumnos
+        '''
+        cursor.execute(query)
+        self.bd.commit()
+        cursor.close()
+        
+    def crear_talumno(self):
+        cursor = self.bd.cursor()
+        query = '''
+            CREATE TABLE "alumnos" (
+                "Alumno"	NVARCHAR(50) NOT NULL,
+                "Sexo"	NVARCHAR(10),
+                "Nivel"	NVARCHAR(20),
+                "Grado"	NVARCHAR(10),
+                "Seccion"	NVARCHAR(4),
+                "Codigo"	NVARCHAR(20) NOT NULL UNIQUE,
+                "Tipo"	NVARCHAR(10) NOT NULL,
+                PRIMARY KEY("Codigo")
+            )
+        '''
         cursor.execute(query)
         self.bd.commit()
         cursor.close()

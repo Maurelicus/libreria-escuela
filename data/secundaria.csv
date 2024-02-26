@@ -8,8 +8,8 @@ CodigoModular,NombreIe,Modalidad,Grado,Nivel,Turno,Seccion
 0576157,RICARDO FLORES GUTIERREZ,Educación Básica Regular      ,PRIMERO                       ,Secundaria                    ,MAÑANA Y TARDE,A                             
 
 Textbox2,NumeroDeOrden,Grado1,Seccion1,TipoDeDocumentoEstudiante,NumeroDocEstudiante,ValidadoReniec,CodigoEstudiante,ApellidoPaterno,ApellidoMaterno,NombreEstudiante,Sexo,FechaNacimiento,EdadEnMarzo,EstadoMatricula,TipoVacanteDesc
-TIPO DE VACANTE,1,PRIMERO                       ,A                             ,DNI,62616674,VALIDADO,00000062616674,ACOSTA,MORALES,BLU SAM,Hombre,14/05/2010,13,DEFINITIVA,
 TIPO DE VACANTE,2,PRIMERO                       ,A                             ,DNI,61599942,VALIDADO,00000061599942,AVILA,ESTELA,MANUEL ELIAS,Hombre,24/04/2010,13,DEFINITIVA,
+TIPO DE VACANTE,1,PRIMERO                       ,A                             ,DNI,62616674,VALIDADO,00000062616674,ACOSTA,MORALES,BLU SAN,Hombre,14/05/2010,13,DEFINITIVA,
 TIPO DE VACANTE,3,PRIMERO                       ,A                             ,DNI,62098140,VALIDADO,00000062098140,CABALLERO,MOLINA,STEVEN EDINSON,Hombre,20/06/2010,13,DEFINITIVA,
 TIPO DE VACANTE,4,PRIMERO                       ,A                             ,DNI,62228836,VALIDADO,14153453600038,CAJAS,FLORES,AZUMY CLARITA,Mujer,20/03/2011,13,DEFINITIVA,
 TIPO DE VACANTE,5,PRIMERO                       ,A                             ,DNI,62228827,VALIDADO,00000062228827,CAJAS,MAJINO,FRANCO EDGAR,Hombre,24/01/2011,13,DEFINITIVA,
