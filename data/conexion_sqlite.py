@@ -10,6 +10,7 @@ class Comunicacion():
         query = '''
         SELECT
             li.Titulo,
+            
             li.Autor,
             li.Editorial,
             li.AñoEdicion,
