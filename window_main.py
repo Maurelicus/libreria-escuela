@@ -15,7 +15,7 @@ class VentanaMain():
         self.root.title(f'{self.nombre}')
         self.root.maxsize(width=640, height=427)
         self.root.minsize(width=640, height=427)
-        self.root.protocol("WM_DELETE_WINDOW", self.cerrar_aplicacion)
+        # self.root.protocol("WM_DELETE_WINDOW", self.cerrar_aplicacion)
         self.bg = PhotoImage(file='images/fondo.png')
         self.logo_tk = PhotoImage(file='images/logo_colegio.png')
         self.libro_tk = PhotoImage(file='images/libros.png')
@@ -106,8 +106,9 @@ class VentanaMain():
         ven_profesor.rowconfigure(0, weight=1)
         ven_profesor.protocol("WM_DELETE_WINDOW", cerrar_profesor)
         NotebookProfesor(ven_profesor)
-
+""" 
     def cerrar_aplicacion(self):
         if messagebox.askokcancel("Cerrar Aplicación", "¿Desea salir?"):
             self.root.destroy()
+"""
 
