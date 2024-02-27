@@ -62,7 +62,8 @@ python main.py
 ## Capturas de pantalla
 
 ### Inicio
-![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap1.png?raw=true "1")
+
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/inicio.png?raw=true "1")
 
 ### Inventario
 ![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap2.png?raw=true "2")
