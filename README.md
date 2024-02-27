@@ -66,14 +66,20 @@ python main.py
 ![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/inicio.png?raw=true "1")
 
 ### Inventario
-![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap2.png?raw=true "2")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/inventario1.png?raw=true "2")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/inventario2.png?raw=true "3")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/inventario3.png?raw=true "4")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/inventario4.png?raw=true "5")
 
 ### Parte Alumno
-![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap3.png?raw=true "3")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/alumno1.png?raw=true "6")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/alumno2.png?raw=true "7")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/alumno3.png?raw=true "8")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/alumno4.png?raw=true "9")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/alumno5.png?raw=true "10")
 
 ### Parte Profesor
-![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap4.png?raw=true "4")
-
-![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap5.png?raw=true "5")
-
-![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap6.png?raw=true "6")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/profesor1.png?raw=true "11")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/profesor2.png?raw=true "11")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/profesor3.png?raw=true "11")
+![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/profesor4.png?raw=true "11")
