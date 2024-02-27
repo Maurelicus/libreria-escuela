@@ -47,9 +47,9 @@ git clone https://github.com/Maurelicus/libreria-escuela.git
 4. Puedes utilizar el virtual enviroment del repositorio con el siguiente comando:
 ```bash
 # Windows
- bibli_env\Scripts\activate
+ windows_env\Scripts\activate
  # Ubuntu
- source bibli_env\bin\activate
+ source linux_env\bin\activate
 ```
 5. Instala las dependencias de Python necesarias para ejecutar la aplicación. Puedes usar pip para instalar las dependencias necesarias enumeradas en el archivo requirements.txt.
 ```bash
@@ -57,16 +57,20 @@ pip install -r requirements.txt
 ```
 6. Ejecuta la aplicación ejecutando el script principal mainv3.py.
 ```bash
-python mainv3.py
+python main.py
 ```
 ## Capturas de pantalla
 
+### Inicio
 ![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap1.png?raw=true "1")
 
+### Inventario
 ![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap2.png?raw=true "2")
 
+### Parte Alumno
 ![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap3.png?raw=true "3")
 
+### Parte Profesor
 ![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap4.png?raw=true "4")
 
 ![error](https://github.com/Maurelicus/libreria-escuela/blob/main/images/cap5.png?raw=true "5")
