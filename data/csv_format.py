@@ -15,8 +15,7 @@ class Nomina():
     def update_nomina(self):
         self.bd.eliminar_talumno()
         self.bd.crear_talumno()
-        """
-        """ 
+        
         for path in self.files:
             with open(path, encoding="utf-8") as f:
                 reader = csv.reader(f)

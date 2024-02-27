@@ -263,7 +263,6 @@ class VentanaLibros():
         else:
             self.limpiar_campos()
             
-                    
     def limpiar_campos(self):
         self.titulo.set('')
         self.autor.set('')

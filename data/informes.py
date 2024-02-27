@@ -8,6 +8,7 @@ from data.conexion_sqlite import Comunicacion
 class Informes():
     def __init__(self):
         self.bd = Comunicacion()
+        
     def save_libros(self):
         datos = self.bd.show_libros()
         i = -1

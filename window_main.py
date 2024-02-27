@@ -106,6 +106,7 @@ class VentanaMain():
         ven_profesor.rowconfigure(0, weight=1)
         ven_profesor.protocol("WM_DELETE_WINDOW", cerrar_profesor)
         NotebookProfesor(ven_profesor)
+        
 """ 
     def cerrar_aplicacion(self):
         if messagebox.askokcancel("Cerrar Aplicación", "¿Desea salir?"):

@@ -229,4 +229,5 @@ class DevolucionesLaminas():
         self.limpiar_campos()
         self.informe.save_pedidoslaminas()
         messagebox.showinfo('Informacion', 'Datos guardados')
+        
 

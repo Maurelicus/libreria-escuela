@@ -10,7 +10,6 @@ class Comunicacion():
         query = '''
         SELECT
             li.Titulo,
-            
             li.Autor,
             li.Editorial,
             li.AñoEdicion,
@@ -143,7 +142,6 @@ class Comunicacion():
         l_filas = cursor.fetchall()
         return l_filas
     
-    
     def update_lamina(self, idlamina, codigo, remitente, año_recepcion, nivel_educativo, titulo, condicion_lamina, cantidad, tipo):
         cursor = self.bd.cursor()
         query = '''
@@ -164,6 +162,7 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
+        
     def delete_lamina(self, id):
         cursor = self.bd.cursor()
         query = '''
@@ -283,7 +282,7 @@ class Comunicacion():
             return l_filas
         except sqlite3.OperationalError:
             print("incorrecto")
-#! PROFESOR 5
+    #! PROFESOR 5
     def show_profesores(self):
         cursor = self.bd.cursor()
         query = '''
@@ -544,7 +543,6 @@ class Comunicacion():
         self.bd.commit()
         cursor.close()
         
-    
     def infopro_pedidolib(self, pedidoid):
         cursor = self.bd.cursor()
         query = '''
@@ -800,3 +798,4 @@ class Comunicacion():
         cursor.execute(query)
         self.bd.commit()
         cursor.close()
+        

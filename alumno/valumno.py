@@ -51,9 +51,9 @@ class NotebookAlumno(ttk.Frame):
         
         self.mytabcontrol.grid(column=0, row=0, padx=10, pady=10, sticky='nswe')
         
-        self.widgets()
+        self.content()
         
-    def widgets(self):
+    def content(self):
         #! Funciones label
         alumno1p_frame = ttk.LabelFrame(self.alumno_tab, text='Información Alumno', bootstyle='dark')
         alumno1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='nsw')

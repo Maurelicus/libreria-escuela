@@ -190,7 +190,6 @@ class VentanaProfesores():
             messagebox.showerror('ERROR', 'Selecciona un profesor')
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
-
     
     def eliminar_profesor(self, event):
         self.limpiar_campos()
@@ -243,6 +242,7 @@ class VentanaProfesores():
                 messagebox.showerror('ERROR', 'Codigo Existente')
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
+            
     def buscar(self):
         self.limpiar_campos()
         palabra = self.palabra.get()
@@ -263,3 +263,4 @@ class VentanaProfesores():
         self.limpiar_campos()
         self.informe.save_profesores()
         messagebox.showinfo('Informacion', 'Datos guardados')
+        

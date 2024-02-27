@@ -21,7 +21,6 @@ class DevolucionesLibros():
         self.photo1 = ImageTk.PhotoImage(Image.open("images/reload.png"))
         self.photo2 = ImageTk.PhotoImage(Image.open("images/excel.png"))
         
-        
     def seccion_uno(self, frame_uno):
         #! TEXTO
         alumno_label = ttk.Label(frame_uno, text='Profesor:', bootstyle='dark')
@@ -147,8 +146,6 @@ class DevolucionesLibros():
             else:
                 messagebox.showerror('ERROR', 'Situacion no devuelta')
 
-                
-        
     def limpiar_campos(self):
         self.profesor.set('')
         self.material.set('')

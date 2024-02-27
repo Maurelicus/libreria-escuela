@@ -36,7 +36,6 @@ class NotebookInventario(ttk.Frame):
         self.bajalamina_tab.columnconfigure(1, weight=1)
         self.bajalamina_tab.rowconfigure(0, weight=1)
         
-        
         self.mytabcontrol.add(self.libro_tab, text ='Libros')
         self.mytabcontrol.add(self.lamina_tab, text ='Laminas')
         self.mytabcontrol.add(self.bajalibro_tab, text ='Libros dados de baja')
@@ -44,9 +43,9 @@ class NotebookInventario(ttk.Frame):
         
         self.mytabcontrol.grid(column=0, row=0, padx=10, pady=10, sticky='nswe')
         
-        self.widgets()
+        self.content()
         
-    def widgets(self):
+    def content(self):
         #! Funciones label
         libro1p_frame = ttk.LabelFrame(self.libro_tab, text='Información Libro', bootstyle='dark')
         libro1p_frame.grid(column=0, row=0, padx=5, pady=5, sticky='nsw')

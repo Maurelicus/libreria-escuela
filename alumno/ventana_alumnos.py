@@ -307,3 +307,4 @@ class VentanaAlumnos():
     
     def actualizar_nomina(self):
         self.anomina.update_nomina()
+        

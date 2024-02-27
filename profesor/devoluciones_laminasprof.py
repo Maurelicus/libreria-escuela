@@ -153,8 +153,6 @@ class DevolucionesLaminas():
             else:
                 messagebox.showerror('ERROR', 'Situacion no devuelta')
 
-                
-        
     def limpiar_campos(self):
         self.profesor.set('')
         self.material.set('')
@@ -238,3 +236,4 @@ class DevolucionesLaminas():
         self.limpiar_campos()
         self.informe.save_pedidoslaminas()
         messagebox.showinfo('Informacion', 'Datos guardados')
+        

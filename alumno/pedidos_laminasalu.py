@@ -331,3 +331,4 @@ class PedidosLaminas():
         self.grado.set('')
         self.seccion.set('')
         self.nivel.set('')
+        

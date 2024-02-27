@@ -255,7 +255,6 @@ class PedidosLibros():
                         self.tabla_libro.insert('', i,text=i+1, values=fila[0:11], tags=fila[4])
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
-
     
     def buscar_profesor(self):
         self.limpiar_campos()

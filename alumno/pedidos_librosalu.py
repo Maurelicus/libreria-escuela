@@ -267,7 +267,6 @@ class PedidosLibros():
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
 
-    
     def buscar_alumno(self):
         self.limpiar_campos()
         palabra = self.palabra2.get()
