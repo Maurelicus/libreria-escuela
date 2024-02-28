@@ -27,13 +27,13 @@ class Comunicacion():
 		ON
 			li.Tipo = ca.TipoId
         ORDER BY
-            li.NivelEducativo DESC
-        '''
-        """ 
+            li.NivelEducativo DESC,
             li.Tipo,
-            li.Titulo ASC
+            li.Titulo ASC,
             li.Cantidad DESC,
             li.Editorial
+        '''
+        """ 
         """
         cursor.execute(query)
         l_filas = cursor.fetchall()
