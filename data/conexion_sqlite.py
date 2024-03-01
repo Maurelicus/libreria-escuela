@@ -27,14 +27,12 @@ class Comunicacion():
 		ON
 			li.Tipo = ca.TipoId
         ORDER BY
-            li.NivelEducativo DESC,
             li.Tipo,
+            li.NivelEducativo DESC,
             li.Titulo ASC,
             li.Cantidad DESC,
             li.Editorial
         '''
-        """ 
-        """
         cursor.execute(query)
         l_filas = cursor.fetchall()
         return l_filas
@@ -102,6 +100,12 @@ class Comunicacion():
 			li.Tipo = ca.TipoId
         WHERE 
             {} LIKE '%{}%'
+        ORDER BY
+            li.Tipo,
+            li.NivelEducativo DESC,
+            li.Titulo ASC,
+            li.Cantidad DESC,
+            li.Editorial
         '''.format(columna,palabra)
         cursor.execute(query)
         l_filas = cursor.fetchall()
@@ -137,6 +141,11 @@ class Comunicacion():
             categorias AS ca
         ON
             la.TipoId = ca.TipoId
+        ORDER BY
+            la.TipoId,
+            la.NivelEducativo DESC,
+            la.Titulo ASC,
+            la.Cantidad DESC
         '''
         cursor.execute(query)
         l_filas = cursor.fetchall()
@@ -194,6 +203,11 @@ class Comunicacion():
             la.TipoId = ca.TipoId
         WHERE 
             {} LIKE '%{}%'
+        ORDER BY
+            la.TipoId,
+            la.NivelEducativo DESC,
+            la.Titulo ASC,
+            la.Cantidad DESC
         '''.format(columna,palabra)
         cursor.execute(query)
         l_filas = cursor.fetchall()
