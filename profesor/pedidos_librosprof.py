@@ -304,7 +304,7 @@ class PedidosLibros():
         if len(diccionario_libro['values']) != 0 and len(diccionario_profesor['values']) != 0:
             cantidad_pedida = self.cantidad.get()
             codigo = self.codigo_libro.get()
-            if cantidad_pedida > 0 and codigo != '':
+            if cantidad_pedida > 0:
                 hoy = date.today()
                 situacion = 'prestado'
                 observacion = 'ninguna'

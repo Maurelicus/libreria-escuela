@@ -154,7 +154,7 @@ class VentanaProfesores():
                     n_codigo = 'n'+str(codigo)
                     
                     confirmar_box = messagebox.askokcancel('Información', 'Se modificará la fila seleccionada')
-                    if codigo and profesor and correo and celular != '' and confirmar_box == True:
+                    if codigo and profesor != '' and confirmar_box == True:
                         # cuando no modifico el codigo
                         if str(idprfesor_tabla) == str(codigo):
                             self.bd.update_profesor(idprfesor_tabla, codigo, profesor, correo, celular)

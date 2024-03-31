@@ -384,7 +384,6 @@ class VentanaLibros():
         else:
             messagebox.showerror('ERROR', 'No se agrego una busqueda')
     
-    
     def dar_baja(self):
         # self.limpiar_campos()
         l_item = self.tabla.focus()

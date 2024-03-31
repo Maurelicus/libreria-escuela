@@ -129,7 +129,7 @@ class VentanaLaminas():
                                 command=self.mostrar_laminas, bootstyle='success-link')
         show_boton.pack(side='right', padx=4)
         #! TABLA
-        tabla_frame = ttk.LabelFrame(frame_vista, text='Tabla', bootstyle='primary')
+        tabla_frame = ttk.LabelFrame(frame_vista, text='Lista de Laminas', bootstyle='primary')
         tabla_frame.grid(column=0, row=1, padx=5, pady=5 ,sticky='nsew')
         tabla_frame.columnconfigure(1 , weight=10)
         tabla_frame.rowconfigure(0 , weight=10)
@@ -300,7 +300,6 @@ class VentanaLaminas():
             messagebox.showerror('ERROR', 'Selecciona una lamina')
         else:
             messagebox.showerror('ERROR', 'Falta Rellenar')
-
             
     def agregar_lamina(self):
         titulo = self.titulo.get()
