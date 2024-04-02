@@ -85,7 +85,7 @@ class PedidosLibros():
         nivel_label.grid(column=1, row=12, padx=5, pady=5, sticky='w')
         #! Botones
         pedido_boton = ttk.Button(frame_datos, text='Hacer Pedido', width=15, command=self.pedido, bootstyle='primary-outline')
-        pedido_boton.grid(column=0, row=13, padx=30, pady=[5,10], sticky='w')
+        pedido_boton.grid(column=0, row=13, padx=30, pady=[5,10], sticky='w', columnspan=2)
     
     def seccion_dos(self, frame_vista):
         buscarbook_frame = ttk.Frame(frame_vista)
